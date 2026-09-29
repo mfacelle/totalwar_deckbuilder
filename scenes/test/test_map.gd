@@ -6,8 +6,8 @@ extends Node2D
 @export var goblin: PackedScene
 
 
-@onready var nav_map: TileMapLayer = $tilemap/navigation
-@onready var units: Node = $entities/units
+@onready var nav_map: TileMapLayer = $world/tilemap/navigation
+@onready var units: Node = $world/entities/units
 
 var spawn_index: int = 0
 

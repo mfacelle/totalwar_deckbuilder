@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://rymgho44sdij"
-path="res://.godot/imported/GoblinIdle.png-45f2e0be10b576a7f997c51ccbaa0b13.ctex"
+uid="uid://ds07y4exm1fhj"
+path="res://.godot/imported/ShadowHumanoidSpinDie.png-9d7ca2eee1830269abfc8d08ea34308b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/entities/goblin/GoblinIdle.png"
-dest_files=["res://.godot/imported/GoblinIdle.png-45f2e0be10b576a7f997c51ccbaa0b13.ctex"]
+source_file="res://assets/units/shadows_humanoid/ShadowHumanoidSpinDie.png"
+dest_files=["res://.godot/imported/ShadowHumanoidSpinDie.png-9d7ca2eee1830269abfc8d08ea34308b.ctex"]
 
 [params]
 

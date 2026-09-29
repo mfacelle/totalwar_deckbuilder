@@ -27,6 +27,7 @@ window/stretch/mode="viewport"
 
 enemies=""
 units=""
+navigation_layers=""
 
 [layer_names]
 

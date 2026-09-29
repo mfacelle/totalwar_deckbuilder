@@ -1,7 +1,6 @@
 extends CharacterBody2D
-# need to figure out inheritance from a base "entity" object.
-# a lot of this class is general to all entities, so it can probably
-# become a base class eventually
+# base unit object, handles simple commands, states, movement.
+# create derived classes (figure out how) to implement specific logic for units
 
 # basic state, for updating entity
 enum State
@@ -110,6 +109,8 @@ func _physics_process(delta: float) -> void:
             if attack_ready:
                 attack()
         else: # move towards it
+            # TODO need to periodically check for a different enemy, in case there is now a closer one
+            # this logic may change depend on type of npc, but this should be simple enough for base class
             move(delta)
     else: # no current target, find a new enemy
         target_enemy = find_closest_enemy()
@@ -131,6 +132,8 @@ func update_animation() -> void:
             anim_playback.travel("move")
         State.ATTACK:
             anim_playback.travel("attack")
+        State.DEAD:
+            anim_playback.travel("die")
         _:
             anim_playback.travel("idle")
 
@@ -243,13 +246,11 @@ func attack() -> void:
     
 
 func take_damage(damage: int) -> void:
-    print(name, " about to take damage. health=", health)
     health -= damage
-    print(name, " took ", damage, " damage. health=", health)
     if health <= 0:
         die()
     
-    # Color(R, G, B, Alpha) - Setting green and blue to 0 leaves only pure red tint
+    # tint sprite to show damage effect
     sprite.modulate = Color(1, 0, 0, 1) 
     
     # create simple timer to modulate sprite back to normal
@@ -259,12 +260,16 @@ func take_damage(damage: int) -> void:
 
 
 func _on_hit_box_area_entered(area: Area2D) -> void:
-    print(name, " about to deal damage. damage=", attack_damage, "; ownder=", area.owner.name, "; area=", area.name)
     area.owner.take_damage(attack_damage)
 
 
 func die() -> void:
     # TODO play animation
-    queue_free()
+    state = State.DEAD
+    update_animation()
+    
+
+func _on_die_animation_finished():
+        queue_free()        
     # TODO send some kind of notification to all units that have this object as a target,
     # so they can set a delay before finding the next target

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bjvycbko20jjp"
-path="res://.godot/imported/GoblinAttack.png-90cca16609eca9d6c9f24ad1d8d11344.ctex"
+uid="uid://dbvd7316wew67"
+path="res://.godot/imported/ShadowHumanoidDmg.png-d40921e31e8c54fd27d5508921ae6b2d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/entities/goblin/GoblinAttack.png"
-dest_files=["res://.godot/imported/GoblinAttack.png-90cca16609eca9d6c9f24ad1d8d11344.ctex"]
+source_file="res://assets/units/shadows_humanoid/ShadowHumanoidDmg.png"
+dest_files=["res://.godot/imported/ShadowHumanoidDmg.png-d40921e31e8c54fd27d5508921ae6b2d.ctex"]
 
 [params]
 
