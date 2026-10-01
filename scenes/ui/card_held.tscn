@@ -1,0 +1,83 @@
+[gd_scene format=3 uid="uid://dd8kcd5vk6my6"]
+
+[ext_resource type="Script" uid="uid://bhpu7q83a8nck" path="res://scenes/ui/card_held.gd" id="1_yoeh3"]
+[ext_resource type="Texture2D" uid="uid://cp52hhnickb6q" path="res://assets/cards/pixelCardAssest_V01.png" id="2_c8fpl"]
+[ext_resource type="Texture2D" uid="uid://rymgho44sdij" path="res://assets/units/goblin/GoblinIdle.png" id="4_us6rg"]
+
+[sub_resource type="Animation" id="Animation_ra13p"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_ulu11"]
+resource_name = "deselect"
+length = 0.2
+step = 0.1
+
+[sub_resource type="Animation" id="Animation_mli0n"]
+resource_name = "select"
+length = 0.2
+step = 0.1
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ulu11"]
+_data = {
+&"RESET": SubResource("Animation_ra13p"),
+&"deselect": SubResource("Animation_ulu11"),
+&"select": SubResource("Animation_mli0n")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oflp3"]
+atlas = ExtResource("2_c8fpl")
+region = Rect2(14, 4, 100, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3uxh0"]
+atlas = ExtResource("4_us6rg")
+region = Rect2(8, 8, 16, 16)
+
+[node name="CardHeld" type="Control" unique_id=1729805897]
+custom_minimum_size = Vector2(100, 128)
+layout_mode = 3
+anchors_preset = 0
+size_flags_horizontal = 3
+mouse_filter = 2
+script = ExtResource("1_yoeh3")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=755748169]
+libraries/ = SubResource("AnimationLibrary_ulu11")
+
+[node name="CardBackground" type="MarginContainer" parent="." unique_id=876543020]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="CardBackground" unique_id=1994889766]
+custom_minimum_size = Vector2(100, 128)
+layout_mode = 2
+size_flags_horizontal = 3
+offset_transform_position = Vector2(0, -100)
+mouse_filter = 2
+texture = SubResource("AtlasTexture_oflp3")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="CardDetails" type="VBoxContainer" parent="." unique_id=149620851]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.05
+anchor_top = 0.05
+anchor_right = 0.95
+anchor_bottom = 0.95
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="CardDetails" unique_id=1371380692]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+mouse_filter = 2
+texture = SubResource("AtlasTexture_3uxh0")
+expand_mode = 1
+stretch_mode = 5

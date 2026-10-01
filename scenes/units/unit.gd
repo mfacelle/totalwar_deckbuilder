@@ -1,3 +1,4 @@
+class_name Unit
 extends CharacterBody2D
 # base unit object, handles simple commands, states, movement.
 # create derived classes (figure out how) to implement specific logic for units
@@ -49,6 +50,8 @@ enum EntityType
 @export var min_movement_speed: float
 ## how long to wait, in seconds, when stuck, before re-attempting movement
 @export var stuck_delay: float
+## how often, in seconds, to periodically search for a closer enemy
+@export var target_update_delay: float
 
 var state: State = State.IDLE
 var command: Command = Command.ATTACK
@@ -56,6 +59,7 @@ var target_enemy: Node2D = null
 var attack_ready: bool = true
 var health: int = max_health
 var stuck_timer: float = 0
+var target_update_timer: float = 0
 #var last_position: Vector2
 
 # references to nodes in this object
@@ -103,6 +107,10 @@ func _physics_process(delta: float) -> void:
     # if target exists and not in range, move
     # if target does not exist, find new target. if not, idle
     
+    # update timer for checking for new targets
+    # TODO may want to ignore this if actively attacking?
+    target_update_timer += delta
+    
     if target_enemy:
         # if enemy exists and is within range, attempt to attack it
         if global_position.distance_to(target_enemy.global_position) < attack_range:
@@ -112,11 +120,12 @@ func _physics_process(delta: float) -> void:
             # TODO need to periodically check for a different enemy, in case there is now a closer one
             # this logic may change depend on type of npc, but this should be simple enough for base class
             move(delta)
-    else: # no current target, find a new enemy
+    
+    # try to find a new, closer, target
+    if target_update_timer >= target_update_delay:
+        target_update_timer = 0
         target_enemy = find_closest_enemy()
-        if target_enemy:
-            print(name, " found target=", target_enemy.name, "; pos=", target_enemy.global_position)
-        else: # set to idle if no target found
+        if not target_enemy: # set to idle if no target found
             state = State.IDLE
             velocity = Vector2.ZERO
     
@@ -150,7 +159,9 @@ func find_closest_enemy() -> Node2D:
     var shortest_distance: float = INF
     
     # TODO does this distance take into account the nav mesh? probably not...
-    # definitely need to include that somewhere here
+    # definitely need to include that somewhere here.
+    # TODO should also consider some method to filter out enemies that aren't nearby.
+    # maybe using groups based on cells or something?
     for enemy in enemies:
         if enemy == self:
             continue
@@ -164,6 +175,8 @@ func find_closest_enemy() -> Node2D:
 
 
 func move(delta: float) -> void:
+    # if marked as stuck, dont process any movements for a bit.
+    # note: this is currently disabled and won't happen
     if state == State.STUCK and stuck_timer < stuck_delay:
         #velocity = Vector2.ZERO
         stuck_timer += delta
@@ -238,7 +251,9 @@ func attack() -> void:
     
     # return to idle after attack finishes
     await get_tree().create_timer(attack_speed).timeout
-    state = State.IDLE
+    # TODO need better state transition logic
+    if state != State.DEAD:
+        state = State.IDLE
     
     # wait to set flag for next attack
     await get_tree().create_timer(attack_delay).timeout
@@ -270,6 +285,6 @@ func die() -> void:
     
 
 func _on_die_animation_finished():
-        queue_free()        
+        queue_free()
     # TODO send some kind of notification to all units that have this object as a target,
     # so they can set a delay before finding the next target

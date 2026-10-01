@@ -1,0 +1,146 @@
+[gd_scene format=3 uid="uid://q08ll0ivd4uv"]
+
+[ext_resource type="Texture2D" uid="uid://cp52hhnickb6q" path="res://assets/cards/pixelCardAssest_V01.png" id="1_2rkeb"]
+[ext_resource type="Script" uid="uid://imp0aqyc1348" path="res://scenes/ui/card.gd" id="1_ra13p"]
+[ext_resource type="FontFile" uid="uid://ct44inwnt5upx" path="res://assets/fonts/Silver.ttf" id="3_mli0n"]
+[ext_resource type="Texture2D" uid="uid://rymgho44sdij" path="res://assets/units/goblin/GoblinIdle.png" id="4_ulu11"]
+
+[sub_resource type="Animation" id="Animation_ra13p"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:offset_transform_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ulu11"]
+resource_name = "deselect"
+length = 0.2
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:offset_transform_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -64), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_mli0n"]
+resource_name = "select"
+length = 0.2
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:offset_transform_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -64)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ulu11"]
+_data = {
+&"RESET": SubResource("Animation_ra13p"),
+&"deselect": SubResource("Animation_ulu11"),
+&"select": SubResource("Animation_mli0n")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2julr"]
+atlas = ExtResource("1_2rkeb")
+region = Rect2(14, 4, 100, 128)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ulu11"]
+font = ExtResource("3_mli0n")
+font_size = 32
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cgkcd"]
+atlas = ExtResource("4_ulu11")
+region = Rect2(8, 8, 16, 16)
+
+[sub_resource type="LabelSettings" id="LabelSettings_2hps8"]
+line_spacing = 0.0
+font = ExtResource("3_mli0n")
+
+[node name="Card" type="Control" unique_id=598480527]
+custom_minimum_size = Vector2(150, 192)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1770.0
+offset_bottom = -888.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+script = ExtResource("1_ra13p")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=755748169]
+libraries/ = SubResource("AnimationLibrary_ulu11")
+
+[node name="CardBackground" type="MarginContainer" parent="." unique_id=900430683]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="CardBackground" unique_id=836221742]
+layout_mode = 2
+size_flags_horizontal = 3
+offset_transform_position = Vector2(0, -100)
+texture = SubResource("AtlasTexture_2julr")
+stretch_mode = 5
+
+[node name="CardDetails" type="VBoxContainer" parent="." unique_id=1582827757]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.075
+anchor_top = 0.075
+anchor_right = 0.925
+anchor_bottom = 0.925
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Name" type="Label" parent="CardDetails" unique_id=1894087750]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Test Card"
+label_settings = SubResource("LabelSettings_ulu11")
+horizontal_alignment = 1
+
+[node name="Image" type="TextureRect" parent="CardDetails" unique_id=1101608128]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.0
+texture = SubResource("AtlasTexture_cgkcd")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Description" type="Label" parent="CardDetails" unique_id=1984953859]
+custom_minimum_size = Vector2(20, 50)
+layout_mode = 2
+size_flags_vertical = 3
+text = "Description text about this card and what it does"
+label_settings = SubResource("LabelSettings_2hps8")
+autowrap_mode = 3
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
