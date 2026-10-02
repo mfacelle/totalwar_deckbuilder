@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 CardDataManager="*uid://bruc2j6f1ggve"
+BattleSignalManager="*uid://3wgjpdwgmbx"
 
 [display]
 

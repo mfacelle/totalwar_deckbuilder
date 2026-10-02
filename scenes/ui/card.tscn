@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://q08ll0ivd4uv"]
 
 [ext_resource type="Texture2D" uid="uid://cp52hhnickb6q" path="res://assets/cards/pixelCardAssest_V01.png" id="1_2rkeb"]
-[ext_resource type="Script" uid="uid://imp0aqyc1348" path="res://scenes/ui/card.gd" id="1_ra13p"]
+[ext_resource type="Script" uid="uid://imp0aqyc1348" path="res://scenes/ui/Card.gd" id="1_ra13p"]
 [ext_resource type="FontFile" uid="uid://ct44inwnt5upx" path="res://assets/fonts/Silver.ttf" id="3_mli0n"]
 [ext_resource type="Texture2D" uid="uid://rymgho44sdij" path="res://assets/units/goblin/GoblinIdle.png" id="4_ulu11"]
 

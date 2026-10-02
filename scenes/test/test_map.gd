@@ -3,10 +3,8 @@ extends Node2D
 # simple debug script to allow mouse clicks to create new unit instances.
 # going super rough with this, not intended for final game at all
 
-## basic goblin object for debugging
-@export var friendly_unit: PackedScene
+## for debug/test stuff
 @export var enemy_unit: PackedScene
-
 
 @onready var nav_map: TileMapLayer = $world/tilemap/navigation
 @onready var units: Node = $world/entities/units
@@ -14,6 +12,27 @@ extends Node2D
 
 var friendly_spawn_index: int = 0
 var enemy_spawn_index: int = 0
+
+# -----
+## TODO basically here for debug, but some form of this will become the real code
+var friendly_unit: PackedScene = null
+
+func _ready() -> void:
+    BattleSignalManager.card_held.connect(_on_card_held)
+    
+    # TODO this is apparently necessary... don't understand why the declaration above doesn't keep it null
+    friendly_unit = null
+
+func _on_card_held(new_card: Card) -> void:
+    # TODO this should really enter some kind of pause state, when a card is being held.
+    # good enough for now and getting things tested/working
+    print("on_card_held")
+    if new_card == null:
+        friendly_unit = null
+    else:
+        friendly_unit = new_card.unit_scene
+
+# -----
 
 func _unhandled_input(event: InputEvent) -> void:
     # if left mouse button, spawn a friendly unit
@@ -27,11 +46,10 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func spawn_friendly_unit() -> void:
+    print("spawn_friendly_unit, unit=", friendly_unit)
     if friendly_unit:
         # TODO just loading from orc card by default, for now
-        #var new_unit = friendly_unit.instantiate() as Unit
-        var unit_scene = load(CardDataManager.cards[CardData.CardType.ORC].unit_uid)
-        var new_unit = unit_scene.instantiate() as Unit
+        var new_unit = friendly_unit.instantiate() as Unit
         new_unit.global_position = get_global_mouse_position()
         new_unit.name = str("Friendly", friendly_spawn_index)
         new_unit.add_to_group("units", false)
@@ -44,8 +62,7 @@ func spawn_friendly_unit() -> void:
 func spawn_enemy_unit() -> void:
     if enemy_unit:
         # TODO just loading from wild orc card by default, for now
-        var unit_scene = load(CardDataManager.cards[CardData.CardType.WILD_ORC].unit_uid)
-        var new_unit = unit_scene.instantiate() as Unit
+        var new_unit = enemy_unit.instantiate() as Unit
         new_unit.entity_type = Unit.EntityType.ENEMY
         new_unit.enemy_group_name = "units"
         new_unit.global_position = get_global_mouse_position()

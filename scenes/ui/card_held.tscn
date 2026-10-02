@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dd8kcd5vk6my6"]
 
-[ext_resource type="Script" uid="uid://bhpu7q83a8nck" path="res://scenes/ui/card_held.gd" id="1_yoeh3"]
+[ext_resource type="Script" uid="uid://bhpu7q83a8nck" path="res://scenes/ui/CardHeld.gd" id="1_yoeh3"]
 [ext_resource type="Texture2D" uid="uid://cp52hhnickb6q" path="res://assets/cards/pixelCardAssest_V01.png" id="2_c8fpl"]
 [ext_resource type="Texture2D" uid="uid://rymgho44sdij" path="res://assets/units/goblin/GoblinIdle.png" id="4_us6rg"]
 
@@ -73,7 +73,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="TextureRect" type="TextureRect" parent="CardDetails" unique_id=1371380692]
+[node name="Image" type="TextureRect" parent="CardDetails" unique_id=1371380692]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
