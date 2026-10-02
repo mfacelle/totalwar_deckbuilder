@@ -3,11 +3,8 @@ extends Control
 
 @export var card_scene: PackedScene
 
-@onready var hand_container: HBoxContainer = $HandContainer
+@onready var hand_container: DisplayableCardPile = $HandContainer
 @onready var card_holder: Node2D = $CardHolder
-
-# TODO really don't like how this is done... maybe build it via CardData?
-@onready var card_held_scene: PackedScene = preload("res://scenes/ui/card_held.tscn")
 
 # data container for card ui. manages hand of cards, selected/held cards, etc
 
@@ -16,12 +13,10 @@ extends Control
 var card_held: Card = null
 
 # data needed:
-# - CardPile - list of cards currently on display in the hand
 # - CardPile - deck of cards to draw from
 # - CardPile - discard pile
-var hand: CardPile
-var deck: CardDataPile
-var discard: CardDataPile
+var deck: CardPile
+var discard: CardPile
 
 # functionality needed:
 # - receive signal that card was selected, so it can be displayed and held
@@ -38,27 +33,20 @@ func _ready() -> void:
     # ---
     # TODO this is debug to hard-code in some cards, for now
     # instantiate debug card scenes for hand
-    var card0 = card_scene.instantiate() as Card
-    card0.card_id = CardData.CardId.GOBLIN
-    var card1 = card_scene.instantiate() as Card
-    card1.card_id = CardData.CardId.ORC
-    var card2 = card_scene.instantiate() as Card
-    card2.card_id = CardData.CardId.WARG
-    var card3 = card_scene.instantiate() as Card
-    card3.card_id = CardData.CardId.WILD_ORC
-    var card4 = card_scene.instantiate() as Card
-    card4.card_id = CardData.CardId.WOLF
-    
-    # hard-coding size for now
-    var hand_of_cards: CardPile = CardPile.new([card0, card1, card2, card3, card4], 5)
-    hand = hand_of_cards
-    for card in hand.cards:
-        hand_container.add_child(card)
-    # ---
+    var card_pile: CardPile = CardPile.new([CardDataManager.cards[CardData.CardId.GOBLIN],
+        CardDataManager.cards[CardData.CardId.ORC],
+        CardDataManager.cards[CardData.CardId.WILD_ORC],
+        CardDataManager.cards[CardData.CardId.WOLF],
+        CardDataManager.cards[CardData.CardId.WARG] ],
+        5)
+    hand_container.add_cards(card_pile)
+    hand_container.max_size = 10
     
     # TODO setting up some defaults for now. maybe discard shouldn't be unlimited size?
-    deck = CardDataPile.new([], 10)
-    discard = CardDataPile.new([], -1)
+    deck = CardPile.new([], 10)
+    discard = CardPile.new([], 10)
+    
+    # ---
 
 
 ## when held card changes, notify objects and set cards displayed
@@ -71,12 +59,12 @@ func _on_card_held(new_card: Card) -> void:
         for child in card_holder.get_children():
             child.queue_free()
     else:
-        var new_card_held = card_held_scene.instantiate()
+        var new_card_held = CardHeld.BASE_CARD_HELD_SCENE.instantiate()
         new_card_held.card_id = card_held.card_id
         card_holder.add_child(new_card_held)
     
     # alert all cards in the hand that the held card changed
-    for card in hand.cards:
+    for card in hand_container.cards:
         card.card_held = card_held
 
 
@@ -84,8 +72,10 @@ func _on_card_held(new_card: Card) -> void:
 func _on_card_played(card: Card):
     # TODO can this cause issues if card becomes null when notifying other listeners?
     # shouldn't be other listeners, but still may be a concern
-    # TODO probably want a convenience function for removing card from CardPile
-    hand.cards.erase(card)
+    # TODO will card.card_data here create a copy, or a reference that immediately gets deleted?
+    print("discarding: ", card.card_data)
     discard.cards.append(card.card_data)
-    card.queue_free()
+    for discarded in discard.cards:
+        print(discarded)
+    hand_container.erase_card(card)
     BattleSignalManager.card_held.emit(null)

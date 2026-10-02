@@ -1,20 +1,21 @@
 class_name CardPile
 extends Node
 
-# represents a "pile" of displayable cards, such a the hand.
-# cards here include PackedScene instances and can be displayed
-# could also be used for shops
+# represents a "pile" of cards in data only, such a the deck or discard pile
+# could also be used for shops.
+# cards in this pile are not scenes and not displayable.
 
-# TODO almost the same as CardDataPile, but instantiates each card's scene
-
-var cards: Array[Card] = []
+## set of cards contained in this pile
+var cards: Array[CardData] = []
+## maximum size of this pile
 var max_size: int
 
 
-func _init(_cards: Array[Card], _max_size: int):
+func _init(_cards: Array[CardData], _max_size: int):
     cards = _cards
     max_size = _max_size
 
+# TODO implement accessor functions, i.e. add with limit checking
 
 # functionality needed:
 # - get next card

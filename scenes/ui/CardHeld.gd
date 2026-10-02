@@ -4,6 +4,9 @@ extends Control
 # TODO this is basically just a smaller subset of Card class...
 # consider refactoring to make this less clumsy and "change in two places" to manage?
 
+## base scene to use for held cards (TODO may want to make this more dynamic later)
+const BASE_CARD_HELD_SCENE: PackedScene = preload("uid://dd8kcd5vk6my6")
+
 @export var card_id: CardData.CardId
 
 @onready var card_data: CardData = CardDataManager.cards[card_id]

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cood56au481h6" path="res://scenes/ui/CardUI.gd" id="1_1kpl7"]
 [ext_resource type="PackedScene" uid="uid://q08ll0ivd4uv" path="res://scenes/ui/card.tscn" id="3_fbbsm"]
+[ext_resource type="Script" uid="uid://l5r8phewvwtf" path="res://scripts/DisplayableCardPile.gd" id="3_wc1mw"]
 
 [node name="CardUI" type="Control" unique_id=1890093579]
 texture_filter = 1
@@ -24,8 +25,6 @@ anchor_bottom = 0.95
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
+script = ExtResource("3_wc1mw")
 
 [node name="CardHolder" type="Node2D" parent="." unique_id=393578896]
-
-[connection signal="mouse_entered" from="HandContainer" to="HandContainer" method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="HandContainer" to="HandContainer" method="_on_mouse_exited"]

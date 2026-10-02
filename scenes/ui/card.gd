@@ -1,6 +1,9 @@
 class_name Card
 extends Control
 
+## base scene to use for cards (TODO may want to make this more dynamic later)
+const BASE_CARD_SCENE: PackedScene = preload("uid://q08ll0ivd4uv")
+
 @export var card_id: CardData.CardId
 
 @onready var card_data: CardData = CardDataManager.cards[card_id]
@@ -53,6 +56,7 @@ func _on_gui_input(event: InputEvent) -> void:
         elif card_highlighted and not card_held:
             # if this card is selected and we're not currently holding another card, allow holding this one
             # temporarily hide card from UI, but keep it in place in container
+            # TODO consider making transparent (and show background only?), so it's clear where to place the card back
             card_background.hide()
             card_details.hide()
             

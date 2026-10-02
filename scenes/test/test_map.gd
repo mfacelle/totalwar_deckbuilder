@@ -28,15 +28,14 @@ func _ready() -> void:
 func _on_card_held(new_card: Card) -> void:
     # TODO this should really enter some kind of pause state, when a card is being held.
     # good enough for now and getting things tested/working
-    print("on_card_held")
-    # TODO this is kind of redundant with play_card providing Card as arg
+    # TODO this is kind of redundant with _on_play_card providing Card as arg
     if new_card == null:
         card_held = null
     else:
         card_held = new_card
 
 ## handles playing a card when the player selects a spot on the map with a held card
-func _on_play_card(card: Card, position: Vector2) -> void:
+func _on_play_card(card: Card, _position: Vector2) -> void:
     # do nothing for null
     if not card:
         return
@@ -44,17 +43,17 @@ func _on_play_card(card: Card, position: Vector2) -> void:
     # TODO make into switch with separate functions for different card types
     if card.card_data.card_type == CardData.CardType.UNIT:
         # TODO eventually need to check that position is valid, and only emit success if it was
-        spawn_friendly_unit(card.unit_scene, position)
+        spawn_friendly_unit(card.unit_scene, _position)
         BattleSignalManager.card_played.emit(card)
 
 
 ## spawns a friendly unit, based on the card provided
-func spawn_friendly_unit(unit: PackedScene, position: Vector2) -> void:
+func spawn_friendly_unit(unit: PackedScene, _position: Vector2) -> void:
     print("spawn_friendly_unit, unit=", unit)
     if unit:
         # TODO just loading from orc card by default, for now
         var new_unit = unit.instantiate() as Unit
-        new_unit.global_position = position
+        new_unit.global_position = _position
         new_unit.name = str("Friendly", friendly_spawn_index)
         new_unit.add_to_group("units", false)
         
