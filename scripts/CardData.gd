@@ -1,13 +1,29 @@
 class_name CardData
 extends Resource
 
-## individual card types, for ease of access and identifying
-enum CardType {
+## individual card IDs, for ease of access and identifying
+## TODO consider storing somewhere else, this list may get long (CardDataManager?)
+enum CardId {
     GOBLIN,
     ORC,
-    WILD_ORC
+    WILD_ORC,
+    WOLF,
+    WARG,
+    BAT
 }
 
+## types of card, for determing how to handle effects when played
+enum CardType {
+    UNIT,  ## spawns a unit
+    SPELL,  ## creates a spell
+    EFFECT  ## creates a buff/debuff effect
+}
+
+
+## ID of this card
+var card_id: CardId
+## type of this card
+var card_type: CardType
 ## name of the unit, to be displayed on the card
 var card_name: String
 ## uid of texture to use for card image
@@ -24,7 +40,9 @@ var unit_uid: String
 # - card outline/border?
 # - effects, i.e. shine, color overlay, etc
 
-func _init(_name: String, _img_uid: String, _desc: String, _unit_uid: String):
+func _init(_id: CardId, _type: CardType, _name: String, _img_uid: String, _desc: String, _unit_uid: String):
+    card_id = _id
+    card_type = _type
     card_name = _name
     image_uid = _img_uid
     description = _desc

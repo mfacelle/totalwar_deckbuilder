@@ -14,43 +14,47 @@ var friendly_spawn_index: int = 0
 var enemy_spawn_index: int = 0
 
 # -----
-## TODO basically here for debug, but some form of this will become the real code
-var friendly_unit: PackedScene = null
+## TODO basically here for debug, but most of this will likely become the real code in a battle/map class
+var card_held: Card = null
 
 func _ready() -> void:
     BattleSignalManager.card_held.connect(_on_card_held)
+    BattleSignalManager.play_card.connect(_on_play_card)
     
     # TODO this is apparently necessary... don't understand why the declaration above doesn't keep it null
-    friendly_unit = null
+    card_held = null
 
+## when player picks up a card, store it here, to handle play actions
 func _on_card_held(new_card: Card) -> void:
     # TODO this should really enter some kind of pause state, when a card is being held.
     # good enough for now and getting things tested/working
     print("on_card_held")
+    # TODO this is kind of redundant with play_card providing Card as arg
     if new_card == null:
-        friendly_unit = null
+        card_held = null
     else:
-        friendly_unit = new_card.unit_scene
+        card_held = new_card
 
-# -----
+## handles playing a card when the player selects a spot on the map with a held card
+func _on_play_card(card: Card, position: Vector2) -> void:
+    # do nothing for null
+    if not card:
+        return
 
-func _unhandled_input(event: InputEvent) -> void:
-    # if left mouse button, spawn a friendly unit
-    if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-        print("left click")
-        spawn_friendly_unit()
-    # else spawn an enemy one
-    elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
-        print("right click")
-        spawn_enemy_unit()
+    # TODO make into switch with separate functions for different card types
+    if card.card_data.card_type == CardData.CardType.UNIT:
+        # TODO eventually need to check that position is valid, and only emit success if it was
+        spawn_friendly_unit(card.unit_scene, position)
+        BattleSignalManager.card_played.emit(card)
 
 
-func spawn_friendly_unit() -> void:
-    print("spawn_friendly_unit, unit=", friendly_unit)
-    if friendly_unit:
+## spawns a friendly unit, based on the card provided
+func spawn_friendly_unit(unit: PackedScene, position: Vector2) -> void:
+    print("spawn_friendly_unit, unit=", unit)
+    if unit:
         # TODO just loading from orc card by default, for now
-        var new_unit = friendly_unit.instantiate() as Unit
-        new_unit.global_position = get_global_mouse_position()
+        var new_unit = unit.instantiate() as Unit
+        new_unit.global_position = position
         new_unit.name = str("Friendly", friendly_spawn_index)
         new_unit.add_to_group("units", false)
         
@@ -58,7 +62,27 @@ func spawn_friendly_unit() -> void:
         
         friendly_spawn_index += 1
 
+# -----
 
+
+## TODO make this use actual inputs via godot, not just checking for mouse click manually
+func _unhandled_input(event: InputEvent) -> void:
+    # if left mouse button, spawn a friendly unit
+    if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+        print("left click")
+        # TODO this signal seems unnecessary right now.  
+        # Should eventually refactor into input handler and card player classes
+        BattleSignalManager.play_card.emit(card_held, get_global_mouse_position())
+    # else spawn an enemy one
+    # TODO add some kind of debug flag to enable/disable this?
+    elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+        print("right click")
+        spawn_enemy_unit()
+
+
+
+## DEBUG FUNCTION
+## spawns an enemy unit
 func spawn_enemy_unit() -> void:
     if enemy_unit:
         # TODO just loading from wild orc card by default, for now

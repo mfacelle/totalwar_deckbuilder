@@ -4,7 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://c42gng862rx1v" path="res://assets/environment/Minifantasy_ForgottenPlainsTiles.png" id="1_4ix5f"]
 [ext_resource type="Script" uid="uid://bkbrs3dmo3pa3" path="res://scenes/test/test_map.gd" id="1_4xk5c"]
 [ext_resource type="Texture2D" uid="uid://ctn600qnrks2y" path="res://assets/environment/Minifantasy_ForgottenPlainsProps.png" id="2_8ba03"]
-[ext_resource type="PackedScene" uid="uid://c4j4so8syle5l" path="res://scenes/units/orc.tscn" id="2_w402o"]
 [ext_resource type="PackedScene" uid="uid://c0honvmblkmqx" path="res://scenes/units/orc_wild.tscn" id="3_m4fpm"]
 [ext_resource type="Texture2D" uid="uid://dfpq74od3vsq7" path="res://assets/environment/navigation_tiles.png" id="4_6vtm2"]
 [ext_resource type="Texture2D" uid="uid://b3bcwniah0o6i" path="res://assets/environment/Minifantasy_ForgottenPlainsPropsShadows.png" id="5_a7fnv"]
@@ -1840,7 +1839,6 @@ sources/0 = SubResource("TileSetAtlasSource_m4fpm")
 [node name="test-map" type="Node2D" unique_id=794968902]
 y_sort_enabled = true
 script = ExtResource("1_4xk5c")
-friendly_unit = ExtResource("2_w402o")
 enemy_unit = ExtResource("3_m4fpm")
 
 [node name="world" type="Node2D" parent="." unique_id=1294240805]

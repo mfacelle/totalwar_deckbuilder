@@ -1,12 +1,13 @@
 class_name Card
 extends Control
 
-@export var card_type: CardData.CardType
+@export var card_id: CardData.CardId
 
-@onready var card_data: CardData = CardDataManager.cards[card_type]
+@onready var card_data: CardData = CardDataManager.cards[card_id]
 @onready var unit_scene: PackedScene = load(card_data.unit_uid)
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
-@onready var card_background: TextureRect = $CardBackground/TextureRect
+@onready var card_background: Container = $CardBackground
+@onready var card_details: Container = $CardDetails
 @onready var name_label: Label = $CardDetails/Name
 @onready var image: TextureRect = $CardDetails/Image
 @onready var description_label: Label = $CardDetails/Description
@@ -36,12 +37,14 @@ func _on_mouse_exited() -> void:
     anim_player.play("deselect")
     card_highlighted = false
 
+
+## when card is selected, allow for holding it to be played
 func _on_gui_input(event: InputEvent) -> void:
     if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
         if card_held == self:
-            # if this card is currently held, and this original spot is selected again, put it back
-            # TODO want to hide/show entire card
+            # if this card is currently held, and this original spot is selected again, put it back (by unhiding it)
             card_background.show()
+            card_details.show()
             
             # set card held to null to avoid some kind of weird race condition with signal
             card_held = null
@@ -49,10 +52,9 @@ func _on_gui_input(event: InputEvent) -> void:
             
         elif card_highlighted and not card_held:
             # if this card is selected and we're not currently holding another card, allow holding this one
-            # temporarily hide card from UI, but keep it in place
-            
-            # TODO want to hide/show entire card
+            # temporarily hide card from UI, but keep it in place in container
             card_background.hide()
+            card_details.hide()
             
             # don't update held card until signal is processed, to avoid weird race condition or multiple rapid inputs
             BattleSignalManager.card_held.emit(self)

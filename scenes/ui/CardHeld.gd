@@ -4,9 +4,9 @@ extends Control
 # TODO this is basically just a smaller subset of Card class...
 # consider refactoring to make this less clumsy and "change in two places" to manage?
 
-@export var card_type: CardData.CardType
+@export var card_id: CardData.CardId
 
-@onready var card_data: CardData = CardDataManager.cards[card_type]
+@onready var card_data: CardData = CardDataManager.cards[card_id]
 @onready var card_background: TextureRect = $CardBackground/TextureRect
 @onready var image: TextureRect = $CardDetails/Image
 
