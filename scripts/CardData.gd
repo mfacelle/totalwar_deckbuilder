@@ -9,7 +9,11 @@ enum CardId {
     WILD_ORC,
     WOLF,
     WARG,
-    BAT
+    BAT,
+    SLIME_BLUE,
+    SLIME_GREEN,
+    SLIME_BLUE_BIG,
+    SLIME_GREEN_BIG
 }
 
 ## types of card, for determing how to handle effects when played

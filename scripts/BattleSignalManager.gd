@@ -18,3 +18,9 @@ signal play_card(card: Card, position: Vector2)
 
 ## indicates a card was successfully played
 signal card_played(card: Card)
+
+## indicates a card is being drawn from the deck
+signal card_drawn(card_data: CardData)
+
+## indicates a card was added to the discard pile
+signal card_discarded(card: Card)

@@ -36,5 +36,11 @@ var cards: Dictionary[CardData.CardId, CardData] = {
         "Warg", 
         "uid://cqd7brqjuadmm", 
         "warg description", 
-        "uid://b05ig08iqggom")
+        "uid://b05ig08iqggom"),
+    CardData.CardId.SLIME_BLUE: CardData.new(CardData.CardId.SLIME_BLUE,
+        CardData.CardType.UNIT,
+        "Blue Slime", 
+        "uid://hrob15mrojwt", 
+        "blue slime description", 
+        "uid://bsby7iejc8bwl")
 }

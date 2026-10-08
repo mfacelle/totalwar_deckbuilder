@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b05ig08iqggom"]
 
-[ext_resource type="Script" uid="uid://b5gayccv1ub37" path="res://scenes/units/unit.gd" id="1_ncoyb"]
+[ext_resource type="Script" uid="uid://b5gayccv1ub37" path="res://scenes/units/Unit.gd" id="1_ncoyb"]
 [ext_resource type="Texture2D" uid="uid://csvb5ptdyc606" path="res://assets/units/shadows_humanoid/ShadowHumanoidIdle.png" id="2_0pr5x"]
 [ext_resource type="Texture2D" uid="uid://rymgho44sdij" path="res://assets/units/goblin/GoblinIdle.png" id="3_yy40o"]
 [ext_resource type="Texture2D" uid="uid://csr3o8gpgtwgs" path="res://assets/units/warg/WargAttack.png" id="4_ncoyb"]
@@ -1792,17 +1792,17 @@ graph_offset = Vector2(107.84978, -21.40497)
 radius = 2.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2julr"]
-radius = 3.0
+radius = 5.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dfsep"]
 size = Vector2(3.875, 3.453125)
 
-[node name="Goblin" type="CharacterBody2D" unique_id=66131987]
+[node name="Unit" type="CharacterBody2D" unique_id=66131987]
 y_sort_enabled = true
 script = ExtResource("1_ncoyb")
-speed = 20
-max_health = 30
-attack_range = 6
+speed = 30
+max_health = 40
+attack_range = 8
 attack_speed = 0.5
 attack_delay = 1.0
 attack_damage = 10
@@ -1850,7 +1850,7 @@ shape = SubResource("CircleShape2D_2julr")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1914106546]
 path_desired_distance = 2.0
-target_desired_distance = 6.0
+target_desired_distance = 8.0
 path_postprocessing = 1
 avoidance_enabled = true
 radius = 2.0

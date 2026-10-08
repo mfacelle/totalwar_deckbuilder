@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://c0honvmblkmqx" path="res://scenes/units/orc_wild.tscn" id="3_m4fpm"]
 [ext_resource type="Texture2D" uid="uid://dfpq74od3vsq7" path="res://assets/environment/navigation_tiles.png" id="4_6vtm2"]
 [ext_resource type="Texture2D" uid="uid://b3bcwniah0o6i" path="res://assets/environment/Minifantasy_ForgottenPlainsPropsShadows.png" id="5_a7fnv"]
+[ext_resource type="PackedScene" uid="uid://da50lydrupyk4" path="res://scenes/battle_objects/base.tscn" id="7_w402o"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8ba03"]
 texture = ExtResource("1_4ix5f")
@@ -1882,23 +1883,30 @@ y_sort_enabled = true
 [node name="units" type="Node2D" parent="world/entities" unique_id=1153339891]
 y_sort_enabled = true
 
-[node name="Goblin" parent="world/entities/units" unique_id=66131987 groups=["units"] instance=ExtResource("1_2t2t3")]
+[node name="MyBase" parent="world/entities/units" unique_id=66131987 groups=["units"] instance=ExtResource("7_w402o")]
+position = Vector2(39, 45)
+
+[node name="Goblin" parent="world/entities/units" unique_id=2128255531 groups=["units"] instance=ExtResource("1_2t2t3")]
 position = Vector2(23, 21)
 
 [node name="enemies" type="Node2D" parent="world/entities" unique_id=234024299]
 y_sort_enabled = true
 
 [node name="EnemyGoblin1" parent="world/entities/enemies" unique_id=361912958 groups=["enemies"] instance=ExtResource("1_2t2t3")]
-position = Vector2(163, 136)
+position = Vector2(264, 76)
 entity_type = 6
 enemy_group_name = "units"
 
 [node name="EnemyGoblin2" parent="world/entities/enemies" unique_id=1160490710 groups=["enemies"] instance=ExtResource("1_2t2t3")]
-position = Vector2(179, 79)
+position = Vector2(287, 68)
 entity_type = 6
 enemy_group_name = "units"
 
 [node name="EnemyGoblin3" parent="world/entities/enemies" unique_id=1538882538 groups=["enemies"] instance=ExtResource("1_2t2t3")]
-position = Vector2(272, 153)
+position = Vector2(281, 114)
 entity_type = 6
 enemy_group_name = "units"
+
+[node name="EnemyBase" parent="world/entities/enemies" unique_id=1224097314 groups=["enemies"] instance=ExtResource("7_w402o")]
+position = Vector2(292, 94)
+entity_type = 6

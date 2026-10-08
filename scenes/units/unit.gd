@@ -258,7 +258,7 @@ func attack() -> void:
     # wait to set flag for next attack
     await get_tree().create_timer(attack_delay).timeout
     attack_ready = true
-    
+
 
 func take_damage(damage: int) -> void:
     health -= damage
@@ -282,7 +282,7 @@ func die() -> void:
     # TODO play animation
     state = State.DEAD
     update_animation()
-    
+
 
 func _on_die_animation_finished():
         queue_free()

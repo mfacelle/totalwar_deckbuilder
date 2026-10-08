@@ -15,7 +15,24 @@ func _init(_cards: Array[CardData], _max_size: int):
     cards = _cards
     max_size = _max_size
 
+
+## randomly shuffles all cards in this pile
+func shuffle() -> void:
+    cards.shuffle()
+
 # TODO implement accessor functions, i.e. add with limit checking
+
+func is_empty() -> bool:
+    return cards.is_empty()
+
+
+func draw() -> CardData:
+    return cards.pop_back()
+
+
+func append(card_data: CardData) -> void:
+    cards.append(card_data)
+
 
 # functionality needed:
 # - get next card

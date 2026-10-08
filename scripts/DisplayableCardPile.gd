@@ -3,7 +3,7 @@ extends Container
 
 
 # represents a "pile" of displayable cards, such a the hand.
-# cards here include PackedScene instances and can be displayed
+# cards here include PackedScene instances and can be displayed.
 # could also be used for shops
 
 # TODO almost the same as CardDataPile, but instantiates each card's scene
@@ -20,7 +20,7 @@ func add_cards(_cards: CardPile):
 
 ## add a card to this pile, by instantiating a new scene
 func add_card(_card: CardData):
-    # TODO if successfully added (i.e. max size not hit)
+    # TODO check for max size
     var card_tmp = Card.BASE_CARD_SCENE.instantiate() as Card
     card_tmp.card_id = _card.card_id
     cards.append(card_tmp)
@@ -31,6 +31,14 @@ func add_card(_card: CardData):
 func erase_card(_card: Card):
     cards.erase(_card)
     _card.queue_free()
+
+
+func is_full() -> bool:
+    if cards.size() < max_size:
+        return false
+    else:
+        return true
+
 
 # functionality needed:
 # - get next card

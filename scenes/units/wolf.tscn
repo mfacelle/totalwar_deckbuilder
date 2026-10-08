@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c8k2b2hwehfjr"]
 
-[ext_resource type="Script" uid="uid://b5gayccv1ub37" path="res://scenes/units/unit.gd" id="1_c0q42"]
+[ext_resource type="Script" uid="uid://b5gayccv1ub37" path="res://scenes/units/Unit.gd" id="1_c0q42"]
 [ext_resource type="Texture2D" uid="uid://csvb5ptdyc606" path="res://assets/units/shadows_humanoid/ShadowHumanoidIdle.png" id="2_fo6r1"]
 [ext_resource type="Texture2D" uid="uid://rymgho44sdij" path="res://assets/units/goblin/GoblinIdle.png" id="3_fon3g"]
 [ext_resource type="Texture2D" uid="uid://wkpn7j84p3a5" path="res://assets/units/wolf/WolfAttack.png" id="4_c0q42"]
@@ -1733,19 +1733,19 @@ graph_offset = Vector2(107.84978, -21.40497)
 radius = 2.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2julr"]
-radius = 3.0
+radius = 4.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dfsep"]
 size = Vector2(3.875, 3.453125)
 
-[node name="Goblin" type="CharacterBody2D" unique_id=66131987]
+[node name="Unit" type="CharacterBody2D" unique_id=66131987]
 y_sort_enabled = true
 script = ExtResource("1_c0q42")
-speed = 20
-max_health = 30
+speed = 40
+max_health = 20
 attack_range = 6
 attack_speed = 0.5
-attack_delay = 1.0
+attack_delay = 0.5
 attack_damage = 10
 enemy_group_name = "enemies"
 min_movement_speed = 1.0

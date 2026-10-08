@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://de7iwhcesdsqg"]
+
+[ext_resource type="Script" uid="uid://d232s3tox3yx5" path="res://scenes/ui/Discard.gd" id="1_kelet"]
+[ext_resource type="Texture2D" uid="uid://cp52hhnickb6q" path="res://assets/cards/pixelCardAssest_V01.png" id="2_dbrm1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2julr"]
+atlas = ExtResource("2_dbrm1")
+region = Rect2(133, 4, 100, 128)
+
+[node name="Discard" type="Control" unique_id=598480527]
+custom_minimum_size = Vector2(150, 192)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1770.0
+offset_bottom = -888.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+script = ExtResource("1_kelet")
+
+[node name="TopCard" type="MarginContainer" parent="." unique_id=900430683]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+
+[node name="TextureRect" type="TextureRect" parent="TopCard" unique_id=836221742]
+layout_mode = 2
+size_flags_horizontal = 3
+offset_transform_position = Vector2(0, -100)
+texture = SubResource("AtlasTexture_2julr")
+stretch_mode = 5
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

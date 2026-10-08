@@ -4,7 +4,14 @@ extends Control
 ## base scene to use for cards (TODO may want to make this more dynamic later)
 const BASE_CARD_SCENE: PackedScene = preload("uid://q08ll0ivd4uv")
 
+## id of this card, for creating objects
 @export var card_id: CardData.CardId
+## how far to offset the card when hovering over it
+@export var hover_offset: Vector2 = Vector2(0.0, -64.0)
+## normal offset
+@export var normal_offset: Vector2 = Vector2(0.0, 0.0)
+## duration of transition for hover offset, in seconds
+@export var hover_offset_duration: float = 0.25
 
 @onready var card_data: CardData = CardDataManager.cards[card_id]
 @onready var unit_scene: PackedScene = load(card_data.unit_uid)
@@ -17,6 +24,7 @@ const BASE_CARD_SCENE: PackedScene = preload("uid://q08ll0ivd4uv")
 
 var card_highlighted: bool = false
 var card_held: Card = null
+var tween: Tween
 
 func _ready() -> void:
     # set up fields on the card from CardData
@@ -31,18 +39,33 @@ func _ready() -> void:
     image.texture = atlas_texture
 
 
-# TODO need to eventually use an area2D or something for mouse checks, so it moves with the animation
 func _on_mouse_entered() -> void:
-    anim_player.play("select")
+    #anim_player.play("select")
+    animate_offset(hover_offset)
     card_highlighted = true
+    
 
 func _on_mouse_exited() -> void:
-    anim_player.play("deselect")
+    #anim_player.play("deselect")
+    animate_offset(normal_offset)
     card_highlighted = false
+
+
+func animate_offset(target_offset: Vector2) -> void:
+    # Kill the previous tween to avoid glitching or stacking
+    if tween and tween.is_valid():
+        tween.kill()
+    
+    create_tween()
+    tween = get_tree().create_tween()
+    tween.set_ease(Tween.EASE_OUT)
+    tween.set_trans(Tween.TRANS_BACK)
+    tween.tween_property(self, "offset_transform_position", target_offset, hover_offset_duration)
 
 
 ## when card is selected, allow for holding it to be played
 func _on_gui_input(event: InputEvent) -> void:
+    # TODO use proper input handling
     if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
         if card_held == self:
             # if this card is currently held, and this original spot is selected again, put it back (by unhiding it)

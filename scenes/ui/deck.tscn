@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://cddaw4g4y2ccq"]
+
+[ext_resource type="Script" uid="uid://bggeq3p3msv2h" path="res://scenes/ui/Deck.gd" id="1_grqne"]
+[ext_resource type="Texture2D" uid="uid://cp52hhnickb6q" path="res://assets/cards/pixelCardAssest_V01.png" id="2_x6pag"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2julr"]
+atlas = ExtResource("2_x6pag")
+region = Rect2(14, 4, 100, 128)
+
+[node name="Deck" type="Control" unique_id=598480527]
+custom_minimum_size = Vector2(150, 192)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1770.0
+offset_bottom = -888.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+script = ExtResource("1_grqne")
+
+[node name="OtherCards" type="MarginContainer" parent="." unique_id=138757169]
+layout_mode = 0
+offset_right = 150.0
+offset_bottom = 192.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_position = Vector2(0, -10)
+
+[node name="Card3" type="TextureRect" parent="OtherCards" unique_id=628183666]
+layout_mode = 2
+size_flags_horizontal = 3
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, -30)
+texture = SubResource("AtlasTexture_2julr")
+stretch_mode = 5
+
+[node name="Card2" type="TextureRect" parent="OtherCards" unique_id=1608073060]
+layout_mode = 2
+size_flags_horizontal = 3
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, -20)
+texture = SubResource("AtlasTexture_2julr")
+stretch_mode = 5
+
+[node name="Card1" type="TextureRect" parent="OtherCards" unique_id=456373497]
+layout_mode = 2
+size_flags_horizontal = 3
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, -10)
+texture = SubResource("AtlasTexture_2julr")
+stretch_mode = 5
+
+[node name="TopCard" type="MarginContainer" parent="." unique_id=900430683]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+
+[node name="TextureRect" type="TextureRect" parent="TopCard" unique_id=836221742]
+layout_mode = 2
+size_flags_horizontal = 3
+offset_transform_position = Vector2(0, -100)
+texture = SubResource("AtlasTexture_2julr")
+stretch_mode = 5
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

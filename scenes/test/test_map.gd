@@ -14,7 +14,8 @@ var friendly_spawn_index: int = 0
 var enemy_spawn_index: int = 0
 
 # -----
-## TODO basically here for debug, but most of this will likely become the real code in a battle/map class
+# TODO basically here for debug, but most of this will likely become the real code in a battle/map class
+
 var card_held: Card = null
 
 func _ready() -> void:

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c0honvmblkmqx"]
 
-[ext_resource type="Script" uid="uid://b5gayccv1ub37" path="res://scenes/units/unit.gd" id="1_8gbjg"]
+[ext_resource type="Script" uid="uid://b5gayccv1ub37" path="res://scenes/units/Unit.gd" id="1_8gbjg"]
 [ext_resource type="Texture2D" uid="uid://csvb5ptdyc606" path="res://assets/units/shadows_humanoid/ShadowHumanoidIdle.png" id="2_v7n04"]
 [ext_resource type="Texture2D" uid="uid://rymgho44sdij" path="res://assets/units/goblin/GoblinIdle.png" id="3_knayp"]
 [ext_resource type="Texture2D" uid="uid://lstdruptravp" path="res://assets/units/orc_wild/WildOrcAttack.png" id="4_urmts"]
@@ -1732,12 +1732,12 @@ graph_offset = Vector2(71.879776, 16.99502)
 radius = 2.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2julr"]
-radius = 3.0
+radius = 4.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dfsep"]
 size = Vector2(3.875, 3.453125)
 
-[node name="WildOrc" type="CharacterBody2D" unique_id=66131987]
+[node name="Unit" type="CharacterBody2D" unique_id=66131987]
 y_sort_enabled = true
 script = ExtResource("1_8gbjg")
 speed = 20
