@@ -12,6 +12,9 @@ extends Node2D
 
 var friendly_spawn_index: int = 0
 var enemy_spawn_index: int = 0
+var battle_state: BattleSignalManager.BattleState = BattleSignalManager.BattleState.NOT_STARTED
+# TODO might make sense to make a state machine for handling states,
+# but we really only care about whether or not battle is paused right now, so some if checks work for now
 
 # -----
 # TODO basically here for debug, but most of this will likely become the real code in a battle/map class
@@ -21,9 +24,14 @@ var card_held: Card = null
 func _ready() -> void:
     BattleSignalManager.card_held.connect(_on_card_held)
     BattleSignalManager.play_card.connect(_on_play_card)
+    BattleSignalManager.battle_state_update.connect(_on_battle_state_update)
     
     # TODO this is apparently necessary... don't understand why the declaration above doesn't keep it null
     card_held = null
+    
+    # start in paused state (NOT_STARTED)
+    process_mode = Node.PROCESS_MODE_DISABLED
+
 
 ## when player picks up a card, store it here, to handle play actions
 func _on_card_held(new_card: Card) -> void:
@@ -96,3 +104,14 @@ func spawn_enemy_unit() -> void:
         enemies.add_child(new_unit)
         
         enemy_spawn_index += 1
+
+
+
+## updates paused state for entire map tree
+func _on_battle_state_update(new_state: BattleSignalManager.BattleState) -> void:
+    battle_state = new_state
+    
+    if battle_state == BattleSignalManager.BattleState.RUNNING:
+        process_mode = Node.PROCESS_MODE_INHERIT
+    else:
+        process_mode = Node.PROCESS_MODE_DISABLED

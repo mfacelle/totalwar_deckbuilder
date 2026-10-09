@@ -25,6 +25,9 @@ const BASE_CARD_SCENE: PackedScene = preload("uid://q08ll0ivd4uv")
 var card_highlighted: bool = false
 var card_held: Card = null
 var tween: Tween
+var battle_state: BattleSignalManager.BattleState = BattleSignalManager.BattleState.NOT_STARTED
+# TODO might make sense to make a state machine for handling paused vs non-paused,
+# but we really only care about whether or not battle is paused, so some if checks work for now
 
 func _ready() -> void:
     # set up fields on the card from CardData
@@ -39,16 +42,17 @@ func _ready() -> void:
     image.texture = atlas_texture
 
 
+
 func _on_mouse_entered() -> void:
-    #anim_player.play("select")
-    animate_offset(hover_offset)
-    card_highlighted = true
+    if battle_state == BattleSignalManager.BattleState.RUNNING:
+        animate_offset(hover_offset)
+        card_highlighted = true
     
 
 func _on_mouse_exited() -> void:
-    #anim_player.play("deselect")
-    animate_offset(normal_offset)
-    card_highlighted = false
+    if battle_state == BattleSignalManager.BattleState.RUNNING:
+        animate_offset(normal_offset)
+        card_highlighted = false
 
 
 func animate_offset(target_offset: Vector2) -> void:
@@ -66,7 +70,10 @@ func animate_offset(target_offset: Vector2) -> void:
 ## when card is selected, allow for holding it to be played
 func _on_gui_input(event: InputEvent) -> void:
     # TODO use proper input handling
-    if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+    if event is InputEventMouseButton and \
+    event.button_index == MOUSE_BUTTON_LEFT and \
+    event.pressed and \
+    battle_state == BattleSignalManager.BattleState.RUNNING:
         if card_held == self:
             # if this card is currently held, and this original spot is selected again, put it back (by unhiding it)
             card_background.show()

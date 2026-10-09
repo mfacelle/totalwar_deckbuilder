@@ -2,6 +2,14 @@
 
 [ext_resource type="PackedScene" uid="uid://dwo4y7dm0xn50" path="res://scenes/test/test_map.tscn" id="1_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://db3y5asrafx3v" path="res://scenes/ui/card_ui.tscn" id="2_sugp2"]
+[ext_resource type="PackedScene" uid="uid://dv4dd6g04xi4f" path="res://scenes/ui/battle_ui.tscn" id="3_sugp2"]
+[ext_resource type="FontFile" uid="uid://ct44inwnt5upx" path="res://assets/fonts/Silver.ttf" id="4_jyhfs"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_dfsep"]
+font = ExtResource("4_jyhfs")
+font_size = 48
+font_color = Color(0, 0, 0, 1)
+outline_size = 10
 
 [node name="Main" type="Control" unique_id=1865051769]
 layout_mode = 3
@@ -45,3 +53,27 @@ limit_bottom = 180
 
 [node name="CardUI" parent="CanvasLayer" unique_id=1890093579 instance=ExtResource("2_sugp2")]
 mouse_filter = 2
+
+[node name="BattleUI" parent="CanvasLayer" unique_id=774794877 instance=ExtResource("3_sugp2")]
+
+[node name="VersionInfo" type="Control" parent="CanvasLayer" unique_id=192458811]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+mouse_filter = 2
+
+[node name="VersionLabel" type="Label" parent="CanvasLayer/VersionInfo" unique_id=1971342939]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -126.0
+offset_bottom = 23.0
+grow_horizontal = 0
+text = "PROTOTYPE  v0.01 "
+label_settings = SubResource("LabelSettings_dfsep")
+horizontal_alignment = 2

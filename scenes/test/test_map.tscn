@@ -1892,6 +1892,10 @@ position = Vector2(23, 21)
 [node name="enemies" type="Node2D" parent="world/entities" unique_id=234024299]
 y_sort_enabled = true
 
+[node name="EnemyBase" parent="world/entities/enemies" unique_id=1224097314 groups=["enemies"] instance=ExtResource("7_w402o")]
+position = Vector2(292, 94)
+entity_type = 6
+
 [node name="EnemyGoblin1" parent="world/entities/enemies" unique_id=361912958 groups=["enemies"] instance=ExtResource("1_2t2t3")]
 position = Vector2(264, 76)
 entity_type = 6
@@ -1907,6 +1911,17 @@ position = Vector2(281, 114)
 entity_type = 6
 enemy_group_name = "units"
 
-[node name="EnemyBase" parent="world/entities/enemies" unique_id=1224097314 groups=["enemies"] instance=ExtResource("7_w402o")]
-position = Vector2(292, 94)
+[node name="EnemyGoblin4" parent="world/entities/enemies" unique_id=829088551 groups=["enemies"] instance=ExtResource("1_2t2t3")]
+position = Vector2(271, 97)
 entity_type = 6
+enemy_group_name = "units"
+
+[node name="EnemyGoblin5" parent="world/entities/enemies" unique_id=254719805 groups=["enemies"] instance=ExtResource("1_2t2t3")]
+position = Vector2(300, 112)
+entity_type = 6
+enemy_group_name = "units"
+
+[node name="EnemyGoblin6" parent="world/entities/enemies" unique_id=2059451060 groups=["enemies"] instance=ExtResource("1_2t2t3")]
+position = Vector2(305, 75)
+entity_type = 6
+enemy_group_name = "units"

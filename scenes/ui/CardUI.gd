@@ -13,6 +13,7 @@ extends Control
 
 # card currently being held
 var card_held: Card = null
+var battle_state: BattleSignalManager.BattleState = BattleSignalManager.BattleState.NOT_STARTED
 
 
 # functionality needed:
@@ -30,6 +31,7 @@ func _ready() -> void:
     BattleSignalManager.card_played.connect(_on_card_played)
     BattleSignalManager.card_drawn.connect(_on_card_drawn)
     BattleSignalManager.card_discarded.connect(_on_card_discarded)
+    BattleSignalManager.battle_state_update.connect(_on_battle_state_update)
     
     # ---
     # TODO this is debug to hard-code in some cards, for now
@@ -42,6 +44,10 @@ func _ready() -> void:
         5)
     hand.add_cards(hand_card_pile)
     hand.max_size = hand_card_pile.max_size
+    
+    # TODO kind of a hack to ensure cards start in the right state, since add_cards will assume RUNNING
+    for card in hand.cards:
+        card.battle_state = battle_state
     
     # TODO setting up some defaults for now. maybe discard shouldn't be unlimited size?
     var deck_card_pile: CardPile = CardPile.new([CardDataManager.cards[CardData.CardId.GOBLIN],
@@ -89,7 +95,7 @@ func _on_card_held(new_card: Card) -> void:
 
 
 ## when card is played, remove it from active hand and send to discard
-func _on_card_played(card: Card):
+func _on_card_played(card: Card) -> void:
     # TODO can this cause issues if card becomes null when notifying other listeners?
     # shouldn't be other listeners, but still may be a concern
     # TODO will card.card_data here create a copy, or a reference that immediately gets deleted?
@@ -113,7 +119,7 @@ func _on_card_drawn(card_data: CardData):
 ## when card is discarded, remove it from the hand and notify that it is no longer being held
 ## TODO this is the same as card_played right now.  will probably do different stuff later, like tick down draw timer
 ## or something.  Keeping as a separate function, for now
-func _on_card_discarded(card: Card):
+func _on_card_discarded(card: Card) -> void:
     print("discarding: ", card.card_data)
     discard.cards.append(card.card_data)
     
@@ -123,3 +129,18 @@ func _on_card_discarded(card: Card):
     
     # report that no card is held now
     BattleSignalManager.card_held.emit(null)
+
+
+## updates battle state for all UI elements
+func _on_battle_state_update(new_state: BattleSignalManager.BattleState) -> void:
+    print("battle state update: ", new_state)
+    battle_state = new_state
+    
+    # update all UI elements, including cards in the hand, so they process inputs appropriately
+    for card in hand.cards:
+        card.battle_state = new_state
+    deck.battle_state = new_state
+    discard.battle_state = new_state
+    
+    # TODO probably need to do something to return held card to hand. ignoring for now
+    

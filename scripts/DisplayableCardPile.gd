@@ -23,6 +23,8 @@ func add_card(_card: CardData):
     # TODO check for max size
     var card_tmp = Card.BASE_CARD_SCENE.instantiate() as Card
     card_tmp.card_id = _card.card_id
+    # assuming this card is added when the game is running (TODO may not always be a valid assumption)
+    card_tmp.battle_state = BattleSignalManager.BattleState.RUNNING
     cards.append(card_tmp)
     add_child(card_tmp)
 

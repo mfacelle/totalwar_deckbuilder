@@ -4,6 +4,9 @@ extends Control
 var cards: CardPile
 var tween: Tween
 var is_hand_full: bool
+var battle_state: BattleSignalManager.BattleState = BattleSignalManager.BattleState.NOT_STARTED
+# TODO might make sense to make a state machine for handling paused vs non-paused,
+# but we really only care about whether or not battle is paused, so some if checks work for now
 
 # TODO the offset animation stuff is the same code (different values) for deck/discard/card.
 # should consider refactoring into some kind of base class or something.
@@ -29,11 +32,13 @@ var is_hand_full: bool
 
 
 func _on_mouse_entered() -> void:
-    animate_topcard_offset(hover_offset)
+    if battle_state == BattleSignalManager.BattleState.RUNNING:
+        animate_topcard_offset(hover_offset)
 
 
 func _on_mouse_exited() -> void:
-    animate_topcard_offset(normal_offset)
+    if battle_state == BattleSignalManager.BattleState.RUNNING:
+        animate_topcard_offset(normal_offset)
 
 
 func animate_topcard_offset(target_offset: Vector2) -> void:
@@ -53,7 +58,10 @@ func animate_topcard_offset(target_offset: Vector2) -> void:
 ## and play brief animation using tweens
 func _on_gui_input(event: InputEvent) -> void:
     # TODO use proper input handling
-    if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+    if event is InputEventMouseButton and \
+    event.button_index == MOUSE_BUTTON_LEFT and \
+    event.pressed and \
+    battle_state == BattleSignalManager.BattleState.RUNNING:
         if cards.is_empty():
             print("deck is empty, not drawing card")
             # TODO play different animation to show that card was not drawn, like a brief shake or something

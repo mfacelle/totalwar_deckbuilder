@@ -2,6 +2,17 @@ extends Node
 
 # autoload singleton for managing signals during battle scenes
 
+## represents various states the battle gameplay could be in
+enum BattleState
+{
+    NOT_STARTED, # not yet started
+    INIT, # initializing (paused), drawing cards, setup, etc
+    RUNNING, # basic run state
+    PAUSED, # basic pause state
+    END # battle ended (paused), cleanup, etc
+}
+
+
 ## signal to spawn a unit at the mouse coordinates
 ## TODO notes
 ## - what about other effects? separate signal, or make this generic?
@@ -24,3 +35,6 @@ signal card_drawn(card_data: CardData)
 
 ## indicates a card was added to the discard pile
 signal card_discarded(card: Card)
+
+## indicates the state of gameplay needs to change
+signal battle_state_update(new_state: BattleState)

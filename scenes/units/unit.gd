@@ -29,6 +29,17 @@ enum EntityType
     ENEMY = 6
 }
 
+## simple behaviors that units can have, for more varied battles
+## TODO add unit "behavior" types and actual logic to implement
+## TODO can be a list of behaviors maybe? but some conflict with each other
+## TODO may want to split this into separate behaviors for attack/defend/hold/retreat
+enum BehaviorType
+{
+    KEEP_ATTACKING, # continue attacking, standard behavior
+    DEFEND_THEN_CHASE, # when defending, chase enemies after first encounter
+    DEFEND_THEN_HOLD # when defending, return to original spot after first encounter
+}
+
 @export_category("Stats")
 ## speed, in pixels/sec
 @export var speed: int
