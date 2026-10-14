@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://bnob42pvd41kn" path="res://assets/environment/Prop_Shadows.png" id="1_gnkvd"]
 [ext_resource type="Script" uid="uid://bfagqevhd47r7" path="res://scenes/battle_objects/Base.gd" id="1_m1nav"]
 [ext_resource type="Texture2D" uid="uid://vse0773ustd" path="res://assets/environment/Props.png" id="2_gnkvd"]
+[ext_resource type="Script" uid="uid://cpsqnqevcigw8" path="res://scenes/battle_objects/SpawnArea.gd" id="4_lcu0q"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m1nav"]
 atlas = ExtResource("1_gnkvd")
@@ -165,6 +166,7 @@ radius = 4.0
 height = 12.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dfsep"]
+radius = 64.0
 
 [node name="Base" type="CharacterBody2D" unique_id=66131987]
 y_sort_enabled = true
@@ -203,10 +205,13 @@ position = Vector2(0, -5)
 shape = SubResource("CapsuleShape2D_gnkvd")
 
 [node name="PlacementZone" type="Area2D" parent="." unique_id=1313853298]
-collision_layer = 0
+z_index = 1
+z_as_relative = false
+collision_layer = 2
 collision_mask = 0
 monitoring = false
 monitorable = false
+script = ExtResource("4_lcu0q")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlacementZone" unique_id=623515578]
 shape = SubResource("CircleShape2D_dfsep")

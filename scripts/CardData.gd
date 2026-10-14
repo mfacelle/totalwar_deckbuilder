@@ -51,3 +51,7 @@ func _init(_id: CardId, _type: CardType, _name: String, _img_uid: String, _desc:
     image_uid = _img_uid
     description = _desc
     unit_uid = _unit_uid
+
+func _to_string() -> String:
+    return "CardData name=%s id=%d type=%d [instance=%d]" % \
+    [card_name, card_id, card_type, get_instance_id()]

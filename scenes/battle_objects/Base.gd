@@ -1,5 +1,7 @@
 class_name Base
 extends CharacterBody2D
+# TODO consider just extending from Unit, since it's basically a non-moving unit,
+# and we'll likely want to treat it that was for stuff like buffs/debuffs/effects?
 
 ## faction that this entity belongs to (determines what damage collision layers to use)
 @export var entity_type: Unit.EntityType = Unit.EntityType.FRIENDLY
@@ -31,6 +33,7 @@ func _ready() -> void:
     health = max_health
     
     placement_shape.shape.radius = placement_range
+    set_spawn_area_visible(false)
 
 
 ## play death animation and destroy object
@@ -42,7 +45,6 @@ func die() -> void:
 
 
 func take_damage(damage: int) -> void:
-    print(name, " taking damage")
     health -= damage
     if health <= 0:
         die()
@@ -54,3 +56,8 @@ func take_damage(damage: int) -> void:
     get_tree().create_timer(0.2).timeout.connect(func():
         sprite.modulate = Color(1, 1, 1, 1)
     )
+
+
+## sets visibility of the spawn area
+func set_spawn_area_visible(visible: bool) -> void:
+    placement_zone.visible = visible

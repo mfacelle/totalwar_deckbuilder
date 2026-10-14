@@ -44,13 +44,13 @@ func _ready() -> void:
 
 
 func _on_mouse_entered() -> void:
-    if battle_state == BattleSignalManager.BattleState.RUNNING:
+    if BattleSignalManager.is_running_state(battle_state):
         animate_offset(hover_offset)
         card_highlighted = true
     
 
 func _on_mouse_exited() -> void:
-    if battle_state == BattleSignalManager.BattleState.RUNNING:
+    if BattleSignalManager.is_running_state(battle_state):
         animate_offset(normal_offset)
         card_highlighted = false
 
@@ -60,8 +60,7 @@ func animate_offset(target_offset: Vector2) -> void:
     if tween and tween.is_valid():
         tween.kill()
     
-    create_tween()
-    tween = get_tree().create_tween()
+    tween = create_tween()
     tween.set_ease(Tween.EASE_OUT)
     tween.set_trans(Tween.TRANS_BACK)
     tween.tween_property(self, "offset_transform_position", target_offset, hover_offset_duration)
@@ -69,11 +68,8 @@ func animate_offset(target_offset: Vector2) -> void:
 
 ## when card is selected, allow for holding it to be played
 func _on_gui_input(event: InputEvent) -> void:
-    # TODO use proper input handling
-    if event is InputEventMouseButton and \
-    event.button_index == MOUSE_BUTTON_LEFT and \
-    event.pressed and \
-    battle_state == BattleSignalManager.BattleState.RUNNING:
+    if event.is_action_pressed("LeftClick") and \
+    BattleSignalManager.is_running_state(battle_state):
         if card_held == self:
             # if this card is currently held, and this original spot is selected again, put it back (by unhiding it)
             card_background.show()
@@ -84,11 +80,16 @@ func _on_gui_input(event: InputEvent) -> void:
             BattleSignalManager.card_held.emit(null)
             
         elif card_highlighted and not card_held:
-            # if this card is selected and we're not currently holding another card, allow holding this one
+            # if this card is selected (highlighted) and we're not currently holding another card, allow holding this one
             # temporarily hide card from UI, but keep it in place in container
             # TODO consider making transparent (and show background only?), so it's clear where to place the card back
             card_background.hide()
             card_details.hide()
             
+            # TODO add a "card swap" mechanism, to swap held cards if another is selected.
+            # replace card held with card being selected. basically allows reordering of hand (not really necessary, but cool)
+            
             # don't update held card until signal is processed, to avoid weird race condition or multiple rapid inputs
             BattleSignalManager.card_held.emit(self)
+        
+        accept_event()

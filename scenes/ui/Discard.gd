@@ -19,13 +19,15 @@ var battle_state: BattleSignalManager.BattleState = BattleSignalManager.BattleSt
 @export var hover_offset_duration: float = 0.25
 
 
+# TODO having a real state machine would probably be better than if statements everywhere...
+
 func _on_mouse_entered() -> void:
-    if battle_state == BattleSignalManager.BattleState.RUNNING:
+    if BattleSignalManager.is_running_state(battle_state):
         animate_offset(hover_offset)
 
 
 func _on_mouse_exited() -> void:
-    if battle_state == BattleSignalManager.BattleState.RUNNING:
+    if BattleSignalManager.is_running_state(battle_state):
         animate_offset(normal_offset)
 
 
@@ -34,8 +36,7 @@ func animate_offset(target_offset: Vector2) -> void:
     if tween and tween.is_valid():
         tween.kill()
     
-    create_tween()
-    tween = get_tree().create_tween()
+    tween = create_tween()
     tween.set_ease(Tween.EASE_OUT)
     tween.set_trans(Tween.TRANS_BACK)
     tween.tween_property(self, "offset_transform_position", target_offset, hover_offset_duration)
@@ -44,10 +45,10 @@ func animate_offset(target_offset: Vector2) -> void:
 ## if discard is clicked while a card is held, add it to the discard pile
 func _on_gui_input(event: InputEvent) -> void:
     # TODO use proper input handling
-    if event is InputEventMouseButton and \
-    event.button_index == MOUSE_BUTTON_LEFT and \
-    event.pressed and \
+    if event.is_action_pressed("LeftClick") and \
     card_held and \
-    battle_state == BattleSignalManager.BattleState.RUNNING:
+    BattleSignalManager.is_running_state(battle_state):
         # adding to discard will be handled by CardUI (probably not the best way, but it works for now)
         BattleSignalManager.card_discarded.emit(card_held)
+        
+        accept_event()

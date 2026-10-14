@@ -26,19 +26,40 @@ var battle_state: BattleSignalManager.BattleState = BattleSignalManager.BattleSt
 @export var click_duration: float = 0.2
 
 @onready var top_card: Container = $TopCard
+## TODO label is temporary, mainly for debug and trying out new stuf
+@onready var card_count_label: Label = $CardCount
 
 # TODO want to find a way to hide the "additional" cards when deck size gets too small
 # TODO could just @onready them here and check size and set visible, but that feels... bad
 
+# TODO having a real state machine would probably be better than if statements everywhere...
 
 func _on_mouse_entered() -> void:
-    if battle_state == BattleSignalManager.BattleState.RUNNING:
+    if BattleSignalManager.is_running_state(battle_state):
         animate_topcard_offset(hover_offset)
 
 
 func _on_mouse_exited() -> void:
-    if battle_state == BattleSignalManager.BattleState.RUNNING:
+    if BattleSignalManager.is_running_state(battle_state):
         animate_topcard_offset(normal_offset)
+
+
+## sets the card pile for this object
+func set_card_pile(pile: CardPile) -> void:
+    cards = pile
+    card_count_label.text = str(cards.size())
+
+
+## draws a card and updates the label
+func draw_card() -> CardData:
+    var drawn_card = cards.draw()
+    card_count_label.text = str(cards.size())
+    return drawn_card
+
+
+## kind of redundant, but avoids having callers need to access cards on this class
+func is_empty() -> bool:
+    return cards.is_empty()
 
 
 func animate_topcard_offset(target_offset: Vector2) -> void:
@@ -46,8 +67,7 @@ func animate_topcard_offset(target_offset: Vector2) -> void:
     if tween and tween.is_valid():
         tween.kill()
     
-    create_tween()
-    tween = get_tree().create_tween()
+    tween = create_tween()
     tween.set_ease(Tween.EASE_OUT)
     tween.set_trans(Tween.TRANS_BACK)
     tween.tween_property(top_card, "offset_transform_position", target_offset, hover_offset_duration)
@@ -57,11 +77,10 @@ func animate_topcard_offset(target_offset: Vector2) -> void:
 ## when deck is clicked, if hand has free space, draw a card
 ## and play brief animation using tweens
 func _on_gui_input(event: InputEvent) -> void:
-    # TODO use proper input handling
-    if event is InputEventMouseButton and \
-    event.button_index == MOUSE_BUTTON_LEFT and \
-    event.pressed and \
-    battle_state == BattleSignalManager.BattleState.RUNNING:
+    if event.is_action_pressed("LeftClick") and \
+    # allow drawing cards when gameplay running but NOT when a card is currently held
+    BattleSignalManager.is_running_state(battle_state) and \
+    battle_state != BattleSignalManager.BattleState.CARD_HELD:
         if cards.is_empty():
             print("deck is empty, not drawing card")
             # TODO play different animation to show that card was not drawn, like a brief shake or something
@@ -87,7 +106,9 @@ func _on_gui_input(event: InputEvent) -> void:
             tween.tween_property(top_card, "scale", normal_scale, click_duration)
             
             # get top card from deck
-            var drawn_card: CardData = cards.draw()
+            var drawn_card: CardData = draw_card()
             # redundant check, in case deck was empty
             if drawn_card:
                 BattleSignalManager.card_drawn.emit(drawn_card)
+            
+        accept_event()

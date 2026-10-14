@@ -48,6 +48,7 @@ limit_right = 320
 limit_bottom = 180
 
 [node name="test-map" parent="SubViewportContainer/SubViewport" unique_id=794968902 instance=ExtResource("1_0wfyh")]
+debug_mode = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1956318908]
 

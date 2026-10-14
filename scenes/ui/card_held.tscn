@@ -7,21 +7,9 @@
 [sub_resource type="Animation" id="Animation_ra13p"]
 length = 0.001
 
-[sub_resource type="Animation" id="Animation_ulu11"]
-resource_name = "deselect"
-length = 0.2
-step = 0.1
-
-[sub_resource type="Animation" id="Animation_mli0n"]
-resource_name = "select"
-length = 0.2
-step = 0.1
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ulu11"]
 _data = {
-&"RESET": SubResource("Animation_ra13p"),
-&"deselect": SubResource("Animation_ulu11"),
-&"select": SubResource("Animation_mli0n")
+&"RESET": SubResource("Animation_ra13p")
 }
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oflp3"]
@@ -37,6 +25,7 @@ custom_minimum_size = Vector2(100, 128)
 layout_mode = 3
 anchors_preset = 0
 size_flags_horizontal = 3
+offset_transform_enabled = true
 mouse_filter = 2
 script = ExtResource("1_yoeh3")
 

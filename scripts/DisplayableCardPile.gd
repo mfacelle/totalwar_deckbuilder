@@ -13,20 +13,24 @@ var max_size: int = 0
 
 
 ## add cards to this pile, instantiating new scenes for each
-func add_cards(_cards: CardPile):
-    for card in _cards.cards:
-        add_card(card)
+#func add_cards(_cards: CardPile) -> void:
+    #for card in _cards.cards:
+        #add_card(card)
     
 
-## add a card to this pile, by instantiating a new scene
-func add_card(_card: CardData):
-    # TODO check for max size
+## adds a card to the pile, for the provided battle state
+## TODO battle_state is unique to battles, but we might want DisplayableCardPile in non-battle scenes,
+## such as shops or post-battle rewards, etc
+func add_card(card: CardData, battle_state: BattleSignalManager.BattleState) -> bool:
+    if is_full():
+        return false
+
     var card_tmp = Card.BASE_CARD_SCENE.instantiate() as Card
-    card_tmp.card_id = _card.card_id
-    # assuming this card is added when the game is running (TODO may not always be a valid assumption)
-    card_tmp.battle_state = BattleSignalManager.BattleState.RUNNING
+    card_tmp.card_id = card.card_id
+    card_tmp.battle_state = battle_state
     cards.append(card_tmp)
     add_child(card_tmp)
+    return true
 
 
 ## removes a card, using a reference to an actual Card instance
@@ -40,10 +44,3 @@ func is_full() -> bool:
         return false
     else:
         return true
-
-
-# functionality needed:
-# - get next card
-# - add to end
-# - shuffle
-# - remove/pick cards, by index or reference (for random vs intentional)

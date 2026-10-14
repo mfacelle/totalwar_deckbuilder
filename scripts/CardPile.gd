@@ -30,12 +30,14 @@ func draw() -> CardData:
     return cards.pop_back()
 
 
-func append(card_data: CardData) -> void:
-    cards.append(card_data)
+func size() -> int:
+    return cards.size()
 
 
-# functionality needed:
-# - get next card
-# - add to end
-# - shuffle
-# - remove/pick cards, by index or reference (for random vs intentional)
+## appends to end of this pile, if there's room. Returns success/failure
+func append(card_data: CardData) -> bool:
+    if cards.size() < max_size:
+        cards.append(card_data)
+        return true
+    else:
+        return false
