@@ -32,6 +32,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="StartButton" type="Button" parent="StartButtonControl" unique_id=1868810161]
 custom_minimum_size = Vector2(200, 100)
@@ -59,6 +60,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="Panel" type="PanelContainer" parent="InstructionsControl" unique_id=681338467]
 custom_minimum_size = Vector2(850, 200)
@@ -70,6 +72,7 @@ offset_left = -321.0
 offset_right = 321.0
 offset_bottom = 111.0
 grow_horizontal = 2
+mouse_filter = 2
 
 [node name="Label" type="Label" parent="InstructionsControl/Panel" unique_id=1038030693]
 layout_mode = 2
