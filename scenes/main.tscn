@@ -75,6 +75,6 @@ anchor_right = 1.0
 offset_left = -126.0
 offset_bottom = 23.0
 grow_horizontal = 0
-text = "PROTOTYPE  v0.01 "
+text = "PROTOTYPE  v0.02"
 label_settings = SubResource("LabelSettings_dfsep")
 horizontal_alignment = 2
