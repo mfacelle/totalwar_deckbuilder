@@ -51,6 +51,13 @@ func attack() -> void:
 func die() -> void:
     # TODO do nothing, for now
     print("Base ", name, " destroyed!")
+    
+    # TODO probably a better way to do this
+    if entity_type == Unit.EntityType.FRIENDLY:
+        BattleSignalManager.base_destroyed.emit()
+    else:
+        BattleSignalManager.enemy_base_destroyed.emit()
+    
     queue_free()
 
 

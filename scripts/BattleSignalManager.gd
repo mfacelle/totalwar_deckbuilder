@@ -10,7 +10,8 @@ enum BattleState
     RUNNING, # basic run state
     PAUSED, # basic pause state
     CARD_HELD, # holding a card (paused gameplay, but inputs/actions valid)
-    END # battle ended (paused), cleanup, etc
+    END_VICTORY, # battle ended and player won
+    END_DEFEAT # battle ended and player lost
 }
 
 
@@ -48,3 +49,9 @@ signal card_placement_fail(card: Card)
 
 ## indicates the state of gameplay needs to change
 signal battle_state_update(new_state: BattleState)
+
+## TODO temporary function, probably want a differnet signal/method for checking battle end conditions
+signal base_destroyed()
+
+## TODO temporary function, probably want a differnet signal/method for checking battle end conditions
+signal enemy_base_destroyed()

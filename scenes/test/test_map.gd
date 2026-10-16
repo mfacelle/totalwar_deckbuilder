@@ -33,6 +33,8 @@ func _ready() -> void:
     BattleSignalManager.card_held.connect(_on_card_held)
     BattleSignalManager.play_card.connect(_on_play_card)
     BattleSignalManager.battle_state_update.connect(_on_battle_state_update)
+    BattleSignalManager.base_destroyed.connect(_on_base_destroyed)
+    BattleSignalManager.enemy_base_destroyed.connect(_on_enemy_base_destroyed)
     
     # TODO this is apparently necessary... don't understand why the declaration above doesn't keep it null
     card_held = null
@@ -103,6 +105,14 @@ func spawn_friendly_unit(unit: PackedScene, _position: Vector2) -> void:
         units.add_child(new_unit)
         
         friendly_spawn_index += 1
+
+## TODO kind of temporary signal for handling battle end
+func _on_base_destroyed() -> void:
+    BattleSignalManager.battle_state_update.emit(BattleSignalManager.BattleState.END_DEFEAT)
+
+## TODO kind of temporary signal for handling battle end
+func _on_enemy_base_destroyed() -> void:
+    BattleSignalManager.battle_state_update.emit(BattleSignalManager.BattleState.END_VICTORY)
 
 # -----
 

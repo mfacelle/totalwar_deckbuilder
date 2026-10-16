@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://dv4dd6g04xi4f"]
+
+[ext_resource type="Script" uid="uid://lv3ouiewv0k5" path="res://scenes/battle_ui/BattleStartButton.gd" id="1_2hywk"]
+[ext_resource type="FontFile" uid="uid://ct44inwnt5upx" path="res://assets/fonts/Silver.ttf" id="1_uu5og"]
+[ext_resource type="Script" uid="uid://c13ngcv3sirfl" path="res://scenes/battle_ui/BattleEndPanel.gd" id="3_fntje"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_0goq4"]
+font = ExtResource("1_uu5og")
+font_size = 64
+
+[sub_resource type="LabelSettings" id="LabelSettings_7gmnd"]
+font = ExtResource("1_uu5og")
+font_size = 48
+
+[node name="BattleUI" type="Control" unique_id=774794877]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="StartButton" type="Button" parent="." unique_id=1868810161]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -25.0
+offset_right = 50.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("1_uu5og")
+theme_override_font_sizes/font_size = 48
+text = "START"
+script = ExtResource("1_2hywk")
+
+[node name="BattleEndPanel" type="PanelContainer" parent="." unique_id=295689257]
+custom_minimum_size = Vector2(600, 400)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -200.0
+offset_right = 300.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+script = ExtResource("3_fntje")
+
+[node name="VictoryDefeatLabel" type="Label" parent="BattleEndPanel" unique_id=1683272177]
+layout_mode = 2
+text = "VICTORY"
+label_settings = SubResource("LabelSettings_0goq4")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ExtraLabelControl" type="Control" parent="BattleEndPanel" unique_id=1298161840]
+layout_mode = 2
+
+[node name="ExtraLabel" type="Label" parent="BattleEndPanel/ExtraLabelControl" unique_id=758089650]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -54.0
+offset_right = 300.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "That's all for the protoype.
+Thanks for playing!"
+label_settings = SubResource("LabelSettings_7gmnd")
+horizontal_alignment = 1
+
+[connection signal="pressed" from="StartButton" to="StartButton" method="_on_pressed"]

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cddaw4g4y2ccq"]
 
-[ext_resource type="Script" uid="uid://bggeq3p3msv2h" path="res://scenes/ui/Deck.gd" id="1_grqne"]
+[ext_resource type="Script" uid="uid://bggeq3p3msv2h" path="res://scenes/battle_ui/Deck.gd" id="1_grqne"]
 [ext_resource type="Texture2D" uid="uid://cp52hhnickb6q" path="res://assets/cards/pixelCardAssest_V01.png" id="2_x6pag"]
 [ext_resource type="FontFile" uid="uid://ct44inwnt5upx" path="res://assets/fonts/Silver.ttf" id="3_4v6eh"]
 

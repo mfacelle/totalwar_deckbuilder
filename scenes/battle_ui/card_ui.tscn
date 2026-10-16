@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://db3y5asrafx3v"]
 
-[ext_resource type="Script" uid="uid://cood56au481h6" path="res://scenes/ui/CardUI.gd" id="1_1kpl7"]
-[ext_resource type="PackedScene" uid="uid://cddaw4g4y2ccq" path="res://scenes/ui/deck.tscn" id="3_5rjcn"]
-[ext_resource type="PackedScene" uid="uid://q08ll0ivd4uv" path="res://scenes/ui/card.tscn" id="3_fbbsm"]
+[ext_resource type="Script" uid="uid://cood56au481h6" path="res://scenes/battle_ui/CardUI.gd" id="1_1kpl7"]
+[ext_resource type="PackedScene" uid="uid://cddaw4g4y2ccq" path="res://scenes/battle_ui/deck.tscn" id="3_5rjcn"]
+[ext_resource type="PackedScene" uid="uid://q08ll0ivd4uv" path="res://scenes/battle_ui/card.tscn" id="3_fbbsm"]
 [ext_resource type="Script" uid="uid://l5r8phewvwtf" path="res://scripts/DisplayableCardPile.gd" id="3_wc1mw"]
-[ext_resource type="PackedScene" uid="uid://de7iwhcesdsqg" path="res://scenes/ui/discard.tscn" id="5_5rjcn"]
+[ext_resource type="PackedScene" uid="uid://de7iwhcesdsqg" path="res://scenes/battle_ui/discard.tscn" id="5_5rjcn"]
 
 [node name="CardUI" type="Control" unique_id=1890093579]
 texture_filter = 1

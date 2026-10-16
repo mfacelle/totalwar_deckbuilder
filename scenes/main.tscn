@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://d2j5l46iw1dbp"]
 
 [ext_resource type="PackedScene" uid="uid://dwo4y7dm0xn50" path="res://scenes/test/test_map.tscn" id="1_0wfyh"]
-[ext_resource type="PackedScene" uid="uid://db3y5asrafx3v" path="res://scenes/ui/card_ui.tscn" id="2_sugp2"]
-[ext_resource type="PackedScene" uid="uid://dv4dd6g04xi4f" path="res://scenes/ui/battle_ui.tscn" id="3_sugp2"]
+[ext_resource type="PackedScene" uid="uid://db3y5asrafx3v" path="res://scenes/battle_ui/card_ui.tscn" id="2_sugp2"]
+[ext_resource type="PackedScene" uid="uid://dv4dd6g04xi4f" path="res://scenes/battle_ui/battle_ui.tscn" id="3_sugp2"]
 [ext_resource type="FontFile" uid="uid://ct44inwnt5upx" path="res://assets/fonts/Silver.ttf" id="4_jyhfs"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_dfsep"]
