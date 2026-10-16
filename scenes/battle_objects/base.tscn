@@ -171,8 +171,8 @@ radius = 64.0
 [node name="Base" type="CharacterBody2D" unique_id=66131987]
 y_sort_enabled = true
 script = ExtResource("1_m1nav")
-max_health = 100
 placement_range = 64
+max_health = 100
 
 [node name="Sprite2DShadow" type="Sprite2D" parent="." unique_id=1860236946]
 position = Vector2(-1, -6)

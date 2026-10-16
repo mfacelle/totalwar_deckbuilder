@@ -1,19 +1,11 @@
 class_name Base
-extends CharacterBody2D
+extends Unit
 # TODO consider just extending from Unit, since it's basically a non-moving unit,
 # and we'll likely want to treat it that was for stuff like buffs/debuffs/effects?
 
-## faction that this entity belongs to (determines what damage collision layers to use)
-@export var entity_type: Unit.EntityType = Unit.EntityType.FRIENDLY
-## how much health this base can have
-@export var max_health: int
 ## range for valid placement of units, in pixels
 @export var placement_range: int
 
-var health: int = max_health
-
-@onready var hurt_box: Area2D = $HurtBox
-@onready var sprite = $Sprite2D
 @onready var placement_zone: Area2D = $PlacementZone
 @onready var placement_shape: CollisionShape2D = $PlacementZone/CollisionShape2D
 
@@ -36,6 +28,24 @@ func _ready() -> void:
     set_spawn_area_visible(false)
 
 
+# override base Unit functionality. nothing to do for these functions
+
+func _physics_process(delta: float) -> void:
+    pass
+
+
+func update_animation() -> void:
+    pass
+
+func move(delta: float) -> void:
+    pass
+
+func attack() -> void:
+    pass
+
+
+# override base Unit functionality, with differences for this class
+
 ## play death animation and destroy object
 ## TODO need to trigger some kind of failure condition for battle
 func die() -> void:
@@ -44,19 +54,7 @@ func die() -> void:
     queue_free()
 
 
-func take_damage(damage: int) -> void:
-    health -= damage
-    if health <= 0:
-        die()
-    
-    # tint sprite to show damage effect
-    sprite.modulate = Color(1, 0, 0, 1) 
-    
-    # create simple timer to modulate sprite back to normal
-    get_tree().create_timer(0.2).timeout.connect(func():
-        sprite.modulate = Color(1, 1, 1, 1)
-    )
-
+# functions unique to Base class
 
 ## sets visibility of the spawn area
 func set_spawn_area_visible(visible: bool) -> void:

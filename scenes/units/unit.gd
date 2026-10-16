@@ -64,6 +64,16 @@ enum BehaviorType
 ## how often, in seconds, to periodically search for a closer enemy
 @export var target_update_delay: float
 
+@export_category("Hurt Animation")
+## how long to fade in red hurt animation
+@export var hurt_fadein_duration: float = 0.05
+## how long to fade out red hurt animation
+@export var hurt_fadeout_duration: float = 0.25
+## color modulation for bad placement animation
+@export var hurt_color: Color = Color(1, 0, 0, 1)
+## standard color modulation
+@export var normal_color: Color = Color(1, 1, 1, 1)
+
 var state: State = State.IDLE
 var command: Command = Command.ATTACK
 var target_enemy: Node2D = null
@@ -71,6 +81,7 @@ var attack_ready: bool = true
 var health: int = max_health
 var stuck_timer: float = 0
 var target_update_timer: float = 0
+var tween: Tween
 #var last_position: Vector2
 
 # references to nodes in this object
@@ -276,13 +287,13 @@ func take_damage(damage: int) -> void:
     if health <= 0:
         die()
     
-    # tint sprite to show damage effect
-    sprite.modulate = Color(1, 0, 0, 1) 
-    
-    # create simple timer to modulate sprite back to normal
-    get_tree().create_timer(0.2).timeout.connect(func():
-        sprite.modulate = Color(1, 1, 1, 1)
-    )
+    if tween and tween.is_valid():
+        tween.kill()
+    tween = create_tween()
+    tween.set_ease(Tween.EASE_OUT)
+    tween.set_trans(Tween.TRANS_CIRC)
+    tween.tween_property(self, "modulate", hurt_color, hurt_fadein_duration)
+    tween.tween_property(self, "modulate", normal_color, hurt_fadeout_duration)
 
 
 func _on_hit_box_area_entered(area: Area2D) -> void:
