@@ -1,0 +1,81 @@
+[gd_scene format=3 uid="uid://y1ouvjusauvs"]
+
+[ext_resource type="PackedScene" uid="uid://dn8jjo48ikxux" path="res://scenes/environment_props/tree.tscn" id="1_l70qy"]
+
+[node name="tree_cluster" type="Node2D" unique_id=1652017450]
+y_sort_enabled = true
+
+[node name="tree" parent="." unique_id=1244336835 instance=ExtResource("1_l70qy")]
+position = Vector2(-9, 5)
+
+[node name="tree2" parent="." unique_id=692117005 instance=ExtResource("1_l70qy")]
+position = Vector2(13, -4)
+
+[node name="tree3" parent="." unique_id=356885351 instance=ExtResource("1_l70qy")]
+position = Vector2(9, 7)
+
+[node name="tree4" parent="." unique_id=302342398 instance=ExtResource("1_l70qy")]
+position = Vector2(-18, 0)
+
+[node name="tree5" parent="." unique_id=1135238024 instance=ExtResource("1_l70qy")]
+position = Vector2(19, 5)
+
+[node name="tree6" parent="." unique_id=1190808291 instance=ExtResource("1_l70qy")]
+position = Vector2(29, 2)
+
+[node name="tree7" parent="." unique_id=244049244 instance=ExtResource("1_l70qy")]
+position = Vector2(39, 7)
+
+[node name="tree8" parent="." unique_id=299765033 instance=ExtResource("1_l70qy")]
+position = Vector2(-25, -3)
+
+[node name="tree9" parent="." unique_id=1646774196 instance=ExtResource("1_l70qy")]
+position = Vector2(-36, -9)
+
+[node name="tree10" parent="." unique_id=740332086 instance=ExtResource("1_l70qy")]
+position = Vector2(-41, -16)
+
+[node name="tree11" parent="." unique_id=1603838591 instance=ExtResource("1_l70qy")]
+position = Vector2(47, 5)
+
+[node name="tree12" parent="." unique_id=2125918375 instance=ExtResource("1_l70qy")]
+position = Vector2(51, 1)
+
+[node name="tree13" parent="." unique_id=790836360 instance=ExtResource("1_l70qy")]
+position = Vector2(40, -5)
+
+[node name="tree14" parent="." unique_id=1035961179 instance=ExtResource("1_l70qy")]
+position = Vector2(0, 1)
+
+[node name="tree15" parent="." unique_id=1660868660 instance=ExtResource("1_l70qy")]
+position = Vector2(-3, -7)
+
+[node name="tree16" parent="." unique_id=1961951165 instance=ExtResource("1_l70qy")]
+position = Vector2(-18, -11)
+
+[node name="tree17" parent="." unique_id=935504423 instance=ExtResource("1_l70qy")]
+position = Vector2(-27, -20)
+
+[node name="tree18" parent="." unique_id=1697284924 instance=ExtResource("1_l70qy")]
+position = Vector2(-12, -18)
+
+[node name="tree19" parent="." unique_id=523946402 instance=ExtResource("1_l70qy")]
+position = Vector2(1, -14)
+
+[node name="tree20" parent="." unique_id=1643034646 instance=ExtResource("1_l70qy")]
+position = Vector2(14, -10)
+
+[node name="tree21" parent="." unique_id=773439447 instance=ExtResource("1_l70qy")]
+position = Vector2(24, -7)
+
+[node name="tree22" parent="." unique_id=1177555898 instance=ExtResource("1_l70qy")]
+position = Vector2(55, -11)
+
+[node name="tree23" parent="." unique_id=860760107 instance=ExtResource("1_l70qy")]
+position = Vector2(41, -12)
+
+[node name="tree24" parent="." unique_id=1815715683 instance=ExtResource("1_l70qy")]
+position = Vector2(28, -18)
+
+[node name="tree25" parent="." unique_id=852066412 instance=ExtResource("1_l70qy")]
+position = Vector2(11, -24)

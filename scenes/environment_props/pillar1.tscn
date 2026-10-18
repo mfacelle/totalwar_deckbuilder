@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://d1rllr17o5ibc"]
+
+[ext_resource type="Texture2D" uid="uid://b3bcwniah0o6i" path="res://assets/environment/Minifantasy_ForgottenPlainsPropsShadows.png" id="1_4jnyd"]
+[ext_resource type="Texture2D" uid="uid://ctn600qnrks2y" path="res://assets/environment/Minifantasy_ForgottenPlainsProps.png" id="2_d2w14"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7gmnd"]
+atlas = ExtResource("1_4jnyd")
+region = Rect2(96, 4, 13, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0goq4"]
+atlas = ExtResource("2_d2w14")
+region = Rect2(99, 4, 10, 25)
+
+[node name="pillar1" type="Node2D" unique_id=1652017450]
+y_sort_enabled = true
+
+[node name="shadow" type="Sprite2D" parent="." unique_id=73455614]
+position = Vector2(-1, -11)
+texture = SubResource("AtlasTexture_7gmnd")
+
+[node name="sprite" type="Sprite2D" parent="." unique_id=945835912]
+position = Vector2(0, -11)
+texture = SubResource("AtlasTexture_0goq4")
