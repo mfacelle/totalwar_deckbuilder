@@ -1,0 +1,115 @@
+[gd_scene format=3 uid="uid://8hgvlvqch2m0"]
+
+[ext_resource type="Script" uid="uid://ct73ionlx2ega" path="res://scenes/ui/main_menu_ui/main_menu_ui.gd" id="1_vy54b"]
+[ext_resource type="FontFile" uid="uid://ct44inwnt5upx" path="res://assets/fonts/Silver.ttf" id="2_8fno4"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_bits1"]
+line_spacing = 0.0
+font = ExtResource("2_8fno4")
+font_size = 128
+
+[sub_resource type="LabelSettings" id="LabelSettings_65ve5"]
+font = ExtResource("2_8fno4")
+font_size = 48
+
+[sub_resource type="LabelSettings" id="LabelSettings_sqynh"]
+font = ExtResource("2_8fno4")
+font_size = 32
+font_color = Color(0, 0, 0, 1)
+outline_size = 10
+
+[node name="MainMenuUI" type="Control" unique_id=480227320 node_paths=PackedStringArray("start_button")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vy54b")
+start_scene = &"uid://dwo4y7dm0xn50"
+start_button = NodePath("HBoxContainer/StartButton")
+
+[node name="HBoxContainer" type="VBoxContainer" parent="." unique_id=1573657749]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -359.5
+offset_right = 200.0
+offset_bottom = 359.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="HBoxContainer" unique_id=530704661]
+layout_mode = 2
+size_flags_vertical = 1
+size_flags_stretch_ratio = 5.0
+text = "WIZCARDS"
+label_settings = SubResource("LabelSettings_bits1")
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="HBoxContainer" unique_id=337843976]
+layout_mode = 2
+size_flags_stretch_ratio = 2.0
+text = "(title pending)
+prototype version"
+label_settings = SubResource("LabelSettings_65ve5")
+horizontal_alignment = 1
+
+[node name="StartButton" type="Button" parent="HBoxContainer" unique_id=1132791522]
+custom_minimum_size = Vector2(400, 150)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("2_8fno4")
+theme_override_font_sizes/font_size = 64
+text = "Start"
+
+[node name="OptionsButton" type="Button" parent="HBoxContainer" unique_id=1208434356]
+custom_minimum_size = Vector2(400, 150)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("2_8fno4")
+theme_override_font_sizes/font_size = 64
+text = "Options"
+
+[node name="CreditsButton" type="Button" parent="HBoxContainer" unique_id=790875916]
+custom_minimum_size = Vector2(400, 150)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("2_8fno4")
+theme_override_font_sizes/font_size = 64
+text = "Credits"
+
+[node name="VersionInfo" type="Control" parent="." unique_id=1166289030]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+mouse_filter = 2
+
+[node name="VersionLabel" type="Label" parent="VersionInfo" unique_id=1515029664]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -155.0
+offset_top = -18.5
+offset_bottom = 18.5
+grow_horizontal = 0
+grow_vertical = 2
+text = "version: proto.03"
+label_settings = SubResource("LabelSettings_sqynh")
+horizontal_alignment = 2
+
+[connection signal="pressed" from="HBoxContainer/StartButton" to="." method="_on_start_button_pressed"]

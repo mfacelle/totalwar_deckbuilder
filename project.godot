@@ -19,6 +19,8 @@ config/icon="res://icon.svg"
 
 CardDataManager="*uid://bruc2j6f1ggve"
 BattleSignalManager="*uid://3wgjpdwgmbx"
+SceneLoader="*uid://bwqld4iftc4fx"
+SceneConstants="*uid://c7ino4ww4vqja"
 
 [display]
 
