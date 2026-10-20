@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dfpq74od3vsq7"
-path="res://.godot/imported/navigation_tiles.png-e928959ee05da768b66fa5ec394c82b7.ctex"
+uid="uid://c42gng862rx1v"
+path="res://.godot/imported/Minifantasy_ForgottenPlainsTiles.png-7ebb2f4a0bb85052f7ba3aa9c9080572.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/environment/navigation_tiles.png"
-dest_files=["res://.godot/imported/navigation_tiles.png-e928959ee05da768b66fa5ec394c82b7.ctex"]
+source_file="res://assets/environment/plains/Minifantasy_ForgottenPlainsTiles.png"
+dest_files=["res://.godot/imported/Minifantasy_ForgottenPlainsTiles.png-7ebb2f4a0bb85052f7ba3aa9c9080572.ctex"]
 
 [params]
 

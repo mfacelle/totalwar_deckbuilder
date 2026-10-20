@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c42gng862rx1v"
-path="res://.godot/imported/Minifantasy_ForgottenPlainsTiles.png-8cc68d399cd7d141d5de895d0b38ed85.ctex"
+uid="uid://b3bcwniah0o6i"
+path="res://.godot/imported/Minifantasy_ForgottenPlainsPropsShadows.png-0b1c397d4a144e363d80dce07ebd68a1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/environment/Minifantasy_ForgottenPlainsTiles.png"
-dest_files=["res://.godot/imported/Minifantasy_ForgottenPlainsTiles.png-8cc68d399cd7d141d5de895d0b38ed85.ctex"]
+source_file="res://assets/environment/plains/Minifantasy_ForgottenPlainsPropsShadows.png"
+dest_files=["res://.godot/imported/Minifantasy_ForgottenPlainsPropsShadows.png-0b1c397d4a144e363d80dce07ebd68a1.ctex"]
 
 [params]
 

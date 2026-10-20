@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bvoo7ouhcawwl"
-path="res://.godot/imported/Dualgrid_grass_water_1.png-5c75e4b76a0014cf8ae2786efb904299.ctex"
+uid="uid://bpvf185qi0vdw"
+path="res://.godot/imported/Dualgrid_grass_tallgrass.png-335e61e286117d088b1e494adf117f6b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/environment/dualgrid/Dualgrid_grass_water_1.png"
-dest_files=["res://.godot/imported/Dualgrid_grass_water_1.png-5c75e4b76a0014cf8ae2786efb904299.ctex"]
+source_file="res://assets/environment/plains/dualgrid/Dualgrid_grass_tallgrass.png"
+dest_files=["res://.godot/imported/Dualgrid_grass_tallgrass.png-335e61e286117d088b1e494adf117f6b.ctex"]
 
 [params]
 

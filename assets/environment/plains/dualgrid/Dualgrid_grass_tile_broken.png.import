@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bnob42pvd41kn"
-path="res://.godot/imported/Prop_Shadows.png-42da22cd9f3a83657633bd23be828bb5.ctex"
+uid="uid://bvsr4qjwwi4fs"
+path="res://.godot/imported/Dualgrid_grass_tile_broken.png-5f6d6a8cf16f01570b613ccbbe59256a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/environment/Prop_Shadows.png"
-dest_files=["res://.godot/imported/Prop_Shadows.png-42da22cd9f3a83657633bd23be828bb5.ctex"]
+source_file="res://assets/environment/plains/dualgrid/Dualgrid_grass_tile_broken.png"
+dest_files=["res://.godot/imported/Dualgrid_grass_tile_broken.png-5f6d6a8cf16f01570b613ccbbe59256a.ctex"]
 
 [params]
 

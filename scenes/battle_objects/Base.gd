@@ -30,14 +30,14 @@ func _ready() -> void:
 
 # override base Unit functionality. nothing to do for these functions
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
     pass
 
 
 func update_animation() -> void:
     pass
 
-func move(delta: float) -> void:
+func move(_delta: float) -> void:
     pass
 
 func attack() -> void:
@@ -47,16 +47,15 @@ func attack() -> void:
 # override base Unit functionality, with differences for this class
 
 ## play death animation and destroy object
-## TODO need to trigger some kind of failure condition for battle
+## TODO need a better way to trigger victory/defeat conditions for battle.
+## TODO what if player or enemy has multiple bases? what about other win conditions?
 func die() -> void:
-    # TODO do nothing, for now
     print("Base ", name, " destroyed!")
     
-    # TODO probably a better way to do this
     if entity_type == Unit.EntityType.FRIENDLY:
-        BattleSignalManager.base_destroyed.emit()
+        BattleSignalManager.defeat.emit()
     else:
-        BattleSignalManager.enemy_base_destroyed.emit()
+        BattleSignalManager.victory.emit()
     
     queue_free()
 
@@ -64,5 +63,5 @@ func die() -> void:
 # functions unique to Base class
 
 ## sets visibility of the spawn area
-func set_spawn_area_visible(visible: bool) -> void:
-    placement_zone.visible = visible
+func set_spawn_area_visible(spawn_visible: bool) -> void:
+    placement_zone.visible = spawn_visible

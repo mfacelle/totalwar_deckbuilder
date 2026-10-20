@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://gktkup3f7jpp"
-path="res://.godot/imported/Dualgrid_dirt_tile.png-edaaaabaa22ab4049f14431b5b0c797c.ctex"
+uid="uid://jghr7noqmjyy"
+path="res://.godot/imported/Dualgrid_dirt_tile_broken.png-b9841938292ec3e4468687c416b33f94.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/environment/dualgrid/Dualgrid_dirt_tile.png"
-dest_files=["res://.godot/imported/Dualgrid_dirt_tile.png-edaaaabaa22ab4049f14431b5b0c797c.ctex"]
+source_file="res://assets/environment/plains/dualgrid/Dualgrid_dirt_tile_broken.png"
+dest_files=["res://.godot/imported/Dualgrid_dirt_tile_broken.png-b9841938292ec3e4468687c416b33f94.ctex"]
 
 [params]
 
