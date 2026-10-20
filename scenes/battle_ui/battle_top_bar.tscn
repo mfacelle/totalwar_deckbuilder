@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://b1xfki6dwn03h"]
+
+[ext_resource type="FontFile" uid="uid://ct44inwnt5upx" path="res://assets/fonts/Silver.ttf" id="1_xrx5n"]
+[ext_resource type="Script" uid="uid://xsrq1j3rispe" path="res://scenes/battle_ui/battle_pause_button.gd" id="2_2vsb6"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_dfsep"]
+font = ExtResource("1_xrx5n")
+font_size = 40
+
+[node name="BattleTopBar" type="Control" unique_id=1752126761]
+layout_mode = 3
+anchor_right = 1.0
+anchor_bottom = 0.05
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MapNameLabel" type="Label" parent="." unique_id=667368225]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Battle on the prototype plains"
+label_settings = SubResource("LabelSettings_dfsep")
+
+[node name="PauseButton" type="Button" parent="." unique_id=1479135844]
+custom_minimum_size = Vector2(100, 25)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -25.0
+offset_right = 100.0
+offset_bottom = 25.0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("1_xrx5n")
+theme_override_font_sizes/font_size = 32
+text = "PAUSE"
+script = ExtResource("2_2vsb6")
+
+[connection signal="pressed" from="PauseButton" to="PauseButton" method="_on_pressed"]

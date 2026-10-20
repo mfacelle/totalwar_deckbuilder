@@ -1,13 +1,14 @@
 [gd_scene format=3 uid="uid://d2j5l46iw1dbp"]
 
-[ext_resource type="PackedScene" uid="uid://dwo4y7dm0xn50" path="res://scenes/test/test_map.tscn" id="1_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://dwo4y7dm0xn50" path="res://scenes/maps/test_map.tscn" id="1_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://db3y5asrafx3v" path="res://scenes/battle_ui/card_ui.tscn" id="2_sugp2"]
+[ext_resource type="PackedScene" uid="uid://b1xfki6dwn03h" path="res://scenes/battle_ui/battle_top_bar.tscn" id="2_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://dv4dd6g04xi4f" path="res://scenes/battle_ui/battle_ui.tscn" id="3_sugp2"]
 [ext_resource type="FontFile" uid="uid://ct44inwnt5upx" path="res://assets/fonts/Silver.ttf" id="4_jyhfs"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_dfsep"]
 font = ExtResource("4_jyhfs")
-font_size = 48
+font_size = 32
 font_color = Color(0, 0, 0, 1)
 outline_size = 10
 
@@ -24,6 +25,7 @@ size_flags_vertical = 3
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=651338410]
 layout_mode = 1
 anchors_preset = -1
+anchor_top = 0.05
 anchor_right = 1.0
 anchor_bottom = 0.9
 grow_horizontal = 2
@@ -38,7 +40,7 @@ snap_2d_transforms_to_pixel = true
 canvas_item_default_texture_filter = 0
 audio_listener_enable_2d = true
 physics_object_picking = true
-size = Vector2i(320, 162)
+size = Vector2i(320, 153)
 render_target_update_mode = 4
 
 [node name="Camera2D" type="Camera2D" parent="SubViewportContainer/SubViewport" unique_id=1745207918]
@@ -51,6 +53,8 @@ limit_bottom = 180
 debug_mode = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1956318908]
+
+[node name="BattleTopBar" parent="CanvasLayer" unique_id=1752126761 instance=ExtResource("2_tbgi4")]
 
 [node name="CardUI" parent="CanvasLayer" unique_id=1890093579 instance=ExtResource("2_sugp2")]
 mouse_filter = 2
@@ -69,12 +73,16 @@ mouse_filter = 2
 
 [node name="VersionLabel" type="Label" parent="CanvasLayer/VersionInfo" unique_id=1971342939]
 layout_mode = 1
-anchors_preset = 1
+anchors_preset = 6
 anchor_left = 1.0
+anchor_top = 0.5
 anchor_right = 1.0
-offset_left = -126.0
-offset_bottom = 23.0
+anchor_bottom = 0.5
+offset_left = -155.0
+offset_top = -18.5
+offset_bottom = 18.5
 grow_horizontal = 0
-text = "PROTOTYPE  v0.02"
+grow_vertical = 2
+text = "version: proto.03"
 label_settings = SubResource("LabelSettings_dfsep")
 horizontal_alignment = 2

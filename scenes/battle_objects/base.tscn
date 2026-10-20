@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://da50lydrupyk4"]
 
-[ext_resource type="Texture2D" uid="uid://bnob42pvd41kn" path="res://assets/environment/Prop_Shadows.png" id="1_gnkvd"]
+[ext_resource type="Texture2D" uid="uid://bnob42pvd41kn" path="res://assets/environment/dungeon/Prop_Shadows.png" id="1_gnkvd"]
 [ext_resource type="Script" uid="uid://bfagqevhd47r7" path="res://scenes/battle_objects/Base.gd" id="1_m1nav"]
-[ext_resource type="Texture2D" uid="uid://vse0773ustd" path="res://assets/environment/Props.png" id="2_gnkvd"]
+[ext_resource type="Texture2D" uid="uid://vse0773ustd" path="res://assets/environment/dungeon/Props.png" id="2_gnkvd"]
 [ext_resource type="Script" uid="uid://cpsqnqevcigw8" path="res://scenes/battle_objects/SpawnArea.gd" id="4_lcu0q"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m1nav"]
@@ -165,6 +165,9 @@ radius = 3.0
 radius = 4.0
 height = 12.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lcu0q"]
+size = Vector2(3.875, 3.453125)
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_dfsep"]
 radius = 64.0
 
@@ -195,6 +198,9 @@ parameters/move/TimeScale/scale = 1.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=287896922]
 shape = SubResource("CircleShape2D_7m1gr")
 
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=464520364]
+process_mode = 4
+
 [node name="HurtBox" type="Area2D" parent="." unique_id=1613794597]
 collision_layer = 0
 collision_mask = 0
@@ -203,6 +209,18 @@ monitoring = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=755951583]
 position = Vector2(0, -5)
 shape = SubResource("CapsuleShape2D_gnkvd")
+
+[node name="HitBox" type="Area2D" parent="." unique_id=1879735897]
+collision_layer = 0
+collision_mask = 0
+input_pickable = false
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=235935841]
+position = Vector2(5, -3)
+shape = SubResource("RectangleShape2D_lcu0q")
+disabled = true
 
 [node name="PlacementZone" type="Area2D" parent="." unique_id=1313853298]
 z_index = 1

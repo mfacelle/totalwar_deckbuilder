@@ -1778,6 +1778,14 @@ parameters/move/TimeScale/scale = 1.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=287896922]
 shape = SubResource("CircleShape2D_7m1gr")
 
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1914106546]
+path_desired_distance = 2.0
+target_desired_distance = 6.0
+path_postprocessing = 1
+avoidance_enabled = true
+radius = 2.0
+neighbor_distance = 50.0
+
 [node name="HurtBox" type="Area2D" parent="." unique_id=1613794597]
 collision_layer = 0
 collision_mask = 0
@@ -1786,14 +1794,6 @@ monitoring = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=755951583]
 position = Vector2(0, -3)
 shape = SubResource("CircleShape2D_2julr")
-
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1914106546]
-path_desired_distance = 2.0
-target_desired_distance = 6.0
-path_postprocessing = 1
-avoidance_enabled = true
-radius = 2.0
-neighbor_distance = 50.0
 
 [node name="HitBox" type="Area2D" parent="." unique_id=102542729]
 collision_layer = 0

@@ -5,7 +5,6 @@ extends Node
 # global card definitions
 # TODO notes and changes to make, eventually:
 # - load this info from a config file (csv/json?)
-# - use a map to store all cards, and fetch based on card name or something?
 var cards: Dictionary[CardData.CardId, CardData] = {
     CardData.CardId.GOBLIN: CardData.new(CardData.CardId.GOBLIN,
         CardData.CardType.UNIT,

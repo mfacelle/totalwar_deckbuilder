@@ -44,7 +44,7 @@ func _process(_delta: float) -> void:
     global_position = get_global_mouse_position()
 
 
-func _on_card_placement_fail(card: Card) -> void:
+func _on_card_placement_fail(_card: Card) -> void:
     animate_bad_placement()
 
 

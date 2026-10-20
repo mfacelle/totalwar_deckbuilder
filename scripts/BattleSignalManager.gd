@@ -51,7 +51,7 @@ signal card_placement_fail(card: Card)
 signal battle_state_update(new_state: BattleState)
 
 ## TODO temporary function, probably want a differnet signal/method for checking battle end conditions
-signal base_destroyed()
+signal defeat()
 
 ## TODO temporary function, probably want a differnet signal/method for checking battle end conditions
-signal enemy_base_destroyed()
+signal victory()

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://biabwrw2pqpcv"
-path="res://.godot/imported/Minifantasy_ForgottenPlainsTilesShadows.png-011d65fa100e37dc54aca9b8f29def9c.ctex"
+uid="uid://jghr7noqmjyy"
+path="res://.godot/imported/Dualgrid_dirt_tile_broken.png-b9841938292ec3e4468687c416b33f94.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/environment/Minifantasy_ForgottenPlainsTilesShadows.png"
-dest_files=["res://.godot/imported/Minifantasy_ForgottenPlainsTilesShadows.png-011d65fa100e37dc54aca9b8f29def9c.ctex"]
+source_file="res://assets/environment/plains/dualgrid/Dualgrid_dirt_tile_broken.png"
+dest_files=["res://.godot/imported/Dualgrid_dirt_tile_broken.png-b9841938292ec3e4468687c416b33f94.ctex"]
 
 [params]
 

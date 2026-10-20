@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b3bcwniah0o6i"
-path="res://.godot/imported/Minifantasy_ForgottenPlainsPropsShadows.png-9a8faba97d5d376afa6d9618d72b8d24.ctex"
+uid="uid://bvoo7ouhcawwl"
+path="res://.godot/imported/Dualgrid_grass_water_1.png-e1fd55cb0f7252fd22bcc7c3bf2e0a23.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/environment/Minifantasy_ForgottenPlainsPropsShadows.png"
-dest_files=["res://.godot/imported/Minifantasy_ForgottenPlainsPropsShadows.png-9a8faba97d5d376afa6d9618d72b8d24.ctex"]
+source_file="res://assets/environment/plains/dualgrid/Dualgrid_grass_water_1.png"
+dest_files=["res://.godot/imported/Dualgrid_grass_water_1.png-e1fd55cb0f7252fd22bcc7c3bf2e0a23.ctex"]
 
 [params]
 
