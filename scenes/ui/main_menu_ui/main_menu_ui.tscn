@@ -27,6 +27,9 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_vy54b")
 start_scene = &"uid://dwo4y7dm0xn50"
+card_ui_scene = &"uid://db3y5asrafx3v"
+battle_controls_ui_scene = &"uid://dv4dd6g04xi4f"
+battle_top_bar_ui_scene = &"uid://b1xfki6dwn03h"
 start_button = NodePath("HBoxContainer/StartButton")
 
 [node name="HBoxContainer" type="VBoxContainer" parent="." unique_id=1573657749]
