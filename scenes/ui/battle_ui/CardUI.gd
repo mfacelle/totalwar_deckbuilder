@@ -2,7 +2,11 @@ class_name CardUI
 extends Control
 
 @export_category("Params")
-@export var card_scene: PackedScene
+## base scene to use for cards displayed
+@export var card_scene_uid: PackedScene
+## base scene to use for held cards being played
+@export var card_held_scene: PackedScene
+
 
 @export_category("Initialization")
 # TODO some of this will likely be replaced by tweens to animate card drawing
@@ -94,7 +98,8 @@ func _on_card_held(new_card: Card) -> void:
         # return to running state now that card is no longer held
         BattleSignalManager.battle_state_update.emit(BattleSignalManager.BattleState.RUNNING)
     else:
-        var new_card_held = CardHeld.BASE_CARD_HELD_SCENE.instantiate()
+        # instantiate CardHeld scene and add to card holder node
+        var new_card_held: CardHeld = card_held_scene.instantiate() as CardHeld
         new_card_held.card_id = card_held.card_id
         card_holder.add_child(new_card_held)
         

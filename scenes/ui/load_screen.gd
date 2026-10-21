@@ -9,8 +9,7 @@ func _ready() -> void:
     loading_screen_ready.emit()
 
 
-func _on_progress_changed(_new_value:float) -> void:
-    # TODO progress bar or something
+func _on_progress_changed(_new_value: float) -> void:
     pass
 
 

@@ -28,12 +28,12 @@ enum SceneType {
 
 ## loading screen scene
 ## TODO may not always want this, i.e. if loading just a map or something?
-var loading_screen: PackedScene = preload("uid://ctmue1buij8b2")
+var loading_screen_scene: PackedScene = preload("uid://ctmue1buij8b2")
 
 ## path to scene to be loaded, mapped to their target nodes
 var loading_requests: Dictionary[String, Node] = {}
-## progress returned by load functions
-var progress: Array = []
+## active loading screen node, or null if not present
+var load_screen: Node = null
 ## option to use sub threads
 var use_sub_threads: bool = true
 
@@ -50,35 +50,26 @@ func load_scene(scene_path: String, scene_type: SceneType) -> void:
     
     print("loading scene=", scene_path, "; target=", loading_requests[scene_path] )
     
-    # TODO disabling loading screen for now
-    #var new_load_screen = loading_screen.instantiate()
-    #add_child(new_load_screen)
-    #progress_changed.connect(new_load_screen._on_progress_changed)
-    #load_finished.connect(new_load_screen._on_load_finished)
-    #
-    #await new_load_screen.loading_screen_ready
-    
-    var state = ResourceLoader.load_threaded_request(scene_path, "", use_sub_threads)
-    if state == OK:
-        set_process(true)
-
-
-#func _process(_delta: float) -> void:
-    #var load_status = ResourceLoader.load_threaded_get_status(scene_path, progress)
-    #progress_changed.emit(progress[0])
-    #match load_status:
-        #ResourceLoader.THREAD_LOAD_INVALID_RESOURCE, ResourceLoader.THREAD_LOAD_FAILED:
-            #set_process(false)
-        #ResourceLoader.THREAD_LOAD_LOADED:
-            #loaded_resource = ResourceLoader.load_threaded_get(scene_path)
-            ## TODO this totally blows away the scene tree. don't want that
-            #get_tree().change_scene_to_packed(loaded_resource)
-            #load_finished.emit()
+     # if loading screen not present, set it up. Wait for it to be ready before loading first scene
+    if not load_screen:
+        load_screen = loading_screen_scene.instantiate()
+        add_child(load_screen)
+        progress_changed.connect(load_screen._on_progress_changed)
+        load_finished.connect(load_screen._on_load_finished)
+        
+        await load_screen.loading_screen_ready
+        
+        var state = ResourceLoader.load_threaded_request(scene_path, "", use_sub_threads)
+        if state == OK:
+            set_process(true)
+    else:
+        # loading screen already present, just kick off scene load
+        var state = ResourceLoader.load_threaded_request(scene_path, "", use_sub_threads)
+        if state != OK:
+            printerr("Failed to start loading scene: ", scene_path)
 
 
 ## handle loading requested scenes
-## TODO send signal when all scenes have been loaded.
-## TODO handle instantiation of all scenes once they're all loaded
 func _process(_delta: float) -> void:
     if loading_requests.is_empty():
         set_process(false)
@@ -86,23 +77,34 @@ func _process(_delta: float) -> void:
     
     var completed_paths: Array[String] = []
     
+    var overall_progress: float = 0
+    
     for scene_path in loading_requests.keys():
         var progress: Array = []
         var status = ResourceLoader.load_threaded_get_status(scene_path, progress)
+        overall_progress += progress[0]
         
         match status:
             ResourceLoader.THREAD_LOAD_LOADED:
                 # may want to attach when all are ready
-                var target_node = loading_requests[scene_path]
-                _instantiate_and_attach(scene_path, target_node)
+                #var target_node = loading_requests[scene_path]
+                #_instantiate_and_attach(scene_path, target_node)
                 completed_paths.append(scene_path)
-                print("loaded ", scene_path)
             ResourceLoader.THREAD_LOAD_FAILED, ResourceLoader.THREAD_LOAD_INVALID_RESOURCE:
                 printerr("Failed to load scene: ", scene_path)
+                ## TODO probably not the best way to handle this, but keeps us from being stuck loading
                 completed_paths.append(scene_path)
     
-    for path in completed_paths:
-        loading_requests.erase(path)
+    # report overall loading progress
+    progress_changed.emit(overall_progress / loading_requests.size())
+    
+    # if all loading tasks are done, instantiate scenes and attach to nodes
+    if completed_paths.size() == loading_requests.size():
+        print("instantiating scenes")
+        for scene_path in loading_requests.keys():
+            _instantiate_and_attach(scene_path, loading_requests[scene_path])
+            loading_requests.erase(scene_path)
+            load_finished.emit()
 
 
 func _instantiate_and_attach(scene_path: String, target_node: Node) -> void:
