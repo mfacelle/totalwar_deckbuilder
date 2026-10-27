@@ -22,7 +22,29 @@ outline_size = 10
 font = ExtResource("2_8fno4")
 font_size = 48
 
-[node name="MainMenuUI" type="Control" unique_id=480227320 node_paths=PackedStringArray("start_button", "opt_temp_text")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dfsep"]
+bg_color = Color(0.23, 0.23, 0.23, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_omb5t"]
+font = ExtResource("2_8fno4")
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_vy54b"]
+font = ExtResource("2_8fno4")
+font_size = 64
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_omb5t"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="LabelSettings" id="LabelSettings_8fno4"]
+font = ExtResource("2_8fno4")
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_ylvls"]
+font = ExtResource("2_8fno4")
+font_size = 48
+
+[node name="MainMenuUI" type="Control" unique_id=480227320 node_paths=PackedStringArray("start_button", "opt_temp_text", "credits_panel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -37,6 +59,7 @@ battle_controls_ui_scene = &"uid://dv4dd6g04xi4f"
 battle_top_bar_ui_scene = &"uid://b1xfki6dwn03h"
 start_button = NodePath("HBoxContainer/StartButton")
 opt_temp_text = NodePath("TempOptionsText")
+credits_panel = NodePath("CreditsPanel")
 
 [node name="HBoxContainer" type="VBoxContainer" parent="." unique_id=1573657749]
 layout_mode = 1
@@ -136,5 +159,83 @@ offset_bottom = 54.0
 text = "No options yet!"
 label_settings = SubResource("LabelSettings_dfsep")
 
+[node name="CreditsPanel" type="Control" parent="." unique_id=1661898167]
+layout_mode = 1
+anchor_left = 0.15
+anchor_top = 0.15
+anchor_right = 0.85
+anchor_bottom = 0.85
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+
+[node name="CreditsBg" type="Panel" parent="CreditsPanel" unique_id=851617381]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dfsep")
+
+[node name="LabelsContainer" type="VBoxContainer" parent="CreditsPanel" unique_id=552348190]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.2
+anchor_top = 0.1
+anchor_right = 0.8
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="DevelopedByLabel" type="Label" parent="CreditsPanel/LabelsContainer" unique_id=479531244]
+layout_mode = 2
+text = "Game developed by"
+label_settings = SubResource("LabelSettings_omb5t")
+horizontal_alignment = 1
+
+[node name="MyNameLabel" type="Label" parent="CreditsPanel/LabelsContainer" unique_id=887800393]
+layout_mode = 2
+text = "Mike P Facelle"
+label_settings = SubResource("LabelSettings_vy54b")
+horizontal_alignment = 1
+
+[node name="Spacer" type="Panel" parent="CreditsPanel/LabelsContainer" unique_id=217232268]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_omb5t")
+
+[node name="ArtByLabel" type="Label" parent="CreditsPanel/LabelsContainer" unique_id=2008141734]
+layout_mode = 2
+text = "Art assets"
+label_settings = SubResource("LabelSettings_8fno4")
+horizontal_alignment = 1
+
+[node name="ArtAuthorLabel" type="Label" parent="CreditsPanel/LabelsContainer" unique_id=971111243]
+layout_mode = 2
+text = "Minifantasy by Krishna Palacio"
+label_settings = SubResource("LabelSettings_ylvls")
+horizontal_alignment = 1
+
+[node name="Spacer2" type="Panel" parent="CreditsPanel/LabelsContainer" unique_id=116320285]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_omb5t")
+
+[node name="CreditsCloseButton" type="Button" parent="CreditsPanel/LabelsContainer" unique_id=1947446032]
+custom_minimum_size = Vector2(200, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("2_8fno4")
+theme_override_font_sizes/font_size = 48
+text = "Close"
+
 [connection signal="pressed" from="HBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/OptionsButton" to="." method="_on_options_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/CreditsButton" to="." method="_on_credits_button_pressed"]
+[connection signal="pressed" from="CreditsPanel/LabelsContainer/CreditsCloseButton" to="." method="_on_credits_close_button_pressed"]
