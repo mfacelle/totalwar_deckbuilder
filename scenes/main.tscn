@@ -1,16 +1,6 @@
 [gd_scene format=3 uid="uid://d2j5l46iw1dbp"]
 
-[ext_resource type="PackedScene" uid="uid://dwo4y7dm0xn50" path="res://scenes/maps/test_map.tscn" id="1_0wfyh"]
-[ext_resource type="PackedScene" uid="uid://db3y5asrafx3v" path="res://scenes/battle_ui/card_ui.tscn" id="2_sugp2"]
-[ext_resource type="PackedScene" uid="uid://b1xfki6dwn03h" path="res://scenes/battle_ui/battle_top_bar.tscn" id="2_tbgi4"]
-[ext_resource type="PackedScene" uid="uid://dv4dd6g04xi4f" path="res://scenes/battle_ui/battle_ui.tscn" id="3_sugp2"]
-[ext_resource type="FontFile" uid="uid://ct44inwnt5upx" path="res://assets/fonts/Silver.ttf" id="4_jyhfs"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_dfsep"]
-font = ExtResource("4_jyhfs")
-font_size = 32
-font_color = Color(0, 0, 0, 1)
-outline_size = 10
+[ext_resource type="PackedScene" uid="uid://8hgvlvqch2m0" path="res://scenes/ui/main_menu_ui/main_menu_ui.tscn" id="1_o5qli"]
 
 [node name="Main" type="Control" unique_id=1865051769]
 layout_mode = 3
@@ -22,7 +12,7 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=651338410]
+[node name="WorldContainer" type="SubViewportContainer" parent="." unique_id=651338410]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.05
@@ -33,7 +23,7 @@ grow_vertical = 2
 stretch = true
 stretch_shrink = 6
 
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=764773173]
+[node name="SubViewport" type="SubViewport" parent="WorldContainer" unique_id=764773173]
 disable_3d = true
 handle_input_locally = false
 snap_2d_transforms_to_pixel = true
@@ -43,46 +33,21 @@ physics_object_picking = true
 size = Vector2i(320, 153)
 render_target_update_mode = 4
 
-[node name="Camera2D" type="Camera2D" parent="SubViewportContainer/SubViewport" unique_id=1745207918]
+[node name="Camera2D" type="Camera2D" parent="WorldContainer/SubViewport" unique_id=1745207918]
 limit_left = 0
 limit_top = 0
 limit_right = 320
 limit_bottom = 180
 
-[node name="test-map" parent="SubViewportContainer/SubViewport" unique_id=794968902 instance=ExtResource("1_0wfyh")]
-debug_mode = true
+[node name="World" type="Node2D" parent="WorldContainer/SubViewport" unique_id=1919335051]
+unique_name_in_owner = true
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1956318908]
+[node name="UI" type="CanvasLayer" parent="." unique_id=1956318908]
+unique_name_in_owner = true
 
-[node name="BattleTopBar" parent="CanvasLayer" unique_id=1752126761 instance=ExtResource("2_tbgi4")]
+[node name="MainMenuUI" parent="UI" unique_id=480227320 instance=ExtResource("1_o5qli")]
 
-[node name="CardUI" parent="CanvasLayer" unique_id=1890093579 instance=ExtResource("2_sugp2")]
-mouse_filter = 2
+[node name="TransitionsUI" type="CanvasLayer" parent="." unique_id=1848663255]
+unique_name_in_owner = true
 
-[node name="BattleUI" parent="CanvasLayer" unique_id=774794877 instance=ExtResource("3_sugp2")]
-
-[node name="VersionInfo" type="Control" parent="CanvasLayer" unique_id=192458811]
-layout_mode = 3
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -40.0
-offset_bottom = 40.0
-grow_horizontal = 0
-mouse_filter = 2
-
-[node name="VersionLabel" type="Label" parent="CanvasLayer/VersionInfo" unique_id=1971342939]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -155.0
-offset_top = -18.5
-offset_bottom = 18.5
-grow_horizontal = 0
-grow_vertical = 2
-text = "version: proto.03"
-label_settings = SubResource("LabelSettings_dfsep")
-horizontal_alignment = 2
+[node name="PersistentData" type="Node" parent="." unique_id=719811203]

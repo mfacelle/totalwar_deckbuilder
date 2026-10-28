@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b1xfki6dwn03h"]
 
 [ext_resource type="FontFile" uid="uid://ct44inwnt5upx" path="res://assets/fonts/Silver.ttf" id="1_xrx5n"]
-[ext_resource type="Script" uid="uid://xsrq1j3rispe" path="res://scenes/battle_ui/battle_pause_button.gd" id="2_2vsb6"]
+[ext_resource type="Script" uid="uid://xsrq1j3rispe" path="res://scenes/ui/battle_ui/battle_pause_button.gd" id="2_2vsb6"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_dfsep"]
 font = ExtResource("1_xrx5n")

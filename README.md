@@ -5,13 +5,11 @@ Prototype game built with Godot that is a deckbuilding real-time-strategy (RTS) 
 
 
 # Current state
-Still very much in the prototype stage.  Some basic unit logic, where friendly units find and navigate towards enemy units, and attack them, including a "base" unit that will eventually function as a potential win/loss condition.  
+Still very much in the prototype stage, but getting a bit further along.  Added some basic menus and a single battle, which has basic win/loss conditions if you or the enemy destroy the other's base.
 
-For debugging, can place more enemy units with right mouse click.
+Includes some basic card management.  Able to draw cards from a deck, play them, and discard them.  Playing cards will spawn more friendly units.  Planning to eventually create two or three basic decks to select from when starting the game.
 
-Also included some simple card management stuff.  Able to draw cards from a deck, play them, and discard them.  Playing cards will spawn more friendly units.  Currently no restrictions on drawing/placement/discarding.
-
-No title screen or menus yet.  Will work on scene loading logic and other screens once I iron out some details in the test battle map.
+For debugging, if enabled in the inspector, can place more enemy units with right mouse click.
 
 
 # Assets

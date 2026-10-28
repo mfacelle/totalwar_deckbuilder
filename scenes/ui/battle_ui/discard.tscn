@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://de7iwhcesdsqg"]
 
-[ext_resource type="Script" uid="uid://d232s3tox3yx5" path="res://scenes/battle_ui/Discard.gd" id="1_kelet"]
+[ext_resource type="Script" uid="uid://d232s3tox3yx5" path="res://scenes/ui/battle_ui/Discard.gd" id="1_kelet"]
 [ext_resource type="Texture2D" uid="uid://cp52hhnickb6q" path="res://assets/cards/pixelCardAssest_V01.png" id="2_dbrm1"]
 [ext_resource type="FontFile" uid="uid://ct44inwnt5upx" path="res://assets/fonts/Silver.ttf" id="3_dbrm1"]
 
