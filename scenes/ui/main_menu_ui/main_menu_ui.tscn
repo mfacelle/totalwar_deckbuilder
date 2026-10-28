@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://ct73ionlx2ega" path="res://scenes/ui/main_menu_ui/main_menu_ui.gd" id="1_vy54b"]
 [ext_resource type="FontFile" uid="uid://ct44inwnt5upx" path="res://assets/fonts/Silver.ttf" id="2_8fno4"]
+[ext_resource type="StyleBox" uid="uid://dbyf7xd8mltlo" path="res://resources/ui/panel_background_styletex.tres" id="2_ylvls"]
+[ext_resource type="Script" uid="uid://b13lhvvf47dst" path="res://scenes/ui/main_menu_ui/scalable_ui.gd" id="4_ylvls"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_bits1"]
 line_spacing = 0.0
@@ -21,9 +23,6 @@ outline_size = 10
 [sub_resource type="LabelSettings" id="LabelSettings_dfsep"]
 font = ExtResource("2_8fno4")
 font_size = 48
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dfsep"]
-bg_color = Color(0.23, 0.23, 0.23, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_omb5t"]
 font = ExtResource("2_8fno4")
@@ -61,6 +60,15 @@ start_button = NodePath("HBoxContainer/StartButton")
 opt_temp_text = NodePath("TempOptionsText")
 credits_panel = NodePath("CreditsPanel")
 
+[node name="Background" type="Panel" parent="." unique_id=42086609]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("2_ylvls")
+
 [node name="HBoxContainer" type="VBoxContainer" parent="." unique_id=1573657749]
 layout_mode = 1
 anchors_preset = 8
@@ -92,7 +100,7 @@ label_settings = SubResource("LabelSettings_65ve5")
 horizontal_alignment = 1
 
 [node name="StartButton" type="Button" parent="HBoxContainer" unique_id=1132791522]
-custom_minimum_size = Vector2(400, 150)
+custom_minimum_size = Vector2(400, 100)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -101,7 +109,7 @@ theme_override_font_sizes/font_size = 64
 text = "Start"
 
 [node name="OptionsButton" type="Button" parent="HBoxContainer" unique_id=1208434356]
-custom_minimum_size = Vector2(400, 150)
+custom_minimum_size = Vector2(400, 100)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -110,7 +118,7 @@ theme_override_font_sizes/font_size = 64
 text = "Options"
 
 [node name="CreditsButton" type="Button" parent="HBoxContainer" unique_id=790875916]
-custom_minimum_size = Vector2(400, 150)
+custom_minimum_size = Vector2(400, 100)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -120,9 +128,10 @@ text = "Credits"
 
 [node name="VersionInfo" type="Control" parent="." unique_id=1166289030]
 layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
+anchor_left = 0.99
+anchor_top = 0.01
+anchor_right = 0.99
+anchor_bottom = 0.01
 offset_left = -40.0
 offset_bottom = 40.0
 grow_horizontal = 0
@@ -177,7 +186,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_dfsep")
 
 [node name="LabelsContainer" type="VBoxContainer" parent="CreditsPanel" unique_id=552348190]
 layout_mode = 1
@@ -234,6 +242,8 @@ size_flags_vertical = 4
 theme_override_fonts/font = ExtResource("2_8fno4")
 theme_override_font_sizes/font_size = 48
 text = "Close"
+script = ExtResource("4_ylvls")
+tile_scale = 4.0
 
 [connection signal="pressed" from="HBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/OptionsButton" to="." method="_on_options_button_pressed"]

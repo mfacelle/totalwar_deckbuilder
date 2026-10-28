@@ -5,12 +5,18 @@
 [ext_resource type="PackedScene" uid="uid://q08ll0ivd4uv" path="res://scenes/ui/battle_ui/card.tscn" id="3_fbbsm"]
 [ext_resource type="Script" uid="uid://l5r8phewvwtf" path="res://scripts/DisplayableCardPile.gd" id="3_wc1mw"]
 [ext_resource type="PackedScene" uid="uid://dd8kcd5vk6my6" path="res://scenes/ui/battle_ui/card_held.tscn" id="3_xvfc5"]
+[ext_resource type="StyleBox" uid="uid://d3rpbjroftr6b" path="res://resources/ui/panel_bottom_styletex.tres" id="4_6mef3"]
 [ext_resource type="PackedScene" uid="uid://de7iwhcesdsqg" path="res://scenes/ui/battle_ui/discard.tscn" id="5_5rjcn"]
+[ext_resource type="Texture2D" uid="uid://bbn1hthjh6lyn" path="res://assets/ui/Stylized_UI.png" id="5_o1jos"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_omb5t"]
+atlas = ExtResource("5_o1jos")
+region = Rect2(310, 179, 5, 42)
 
 [node name="CardUI" type="Control" unique_id=1890093579]
 texture_filter = 1
 layout_mode = 3
-anchor_top = 0.9
+anchor_top = 0.89
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -18,6 +24,15 @@ grow_vertical = 2
 script = ExtResource("1_1kpl7")
 card_scene_uid = ExtResource("3_fbbsm")
 card_held_scene = ExtResource("3_xvfc5")
+
+[node name="BackgroundPanel" type="Panel" parent="." unique_id=2063958750]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("4_6mef3")
 
 [node name="CardContainer" type="HBoxContainer" parent="." unique_id=97532024]
 layout_mode = 1
@@ -35,20 +50,40 @@ layout_mode = 2
 [node name="Deck" parent="CardContainer/DeckContainer" unique_id=598480527 instance=ExtResource("3_5rjcn")]
 layout_mode = 2
 
-[node name="Panel" type="Panel" parent="CardContainer" unique_id=137713883]
-custom_minimum_size = Vector2(50, 100)
+[node name="Spacer1" type="Control" parent="CardContainer" unique_id=1475363991]
+custom_minimum_size = Vector2(50, 120)
 layout_mode = 2
 size_flags_vertical = 4
+
+[node name="TextureRect" type="TextureRect" parent="CardContainer/Spacer1" unique_id=403464620]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_omb5t")
+stretch_mode = 5
 
 [node name="HandContainer" type="HBoxContainer" parent="CardContainer" unique_id=66270717]
 layout_mode = 2
 size_flags_stretch_ratio = 4.0
 script = ExtResource("3_wc1mw")
 
-[node name="Panel2" type="Panel" parent="CardContainer" unique_id=1128139346]
-custom_minimum_size = Vector2(50, 100)
+[node name="Spacer2" type="Control" parent="CardContainer" unique_id=1710295460]
+custom_minimum_size = Vector2(50, 120)
 layout_mode = 2
 size_flags_vertical = 4
+
+[node name="TextureRect" type="TextureRect" parent="CardContainer/Spacer2" unique_id=80067380]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_omb5t")
+stretch_mode = 5
 
 [node name="DiscardContainer" type="MarginContainer" parent="CardContainer" unique_id=265078577]
 layout_mode = 2
@@ -57,4 +92,5 @@ layout_mode = 2
 layout_mode = 2
 offset_transform_position = Vector2(0, 32)
 
-[node name="CardHolder" type="Node2D" parent="." unique_id=393578896]
+[node name="CardHolder" type="Control" parent="." unique_id=649042296]
+anchors_preset = 0

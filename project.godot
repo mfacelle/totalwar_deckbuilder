@@ -40,6 +40,10 @@ enemies=""
 units=""
 navigation_layers=""
 
+[gui]
+
+theme/custom="uid://daeesyg6ohlds"
+
 [input]
 
 LeftClick={

@@ -16,12 +16,19 @@ extends Control
 ## standard color modulation
 @export var normal_color: Color = Color(1, 1, 1, 1)
 
+@export_category("Parameters")
+## offset from top-left corner of cursor
+@export var position_offset: Vector2 = Vector2(8.0, 8.0)
+
 @onready var card_data: CardData = CardDataManager.cards[card_id]
 @onready var card_background: TextureRect = $CardBackground/TextureRect
 @onready var image: TextureRect = $CardDetails/Image
 
 var card_id: CardData.CardId
 var tween: Tween
+
+# store mouse position to make cards lag behind mouse slightly
+var last_mouse_position: Vector2 = Vector2(0, 0)
 
 
 func _ready() -> void:
@@ -35,8 +42,11 @@ func _ready() -> void:
     BattleSignalManager.card_placement_fail.connect(_on_card_placement_fail)
 
 
+## update the card position, but lag behind the mouse by a frame,
+## to make it look like the card is being dragged a bit
 func _process(_delta: float) -> void:
-    global_position = get_global_mouse_position()
+    global_position = last_mouse_position
+    last_mouse_position = get_global_mouse_position() + position_offset
 
 
 func _on_card_placement_fail(_card: Card) -> void:

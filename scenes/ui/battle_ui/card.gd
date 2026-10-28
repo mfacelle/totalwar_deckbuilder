@@ -1,9 +1,6 @@
 class_name Card
 extends Control
 
-## base scene to use for cards (TODO may want to make this more dynamic later)
-const BASE_CARD_SCENE: PackedScene = preload("uid://q08ll0ivd4uv")
-
 ## id of this card, for creating objects
 @export var card_id: CardData.CardId
 ## how far to offset the card when hovering over it

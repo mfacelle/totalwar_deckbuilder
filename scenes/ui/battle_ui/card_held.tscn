@@ -23,11 +23,13 @@ region = Rect2(8, 8, 16, 16)
 [node name="CardHeld" type="Control" unique_id=1729805897]
 custom_minimum_size = Vector2(100, 128)
 layout_mode = 3
-anchors_preset = 0
+offset_right = 100.0
+offset_bottom = 128.0
 size_flags_horizontal = 3
 offset_transform_enabled = true
 mouse_filter = 2
 script = ExtResource("1_yoeh3")
+position_offset = Vector2(10, 10)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=755748169]
 libraries/ = SubResource("AnimationLibrary_ulu11")

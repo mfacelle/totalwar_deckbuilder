@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://b1xfki6dwn03h"]
 
+[ext_resource type="StyleBox" uid="uid://clihgdow5dho8" path="res://resources/ui/panel_top_styletex.tres" id="1_5g6fw"]
 [ext_resource type="FontFile" uid="uid://ct44inwnt5upx" path="res://assets/fonts/Silver.ttf" id="1_xrx5n"]
 [ext_resource type="Script" uid="uid://xsrq1j3rispe" path="res://scenes/ui/battle_ui/battle_pause_button.gd" id="2_2vsb6"]
 
@@ -10,9 +11,18 @@ font_size = 40
 [node name="BattleTopBar" type="Control" unique_id=1752126761]
 layout_mode = 3
 anchor_right = 1.0
-anchor_bottom = 0.05
+anchor_bottom = 0.06
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="." unique_id=1331461669]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("1_5g6fw")
 
 [node name="MapNameLabel" type="Label" parent="." unique_id=667368225]
 layout_mode = 1

@@ -1,0 +1,13 @@
+[gd_resource type="StyleBoxTexture" format=3 uid="uid://ke2u12ixotmv"]
+
+[ext_resource type="Script" uid="uid://hbg62pjjco0p" path="res://resources/ui/tex_scaler.gd" id="1_6gqwx"]
+[ext_resource type="Texture2D" uid="uid://cvbwh232u2yvq" path="res://resources/ui/panel_top_atlastex.tres" id="2_iyhp8"]
+
+[resource]
+texture = ExtResource("2_iyhp8")
+texture_margin_left = 16.0
+texture_margin_top = 8.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+script = ExtResource("1_6gqwx")
+texture_scale = 4

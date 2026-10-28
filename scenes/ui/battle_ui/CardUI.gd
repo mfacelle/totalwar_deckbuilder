@@ -16,7 +16,7 @@ extends Control
 @export var start_delay: float = 0.5
 
 @onready var hand: DisplayableCardPile = $CardContainer/HandContainer
-@onready var card_holder: Node2D = $CardHolder
+@onready var card_holder: Control = $CardHolder
 @onready var deck: Deck = $CardContainer/DeckContainer/Deck
 @onready var discard: Discard = $CardContainer/DiscardContainer/Discard
 

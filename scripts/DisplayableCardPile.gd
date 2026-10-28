@@ -2,6 +2,9 @@ class_name DisplayableCardPile
 extends Container
 
 
+## base scene to use for cards (TODO may want to make this more dynamic later)
+const BASE_CARD_SCENE: PackedScene = preload("uid://q08ll0ivd4uv")
+
 # represents a "pile" of displayable cards, such a the hand.
 # cards here include PackedScene instances and can be displayed.
 # could also be used for shops
@@ -25,7 +28,7 @@ func add_card(card: CardData, battle_state: BattleSignalManager.BattleState) -> 
     if is_full():
         return false
 
-    var card_tmp = Card.BASE_CARD_SCENE.instantiate() as Card
+    var card_tmp = BASE_CARD_SCENE.instantiate() as Card
     card_tmp.card_id = card.card_id
     card_tmp.battle_state = battle_state
     cards.append(card_tmp)
