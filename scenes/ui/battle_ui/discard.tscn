@@ -1,55 +1,48 @@
 [gd_scene format=3 uid="uid://de7iwhcesdsqg"]
 
 [ext_resource type="Script" uid="uid://d232s3tox3yx5" path="res://scenes/ui/battle_ui/Discard.gd" id="1_kelet"]
-[ext_resource type="Texture2D" uid="uid://cp52hhnickb6q" path="res://assets/cards/pixelCardAssest_V01.png" id="2_dbrm1"]
-[ext_resource type="FontFile" uid="uid://ct44inwnt5upx" path="res://assets/fonts/Silver.ttf" id="3_dbrm1"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2julr"]
-atlas = ExtResource("2_dbrm1")
-region = Rect2(133, 4, 100, 128)
-
-[sub_resource type="LabelSettings" id="LabelSettings_dfsep"]
-font = ExtResource("3_dbrm1")
-font_size = 128
+[ext_resource type="Texture2D" uid="uid://xg01tn62g28m" path="res://resources/ui/cards/discard_card_atlastex.tres" id="2_5ywn0"]
 
 [node name="Discard" type="Control" unique_id=598480527]
-custom_minimum_size = Vector2(150, 192)
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -1770.0
-offset_bottom = -888.0
 grow_horizontal = 2
 grow_vertical = 2
 offset_transform_enabled = true
 script = ExtResource("1_kelet")
 
-[node name="TopCard" type="MarginContainer" parent="." unique_id=900430683]
+[node name="NinePatchRect" type="NinePatchRect" parent="." unique_id=1198449340]
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-offset_transform_enabled = true
+texture = ExtResource("2_5ywn0")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
 
-[node name="TextureRect" type="TextureRect" parent="TopCard" unique_id=836221742]
-layout_mode = 2
-size_flags_horizontal = 3
-offset_transform_position = Vector2(0, -100)
-texture = SubResource("AtlasTexture_2julr")
-stretch_mode = 5
-
-[node name="Label" type="Label" parent="." unique_id=1126154486]
+[node name="Label" type="Label" parent="NinePatchRect" unique_id=1126154486]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.0
+offset_top = -71.0
+offset_right = 75.0
+offset_bottom = 71.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_font_sizes/font_size = 64
 text = "x"
-label_settings = SubResource("LabelSettings_dfsep")
 horizontal_alignment = 1
 vertical_alignment = 1
 

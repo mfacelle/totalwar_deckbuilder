@@ -1,17 +1,18 @@
 [gd_resource type="Theme" format=3 uid="uid://daeesyg6ohlds"]
 
 [ext_resource type="FontFile" uid="uid://ct44inwnt5upx" path="res://assets/fonts/Silver.ttf" id="1_6j2vj"]
-[ext_resource type="StyleBox" uid="uid://iqgujpftyqqb" path="res://resources/ui/button_hover_styletex.tres" id="2_c81e6"]
-[ext_resource type="StyleBox" uid="uid://crt0dsioyasbd" path="res://resources/ui/button_hover_pressed_styletex.tres" id="3_qifxt"]
-[ext_resource type="StyleBox" uid="uid://dymyyghl5jicx" path="res://resources/ui/button_normal_styletex.tres" id="4_nec7p"]
-[ext_resource type="StyleBox" uid="uid://l4ft3a8ndege" path="res://resources/ui/button_pressed_styletex.tres" id="5_ksx1j"]
-[ext_resource type="StyleBox" uid="uid://dqfounx7emxam" path="res://resources/ui/panel_styletex.tres" id="6_v4fw3"]
+[ext_resource type="StyleBox" uid="uid://iqgujpftyqqb" path="res://resources/ui/general/button_hover_styletex.tres" id="2_c81e6"]
+[ext_resource type="StyleBox" uid="uid://crt0dsioyasbd" path="res://resources/ui/general/button_hover_pressed_styletex.tres" id="3_qifxt"]
+[ext_resource type="StyleBox" uid="uid://dymyyghl5jicx" path="res://resources/ui/general/button_normal_styletex.tres" id="4_nec7p"]
+[ext_resource type="StyleBox" uid="uid://l4ft3a8ndege" path="res://resources/ui/general/button_pressed_styletex.tres" id="5_ksx1j"]
+[ext_resource type="StyleBox" uid="uid://dqfounx7emxam" path="res://resources/ui/general/panel_styletex.tres" id="6_v4fw3"]
 
 [resource]
 default_font = ExtResource("1_6j2vj")
 default_font_size = 24
 Button/colors/font_color = Color(0.2901961, 1, 0.8352941, 1)
 Button/colors/font_outline_color = Color(0.09651666, 0.081, 0.1, 1)
+Button/constants/outline_size = 10
 Button/font_sizes/font_size = 24
 Button/fonts/font = ExtResource("1_6j2vj")
 Button/styles/hover = ExtResource("2_c81e6")
@@ -20,7 +21,8 @@ Button/styles/normal = ExtResource("4_nec7p")
 Button/styles/pressed = ExtResource("5_ksx1j")
 Label/colors/font_color = Color(0.29000002, 1, 0.8343333, 1)
 Label/colors/font_outline_color = Color(0.09651666, 0.081, 0.1, 1)
-Label/font_sizes/font_size = 24
+Label/constants/outline_size = 10
+Label/font_sizes/font_size = 32
 Label/fonts/font = ExtResource("1_6j2vj")
 Panel/styles/panel = ExtResource("6_v4fw3")
 PanelContainer/styles/panel = ExtResource("6_v4fw3")

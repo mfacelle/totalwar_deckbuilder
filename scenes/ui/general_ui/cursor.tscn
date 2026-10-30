@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://cvdkhbiworfgn"]
 
 [ext_resource type="Script" uid="uid://cn4wfqpkmdiru" path="res://scenes/ui/general_ui/cursor.gd" id="1_ib3fd"]
-[ext_resource type="Texture2D" uid="uid://yrmo1jsvuy23" path="res://assets/ui/cursor.png" id="2_mi54t"]
-[ext_resource type="Texture2D" uid="uid://cxy74dr17yel6" path="res://assets/ui/cursor_clicked.png" id="3_n7gwi"]
+[ext_resource type="Texture2D" uid="uid://yrmo1jsvuy23" path="res://assets/ui/cursor/cursor.png" id="2_mi54t"]
+[ext_resource type="Texture2D" uid="uid://cxy74dr17yel6" path="res://assets/ui/cursor/cursor_clicked.png" id="3_n7gwi"]
 
 [node name="Cursor" type="Control" unique_id=1894844399 node_paths=PackedStringArray("cursor_image")]
-custom_minimum_size = Vector2(48, 48)
+custom_minimum_size = Vector2(40, 40)
 layout_mode = 3
 anchors_preset = 0
 offset_right = 8.0

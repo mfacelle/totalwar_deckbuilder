@@ -2,46 +2,10 @@
 
 [ext_resource type="Script" uid="uid://ct73ionlx2ega" path="res://scenes/ui/main_menu_ui/main_menu_ui.gd" id="1_vy54b"]
 [ext_resource type="FontFile" uid="uid://ct44inwnt5upx" path="res://assets/fonts/Silver.ttf" id="2_8fno4"]
-[ext_resource type="StyleBox" uid="uid://dbyf7xd8mltlo" path="res://resources/ui/panel_background_styletex.tres" id="2_ylvls"]
-[ext_resource type="Script" uid="uid://b13lhvvf47dst" path="res://scenes/ui/main_menu_ui/scalable_ui.gd" id="4_ylvls"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_bits1"]
-line_spacing = 0.0
-font = ExtResource("2_8fno4")
-font_size = 128
-
-[sub_resource type="LabelSettings" id="LabelSettings_65ve5"]
-font = ExtResource("2_8fno4")
-font_size = 48
-
-[sub_resource type="LabelSettings" id="LabelSettings_sqynh"]
-font = ExtResource("2_8fno4")
-font_size = 32
-font_color = Color(0, 0, 0, 1)
-outline_size = 10
-
-[sub_resource type="LabelSettings" id="LabelSettings_dfsep"]
-font = ExtResource("2_8fno4")
-font_size = 48
-
-[sub_resource type="LabelSettings" id="LabelSettings_omb5t"]
-font = ExtResource("2_8fno4")
-font_size = 32
-
-[sub_resource type="LabelSettings" id="LabelSettings_vy54b"]
-font = ExtResource("2_8fno4")
-font_size = 64
+[ext_resource type="StyleBox" uid="uid://dbyf7xd8mltlo" path="res://resources/ui/general/panel_background_styletex.tres" id="2_ylvls"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_omb5t"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
-
-[sub_resource type="LabelSettings" id="LabelSettings_8fno4"]
-font = ExtResource("2_8fno4")
-font_size = 32
-
-[sub_resource type="LabelSettings" id="LabelSettings_ylvls"]
-font = ExtResource("2_8fno4")
-font_size = 48
 
 [node name="MainMenuUI" type="Control" unique_id=480227320 node_paths=PackedStringArray("start_button", "opt_temp_text", "credits_panel")]
 layout_mode = 3
@@ -53,9 +17,7 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_vy54b")
 start_scene = &"uid://dwo4y7dm0xn50"
-card_ui_scene = &"uid://db3y5asrafx3v"
-battle_controls_ui_scene = &"uid://dv4dd6g04xi4f"
-battle_top_bar_ui_scene = &"uid://b1xfki6dwn03h"
+battle_ui_scene = &"uid://xdj4oq6oe4js"
 start_button = NodePath("HBoxContainer/StartButton")
 opt_temp_text = NodePath("TempOptionsText")
 credits_panel = NodePath("CreditsPanel")
@@ -82,21 +44,22 @@ offset_right = 200.0
 offset_bottom = 359.5
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 16
 
 [node name="TitleLabel" type="Label" parent="HBoxContainer" unique_id=530704661]
 layout_mode = 2
 size_flags_vertical = 1
 size_flags_stretch_ratio = 5.0
+theme_override_font_sizes/font_size = 128
 text = "WIZCARDS"
-label_settings = SubResource("LabelSettings_bits1")
 horizontal_alignment = 1
 
 [node name="SubtitleLabel" type="Label" parent="HBoxContainer" unique_id=337843976]
 layout_mode = 2
 size_flags_stretch_ratio = 2.0
+theme_override_font_sizes/font_size = 48
 text = "(title pending)
 prototype version"
-label_settings = SubResource("LabelSettings_65ve5")
 horizontal_alignment = 1
 
 [node name="StartButton" type="Button" parent="HBoxContainer" unique_id=1132791522]
@@ -149,8 +112,8 @@ offset_top = -18.5
 offset_bottom = 18.5
 grow_horizontal = 0
 grow_vertical = 2
-text = "version: proto.03"
-label_settings = SubResource("LabelSettings_sqynh")
+theme_override_constants/outline_size = 10
+text = "version: proto.04"
 horizontal_alignment = 2
 
 [node name="TempOptionsText" type="Control" parent="." unique_id=240174211]
@@ -165,8 +128,8 @@ offset_transform_enabled = true
 layout_mode = 0
 offset_right = 212.0
 offset_bottom = 54.0
+theme_override_font_sizes/font_size = 48
 text = "No options yet!"
-label_settings = SubResource("LabelSettings_dfsep")
 
 [node name="CreditsPanel" type="Control" parent="." unique_id=1661898167]
 layout_mode = 1
@@ -201,13 +164,12 @@ mouse_filter = 2
 [node name="DevelopedByLabel" type="Label" parent="CreditsPanel/LabelsContainer" unique_id=479531244]
 layout_mode = 2
 text = "Game developed by"
-label_settings = SubResource("LabelSettings_omb5t")
 horizontal_alignment = 1
 
 [node name="MyNameLabel" type="Label" parent="CreditsPanel/LabelsContainer" unique_id=887800393]
 layout_mode = 2
+theme_override_font_sizes/font_size = 64
 text = "Mike P Facelle"
-label_settings = SubResource("LabelSettings_vy54b")
 horizontal_alignment = 1
 
 [node name="Spacer" type="Panel" parent="CreditsPanel/LabelsContainer" unique_id=217232268]
@@ -219,13 +181,12 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_omb5t")
 [node name="ArtByLabel" type="Label" parent="CreditsPanel/LabelsContainer" unique_id=2008141734]
 layout_mode = 2
 text = "Art assets"
-label_settings = SubResource("LabelSettings_8fno4")
 horizontal_alignment = 1
 
 [node name="ArtAuthorLabel" type="Label" parent="CreditsPanel/LabelsContainer" unique_id=971111243]
 layout_mode = 2
+theme_override_font_sizes/font_size = 48
 text = "Minifantasy by Krishna Palacio"
-label_settings = SubResource("LabelSettings_ylvls")
 horizontal_alignment = 1
 
 [node name="Spacer2" type="Panel" parent="CreditsPanel/LabelsContainer" unique_id=116320285]
@@ -242,8 +203,6 @@ size_flags_vertical = 4
 theme_override_fonts/font = ExtResource("2_8fno4")
 theme_override_font_sizes/font_size = 48
 text = "Close"
-script = ExtResource("4_ylvls")
-tile_scale = 4.0
 
 [connection signal="pressed" from="HBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/OptionsButton" to="." method="_on_options_button_pressed"]

@@ -15,10 +15,14 @@ extends Control
 ## delay after drawing all cards before officially starting battle
 @export var start_delay: float = 0.5
 
-@onready var hand: DisplayableCardPile = $CardContainer/HandContainer
-@onready var card_holder: Control = $CardHolder
-@onready var deck: Deck = $CardContainer/DeckContainer/Deck
-@onready var discard: Discard = $CardContainer/DiscardContainer/Discard
+@export_category("Node References")
+@export var hand: DisplayableCardPile
+@export var card_holder: Control
+@export var deck: Deck
+@export var discard: Discard
+
+@export_category("(TEMP) Card Info")
+@export var default_hand_size: int = 4
 
 # data container for card ui. manages hand of cards, selected/held cards, etc
 
@@ -54,7 +58,7 @@ func _ready() -> void:
         #CardDataManager.cards[CardData.CardId.WOLF],
         #CardDataManager.cards[CardData.CardId.WARG] ],
         #5)
-    var hand_card_pile: CardPile = CardPile.new([], 5)
+    var hand_card_pile: CardPile = CardPile.new([], default_hand_size)
     #hand.add_cards(hand_card_pile)
     hand.max_size = hand_card_pile.max_size
     

@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://cadkfnj60woh3"]
+
+[ext_resource type="StyleBox" uid="uid://tnk273od27e0" path="res://resources/ui/battle_addl_controls/panel_addl_info_styletex.tres" id="1_sma8f"]
+[ext_resource type="StyleBox" uid="uid://bdoysfqefac3r" path="res://resources/ui/battle_addl_controls/panel_addl_controls_styletex.tres" id="2_sma8f"]
+
+[node name="FullScreen" type="Control" unique_id=1752126761]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="AddlControlsArea" type="Control" parent="." unique_id=1412324486]
+layout_mode = 1
+anchor_left = 0.8
+anchor_top = 0.9
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="InfoPanel" type="Panel" parent="AddlControlsArea" unique_id=1331461669]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("1_sma8f")
+
+[node name="ControlsPanel" type="Panel" parent="AddlControlsArea" unique_id=288198618]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_styles/panel = ExtResource("2_sma8f")

@@ -5,92 +5,102 @@
 [ext_resource type="PackedScene" uid="uid://q08ll0ivd4uv" path="res://scenes/ui/battle_ui/card.tscn" id="3_fbbsm"]
 [ext_resource type="Script" uid="uid://l5r8phewvwtf" path="res://scripts/DisplayableCardPile.gd" id="3_wc1mw"]
 [ext_resource type="PackedScene" uid="uid://dd8kcd5vk6my6" path="res://scenes/ui/battle_ui/card_held.tscn" id="3_xvfc5"]
-[ext_resource type="StyleBox" uid="uid://d3rpbjroftr6b" path="res://resources/ui/panel_bottom_styletex.tres" id="4_6mef3"]
+[ext_resource type="StyleBox" uid="uid://d3rpbjroftr6b" path="res://resources/ui/card_ui/panel_cards_hand_styletex.tres" id="4_6mef3"]
 [ext_resource type="PackedScene" uid="uid://de7iwhcesdsqg" path="res://scenes/ui/battle_ui/discard.tscn" id="5_5rjcn"]
-[ext_resource type="Texture2D" uid="uid://bbn1hthjh6lyn" path="res://assets/ui/Stylized_UI.png" id="5_o1jos"]
+[ext_resource type="StyleBox" uid="uid://1us025abc1ff" path="res://resources/ui/card_ui/panel_cards_bumpout_styletex.tres" id="5_ifmq2"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_omb5t"]
-atlas = ExtResource("5_o1jos")
-region = Rect2(310, 179, 5, 42)
-
-[node name="CardUI" type="Control" unique_id=1890093579]
+[node name="CardUI" type="Control" unique_id=1890093579 node_paths=PackedStringArray("hand", "card_holder", "deck", "discard")]
 texture_filter = 1
 layout_mode = 3
-anchor_top = 0.89
-anchor_right = 1.0
+anchor_top = 0.925
+anchor_right = 0.58
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_1kpl7")
 card_scene_uid = ExtResource("3_fbbsm")
 card_held_scene = ExtResource("3_xvfc5")
+hand = NodePath("HBoxContainer/CardHandPanel/MarginContainer/HandContainer")
+card_holder = NodePath("CardHolder")
+deck = NodePath("HBoxContainer/DeckBumpoutPanel/MarginContainer/DeckDiscardContainer/DeckContainer/Deck")
+discard = NodePath("HBoxContainer/DeckBumpoutPanel/MarginContainer/DeckDiscardContainer/DiscardContainer/Discard")
 
-[node name="BackgroundPanel" type="Panel" parent="." unique_id=2063958750]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=180466168]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -200.0
+offset_right = 879.0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="DeckBumpoutPanel" type="Panel" parent="HBoxContainer" unique_id=2088399806]
+custom_minimum_size = Vector2(180, 280)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("5_ifmq2")
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/DeckBumpoutPanel" unique_id=1991596020]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 8
+
+[node name="DeckDiscardContainer" type="VBoxContainer" parent="HBoxContainer/DeckBumpoutPanel/MarginContainer" unique_id=562548321]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 32
+alignment = 2
+
+[node name="DeckContainer" type="MarginContainer" parent="HBoxContainer/DeckBumpoutPanel/MarginContainer/DeckDiscardContainer" unique_id=1527929737]
+custom_minimum_size = Vector2(100, 128)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Deck" parent="HBoxContainer/DeckBumpoutPanel/MarginContainer/DeckDiscardContainer/DeckContainer" unique_id=598480527 instance=ExtResource("3_5rjcn")]
+layout_mode = 2
+
+[node name="DiscardContainer" type="MarginContainer" parent="HBoxContainer/DeckBumpoutPanel/MarginContainer/DeckDiscardContainer" unique_id=265078577]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Discard" parent="HBoxContainer/DeckBumpoutPanel/MarginContainer/DeckDiscardContainer/DiscardContainer" unique_id=1497012775 instance=ExtResource("5_5rjcn")]
+layout_mode = 2
+
+[node name="CardHandPanel" type="Panel" parent="HBoxContainer" unique_id=2063958750]
+custom_minimum_size = Vector2(650, 64)
+layout_mode = 2
+size_flags_vertical = 8
+mouse_filter = 2
 theme_override_styles/panel = ExtResource("4_6mef3")
 
-[node name="CardContainer" type="HBoxContainer" parent="." unique_id=97532024]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/CardHandPanel" unique_id=2111308001]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.025
-anchor_top = 0.025
-anchor_right = 0.975
-anchor_bottom = 0.975
-grow_horizontal = 2
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -96.0
+offset_right = 628.0
+offset_bottom = 96.0
 grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
 
-[node name="DeckContainer" type="MarginContainer" parent="CardContainer" unique_id=1527929737]
-layout_mode = 2
-
-[node name="Deck" parent="CardContainer/DeckContainer" unique_id=598480527 instance=ExtResource("3_5rjcn")]
-layout_mode = 2
-
-[node name="Spacer1" type="Control" parent="CardContainer" unique_id=1475363991]
-custom_minimum_size = Vector2(50, 120)
-layout_mode = 2
-size_flags_vertical = 4
-
-[node name="TextureRect" type="TextureRect" parent="CardContainer/Spacer1" unique_id=403464620]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("AtlasTexture_omb5t")
-stretch_mode = 5
-
-[node name="HandContainer" type="HBoxContainer" parent="CardContainer" unique_id=66270717]
+[node name="HandContainer" type="HBoxContainer" parent="HBoxContainer/CardHandPanel/MarginContainer" unique_id=66270717]
 layout_mode = 2
 size_flags_stretch_ratio = 4.0
 script = ExtResource("3_wc1mw")
-
-[node name="Spacer2" type="Control" parent="CardContainer" unique_id=1710295460]
-custom_minimum_size = Vector2(50, 120)
-layout_mode = 2
-size_flags_vertical = 4
-
-[node name="TextureRect" type="TextureRect" parent="CardContainer/Spacer2" unique_id=80067380]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("AtlasTexture_omb5t")
-stretch_mode = 5
-
-[node name="DiscardContainer" type="MarginContainer" parent="CardContainer" unique_id=265078577]
-layout_mode = 2
-
-[node name="Discard" parent="CardContainer/DiscardContainer" unique_id=1497012775 instance=ExtResource("5_5rjcn")]
-layout_mode = 2
-offset_transform_position = Vector2(0, 32)
 
 [node name="CardHolder" type="Control" parent="." unique_id=649042296]
 anchors_preset = 0

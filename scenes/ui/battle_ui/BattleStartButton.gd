@@ -1,7 +1,7 @@
 extends Button
 
 ## TODO temporary instructions label
-@onready var temp_instructions: Control = $"../../InstructionsControl"
+@export var temp_instructions: Control
 
 ## initialize the battle state and hide this button
 func _on_pressed() -> void:

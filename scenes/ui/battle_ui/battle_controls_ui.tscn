@@ -4,18 +4,6 @@
 [ext_resource type="FontFile" uid="uid://ct44inwnt5upx" path="res://assets/fonts/Silver.ttf" id="1_uu5og"]
 [ext_resource type="Script" uid="uid://c13ngcv3sirfl" path="res://scenes/ui/battle_ui/BattleEndPanel.gd" id="3_fntje"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_p20lo"]
-font = ExtResource("1_uu5og")
-font_size = 48
-
-[sub_resource type="LabelSettings" id="LabelSettings_0goq4"]
-font = ExtResource("1_uu5og")
-font_size = 64
-
-[sub_resource type="LabelSettings" id="LabelSettings_7gmnd"]
-font = ExtResource("1_uu5og")
-font_size = 48
-
 [node name="BattleControlsUI" type="Control" unique_id=774794877]
 layout_mode = 3
 anchors_preset = 15
@@ -25,63 +13,52 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="StartButtonControl" type="Control" parent="." unique_id=1459864149]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="StartButton" type="Button" parent="StartButtonControl" unique_id=1868810161]
-custom_minimum_size = Vector2(200, 100)
+[node name="InstructionsStartPanel" type="Panel" parent="." unique_id=1751495196]
+custom_minimum_size = Vector2(850, 400)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = -50.0
-offset_right = 100.0
-offset_bottom = 50.0
+offset_left = -437.5
+offset_top = -100.0
+offset_right = 437.5
+offset_bottom = 100.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="InstructionsStartPanel" unique_id=1038030693]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.2
+anchor_right = 0.5
+anchor_bottom = 0.2
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 48
+text = "Play and draw more cards to summon monsters and spells.
+Use your monsters to defeat the enemies and their base!"
+horizontal_alignment = 1
+
+[node name="StartButton" type="Button" parent="InstructionsStartPanel" unique_id=1868810161 node_paths=PackedStringArray("temp_instructions")]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.8
+anchor_right = 0.5
+anchor_bottom = 0.8
+grow_horizontal = 2
+grow_vertical = 0
 theme_override_fonts/font = ExtResource("1_uu5og")
 theme_override_font_sizes/font_size = 48
 text = "START"
 script = ExtResource("1_2hywk")
+temp_instructions = NodePath("..")
 
-[node name="InstructionsControl" type="Control" parent="." unique_id=340443676]
-layout_mode = 1
-anchor_top = 0.6
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="Panel" type="PanelContainer" parent="InstructionsControl" unique_id=681338467]
-custom_minimum_size = Vector2(850, 200)
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -321.0
-offset_right = 321.0
-offset_bottom = 111.0
-grow_horizontal = 2
-mouse_filter = 2
-
-[node name="Label" type="Label" parent="InstructionsControl/Panel" unique_id=1038030693]
-layout_mode = 2
-text = "Play and draw more cards to summon monsters and spells.
-Use your monsters to defeat the enemies and their base!"
-label_settings = SubResource("LabelSettings_p20lo")
-horizontal_alignment = 1
-
-[node name="BattleEndPanel" type="PanelContainer" parent="." unique_id=295689257]
+[node name="BattleEndPanel" type="Panel" parent="." unique_id=570318367]
 custom_minimum_size = Vector2(600, 400)
 layout_mode = 1
 anchors_preset = 8
@@ -99,30 +76,35 @@ offset_transform_enabled = true
 script = ExtResource("3_fntje")
 
 [node name="VictoryDefeatLabel" type="Label" parent="BattleEndPanel" unique_id=1683272177]
-layout_mode = 2
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.25
+anchor_right = 0.5
+anchor_bottom = 0.25
+offset_left = -69.0
+offset_top = -36.0
+offset_right = 69.0
+offset_bottom = 36.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 64
 text = "VICTORY"
-label_settings = SubResource("LabelSettings_0goq4")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ExtraLabelControl" type="Control" parent="BattleEndPanel" unique_id=1298161840]
-layout_mode = 2
-
-[node name="ExtraLabel" type="Label" parent="BattleEndPanel/ExtraLabelControl" unique_id=758089650]
+[node name="ExtraLabel" type="Label" parent="BattleEndPanel" unique_id=758089650]
 layout_mode = 1
-anchors_preset = 7
+anchors_preset = -1
 anchor_left = 0.5
-anchor_top = 1.0
+anchor_top = 0.75
 anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -300.0
-offset_top = -54.0
-offset_right = 300.0
+anchor_bottom = 0.75
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_font_sizes/font_size = 48
 text = "That's all for the protoype.
 Thanks for playing!"
-label_settings = SubResource("LabelSettings_7gmnd")
 horizontal_alignment = 1
 
-[connection signal="pressed" from="StartButtonControl/StartButton" to="StartButtonControl/StartButton" method="_on_pressed"]
+[connection signal="pressed" from="InstructionsStartPanel/StartButton" to="InstructionsStartPanel/StartButton" method="_on_pressed"]

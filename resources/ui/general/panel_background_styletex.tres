@@ -1,0 +1,18 @@
+[gd_resource type="StyleBoxTexture" format=3 uid="uid://dbyf7xd8mltlo"]
+
+[ext_resource type="Script" uid="uid://hbg62pjjco0p" path="res://resources/ui/tex_scaler.gd" id="1_bmkdh"]
+[ext_resource type="Texture2D" uid="uid://cg2ahb4gnjq0u" path="res://assets/ui/menus/stylized_ui_4.png" id="2_vguao"]
+[ext_resource type="Texture2D" uid="uid://ckfpivwwdkflx" path="res://resources/ui/general/panel_bg_atlastex.tres" id="3_vguao"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ne2j"]
+atlas = ExtResource("2_vguao")
+region = Rect2(121, 170, 16, 16)
+
+[resource]
+texture = SubResource("AtlasTexture_2ne2j")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+script = ExtResource("1_bmkdh")
+texture_source = ExtResource("3_vguao")

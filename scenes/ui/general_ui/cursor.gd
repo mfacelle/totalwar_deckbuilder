@@ -34,8 +34,6 @@ func _process(_delta: float) -> void:
 ## set cursor clicked image on clicks
 func _input(event: InputEvent) -> void:
     if event.is_action_pressed("LeftClick"):
-        print("pressed")
         cursor_image.texture = cursor_click
     if event.is_action_released("LeftClick"):
-        print("released")
         cursor_image.texture = cursor_normal

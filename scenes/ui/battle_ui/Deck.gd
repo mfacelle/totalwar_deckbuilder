@@ -12,8 +12,9 @@ var battle_state: BattleSignalManager.BattleState = BattleSignalManager.BattleSt
 # should consider refactoring into some kind of base class or something.
 # leaving for now, for simplicity
 
+@export_category("Animation Params")
 ## how far to offset the card when hovering over it
-@export var hover_offset: Vector2 = Vector2(0.0, -32.0)
+@export var hover_offset: Vector2 = Vector2(0.0, -16.0)
 ## normal offset
 @export var normal_offset: Vector2 = Vector2(0.0, 0.0)
 ## duration of transition for hover offset, in seconds
@@ -25,9 +26,10 @@ var battle_state: BattleSignalManager.BattleState = BattleSignalManager.BattleSt
 ## duration of transition for click scale effect
 @export var click_duration: float = 0.2
 
-@onready var top_card: Container = $TopCard
+@export_category("Node References")
+@export var top_card: Control
 ## TODO label is temporary, mainly for debug and trying out new stuf
-@onready var card_count_label: Label = $CardCount
+@export var card_count_label: Label
 
 # TODO want to find a way to hide the "additional" cards when deck size gets too small
 # TODO could just @onready them here and check size and set visible, but that feels... bad
