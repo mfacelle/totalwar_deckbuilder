@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://bul420d02eiwh"]
+
+[ext_resource type="Script" uid="uid://c47yiey37sjae" path="res://scenes/ui/run_setup/DeckSelection.gd" id="1_bjvn1"]
+[ext_resource type="Texture2D" uid="uid://32eykhyumbol" path="res://resources/ui/cards/cardbacks/cardback_slime_atlastex.tres" id="1_fg2qa"]
+
+[node name="DeckSelection" type="Control" unique_id=1804980298 node_paths=PackedStringArray("card_node")]
+custom_minimum_size = Vector2(200, 280)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+offset_transform_enabled = true
+script = ExtResource("1_bjvn1")
+card_node = NodePath("TopCard")
+
+[node name="TopCard" type="TextureRect" parent="." unique_id=1429443434]
+custom_minimum_size = Vector2(200, 280)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 56.0
+offset_transform_enabled = true
+texture = ExtResource("1_fg2qa")
+stretch_mode = 5
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

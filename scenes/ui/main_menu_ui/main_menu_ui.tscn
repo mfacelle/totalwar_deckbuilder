@@ -16,8 +16,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_vy54b")
-start_scene = &"uid://dwo4y7dm0xn50"
-battle_ui_scene = &"uid://xdj4oq6oe4js"
+run_setup_scene = &"uid://bdo27ei62jlrx"
 start_button = NodePath("HBoxContainer/StartButton")
 opt_temp_text = NodePath("TempOptionsText")
 credits_panel = NodePath("CreditsPanel")
@@ -173,7 +172,7 @@ text = "Mike P Facelle"
 horizontal_alignment = 1
 
 [node name="Spacer" type="Panel" parent="CreditsPanel/LabelsContainer" unique_id=217232268]
-custom_minimum_size = Vector2(200, 100)
+custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_omb5t")
@@ -190,7 +189,24 @@ text = "Minifantasy by Krishna Palacio"
 horizontal_alignment = 1
 
 [node name="Spacer2" type="Panel" parent="CreditsPanel/LabelsContainer" unique_id=116320285]
-custom_minimum_size = Vector2(200, 200)
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_omb5t")
+
+[node name="FontByLabel" type="Label" parent="CreditsPanel/LabelsContainer" unique_id=1650577311]
+layout_mode = 2
+text = "Font"
+horizontal_alignment = 1
+
+[node name="FontAuthorLabel" type="Label" parent="CreditsPanel/LabelsContainer" unique_id=1541813086]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Silver by Poppy Works"
+horizontal_alignment = 1
+
+[node name="Spacer3" type="Panel" parent="CreditsPanel/LabelsContainer" unique_id=624500062]
+custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_omb5t")

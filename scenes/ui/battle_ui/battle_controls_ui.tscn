@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://lv3ouiewv0k5" path="res://scenes/ui/battle_ui/BattleStartButton.gd" id="1_2hywk"]
 [ext_resource type="FontFile" uid="uid://ct44inwnt5upx" path="res://assets/fonts/Silver.ttf" id="1_uu5og"]
 [ext_resource type="Script" uid="uid://c13ngcv3sirfl" path="res://scenes/ui/battle_ui/BattleEndPanel.gd" id="3_fntje"]
+[ext_resource type="Script" uid="uid://cqd8yuh0bhbtd" path="res://scenes/ui/battle_ui/back_to_main_menu_button.gd" id="4_bcjqr"]
 
 [node name="BattleControlsUI" type="Control" unique_id=774794877]
 layout_mode = 3
@@ -79,9 +80,9 @@ script = ExtResource("3_fntje")
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
-anchor_top = 0.25
+anchor_top = 0.15
 anchor_right = 0.5
-anchor_bottom = 0.25
+anchor_bottom = 0.15
 offset_left = -69.0
 offset_top = -36.0
 offset_right = 69.0
@@ -97,9 +98,9 @@ vertical_alignment = 1
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
-anchor_top = 0.75
+anchor_top = 0.6
 anchor_right = 0.5
-anchor_bottom = 0.75
+anchor_bottom = 0.6
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_font_sizes/font_size = 48
@@ -107,4 +108,20 @@ text = "That's all for the protoype.
 Thanks for playing!"
 horizontal_alignment = 1
 
+[node name="BackToMainMenuButton" type="Button" parent="BattleEndPanel" unique_id=581251239]
+custom_minimum_size = Vector2(200, 80)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.8
+anchor_right = 0.5
+anchor_bottom = 0.8
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "Main Menu"
+script = ExtResource("4_bcjqr")
+main_menu_scene = &"uid://8hgvlvqch2m0"
+
 [connection signal="pressed" from="InstructionsStartPanel/StartButton" to="InstructionsStartPanel/StartButton" method="_on_pressed"]
+[connection signal="pressed" from="BattleEndPanel/BackToMainMenuButton" to="BattleEndPanel/BackToMainMenuButton" method="_on_pressed"]

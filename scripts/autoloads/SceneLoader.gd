@@ -27,7 +27,7 @@ enum SceneType {
 }
 
 ## loading screen scene
-## TODO may not always want this, i.e. if loading just a map or something?
+## TODO may not always want this
 var loading_screen_scene: PackedScene = preload("uid://ctmue1buij8b2")
 
 ## path to scene to be loaded, mapped to their target nodes
@@ -40,6 +40,16 @@ var use_sub_threads: bool = true
 func _ready() -> void:
     # disable processing by default
     set_process(false)
+
+
+## load a battle map
+func load_battle(scene_uid: String, unload_all: bool = true) -> void:
+    if unload_all:
+        unload_scenes(SceneLoader.SceneType.WORLD)
+        unload_scenes(SceneLoader.SceneType.UI)
+    
+    SceneLoader.load_scene(scene_uid, SceneLoader.SceneType.WORLD)
+    SceneLoader.load_scene(SceneConstants.BATTLE_UI_SCENE_UID, SceneLoader.SceneType.UI)
 
 
 ## loads a scene, provided it fits a specific scene type.
@@ -113,3 +123,14 @@ func _instantiate_and_attach(scene_path: String, target_node: Node) -> void:
         var instance = packed_scene.instantiate()
         target_node.add_child(instance)
         print("added child ", instance, " to ", target_node)
+
+
+## remove any children from the scene type provided.
+## intended for clearing scenes to be able to fully load new menus, etc
+func unload_scenes(scene_type: SceneType) -> void:
+    var parent_node: Node = get_node(scene_parents[scene_type])
+    if parent_node:
+        for child: Node in parent_node.get_children():
+            child.queue_free()
+    else:
+        print("Attempting to unload scenes without proper structure set up!")

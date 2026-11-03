@@ -1,6 +1,21 @@
 class_name Card
 extends Control
 
+@export_category("Node References")
+## base node for the card, for showing/hiding without changing hand container
+@export var card_node: Control
+@export var card_background: TextureRect
+# TODO these will be used eventually
+#@export var card_border: TextureRect
+#@export var card_detail_boxes: TextureRect
+@export var name_label: Label
+@export var image: TextureRect
+@export var hp_label: Label
+@export var attack_label: Label
+@export var speed_label: Label
+@export var bonus_label: Label
+
+@export_category("Animation Params")
 ## id of this card, for creating objects
 @export var card_id: CardData.CardId
 ## how far to offset the card when hovering over it
@@ -12,12 +27,6 @@ extends Control
 
 @onready var card_data: CardData = CardDataManager.cards[card_id]
 @onready var unit_scene: PackedScene = load(card_data.unit_uid)
-@onready var anim_player: AnimationPlayer = $AnimationPlayer
-@onready var card_background: Container = $CardBackground
-@onready var card_details: Container = $CardDetails
-@onready var name_label: Label = $CardDetails/Name
-@onready var image: TextureRect = $CardDetails/Image
-@onready var description_label: Label = $CardDetails/Description
 
 var card_highlighted: bool = false
 var card_held: Card = null
@@ -29,14 +38,13 @@ var battle_state: BattleSignalManager.BattleState = BattleSignalManager.BattleSt
 func _ready() -> void:
     # set up fields on the card from CardData
     name_label.text = card_data.card_name
-    description_label.text = card_data.description
-    
-    # set atlas texture, since we want a single sprite from a sprite sheet
-    var atlas_texture = AtlasTexture.new()
-    atlas_texture.atlas = load(card_data.image_uid)
-    # TODO hard-coding for now, should make params in CardData
-    atlas_texture.region =  Rect2(8, 8, 16, 16)    
-    image.texture = atlas_texture
+    # TODO get card values from config
+    hp_label.text = "30"
+    attack_label.text = "10"
+    speed_label.text = "30"
+    bonus_label.text = ""
+    card_background.texture = load(card_data.card_bg_uid)
+    image.texture = load(card_data.image_uid)
 
 
 
@@ -69,8 +77,7 @@ func _on_gui_input(event: InputEvent) -> void:
     BattleSignalManager.is_running_state(battle_state):
         if card_held == self:
             # if this card is currently held, and this original spot is selected again, put it back (by unhiding it)
-            card_background.show()
-            card_details.show()
+            card_node.show()
             
             # set card held to null to avoid some kind of weird race condition with signal
             card_held = null
@@ -80,8 +87,7 @@ func _on_gui_input(event: InputEvent) -> void:
             # if this card is selected (highlighted) and we're not currently holding another card, allow holding this one
             # temporarily hide card from UI, but keep it in place in container
             # TODO consider making transparent (and show background only?), so it's clear where to place the card back
-            card_background.hide()
-            card_details.hide()
+            card_node.hide()
             
             # TODO add a "card swap" mechanism, to swap held cards if another is selected.
             # replace card held with card being selected. basically allows reordering of hand (not really necessary, but cool)

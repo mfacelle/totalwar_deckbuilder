@@ -2,10 +2,8 @@ extends Control
 
 ## TODO change this to use some kind of dictionary with scene uids for levels/etc
 @export_category("Scenes")
-## initial map scene to load (TODO eventually load deck/options selection)
-@export var start_scene: StringName = &""
-## scene containing all battle UI to load (TODO eventually bundle this with map loading?)
-@export var battle_ui_scene: StringName = &""
+## scene for setting up run stuff (deck selection, perk selection, etc)
+@export var run_setup_scene: StringName = &""
 
 @export_category("Nodes")
 @export var start_button: Button
@@ -58,8 +56,8 @@ func _ready() -> void:
 ## start the game
 ## TODO eventually this will launch other scenes
 func _on_start_button_pressed() -> void:
-    SceneLoader.load_scene(start_scene, SceneLoader.SceneType.WORLD)
-    SceneLoader.load_scene(battle_ui_scene, SceneLoader.SceneType.UI)
+    SceneLoader.unload_scenes(SceneLoader.SceneType.UI)
+    SceneLoader.load_scene(run_setup_scene, SceneLoader.SceneType.UI)
     
     # on load finished, delete this node
     queue_free()

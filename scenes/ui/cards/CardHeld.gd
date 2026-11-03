@@ -4,6 +4,10 @@ extends Control
 # TODO this is basically just a smaller subset of Card class...
 # consider refactoring to make this less clumsy and "change in two places" to manage?
 
+@export_category("Node References")
+@export var card_background: TextureRect
+@export var image: TextureRect
+
 @export_category("Bad Placement Animation")
 ## how long each movement of the bad placement animation should take
 @export var anim_duration: float = 0.1
@@ -21,8 +25,6 @@ extends Control
 @export var position_offset: Vector2 = Vector2(8.0, 8.0)
 
 @onready var card_data: CardData = CardDataManager.cards[card_id]
-@onready var card_background: TextureRect = $CardBackground/TextureRect
-@onready var image: TextureRect = $CardDetails/Image
 
 var card_id: CardData.CardId
 var tween: Tween
@@ -32,12 +34,8 @@ var last_mouse_position: Vector2 = Vector2(0, 0)
 
 
 func _ready() -> void:
-    # set atlas texture, since we want a single sprite from a sprite sheet
-    var atlas_texture = AtlasTexture.new()
-    atlas_texture.atlas = load(card_data.image_uid)
-    # TODO hard-coding for now, should make params in CardData
-    atlas_texture.region =  Rect2(8, 8, 16, 16)    
-    image.texture = atlas_texture
+    image.texture = load(card_data.image_uid)
+    card_background.texture = load(card_data.card_bg_uid)
     
     BattleSignalManager.card_placement_fail.connect(_on_card_placement_fail)
 
