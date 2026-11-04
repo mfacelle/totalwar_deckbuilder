@@ -67,18 +67,17 @@ func _ready() -> void:
         #card.battle_state = battle_state
     
     # TODO setting up some defaults for now. eventually pull from some kind of player information
-    var deck_card_pile: CardPile = CardPile.new([CardDataManager.cards[CardData.CardId.GOBLIN],
-        CardDataManager.cards[CardData.CardId.GOBLIN],
-        CardDataManager.cards[CardData.CardId.GOBLIN],
-        CardDataManager.cards[CardData.CardId.ORC],
-        CardDataManager.cards[CardData.CardId.SLIME_BLUE],
-        CardDataManager.cards[CardData.CardId.SLIME_BLUE],
-        CardDataManager.cards[CardData.CardId.SLIME_BLUE],
-        CardDataManager.cards[CardData.CardId.SLIME_BLUE],
-        CardDataManager.cards[CardData.CardId.WOLF],
-        CardDataManager.cards[CardData.CardId.WARG] ],
-        10)
-    deck.set_card_pile(deck_card_pile)
+    #var deck_card_pile: CardPile = CardPile.new([CardDataManager.cards[CardData.CardId.GOBLIN],
+        #CardDataManager.cards[CardData.CardId.GOBLIN],
+        #CardDataManager.cards[CardData.CardId.GOBLIN],
+        #CardDataManager.cards[CardData.CardId.ORC],
+        #CardDataManager.cards[CardData.CardId.SLIME_BLUE],
+        #CardDataManager.cards[CardData.CardId.SLIME_BLUE],
+        #CardDataManager.cards[CardData.CardId.SLIME_BLUE],
+        #CardDataManager.cards[CardData.CardId.SLIME_BLUE],
+        #CardDataManager.cards[CardData.CardId.WOLF],
+        #CardDataManager.cards[CardData.CardId.WARG] ] )
+    deck.set_card_pile(Player.data.card_pile)
     deck.is_hand_full = hand.is_full()
     deck.cards.shuffle()
     

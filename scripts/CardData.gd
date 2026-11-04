@@ -34,7 +34,7 @@ var card_name: String
 ## uid of texture to use for card image
 var image_uid: String
 ## description to be displayed on card
-## TODO do we really want/need this?
+## TODO replace this with hp/atk/speed values
 var description: String
 ## scene to instantiate when creating the unit in-game
 var unit_uid: String

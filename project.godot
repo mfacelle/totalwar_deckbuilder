@@ -23,6 +23,7 @@ SceneLoader="*uid://bwqld4iftc4fx"
 SceneConstants="*uid://c7ino4ww4vqja"
 DeckDataManager="*uid://x744j5xlojhc"
 UnitDataManager="*uid://cprxg0xjrw8t4"
+Player="*uid://cn2cvid53r0m3"
 
 [display]
 

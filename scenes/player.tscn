@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://dsp1h5xeqfe64"]
+
+[sub_resource type="GDScript" id="GDScript_u8vuu"]
+script/source = "class_name Player
+extends Node2D
+
+# node for managing player information
+
+var data: PlayerData
+
+
+func _ready() -> void:
+    DataSignalManager.deck_chosen.connect(on_deck_chosen)
+
+
+## set the deck the player is using
+func on_deck_chosen(deck: DeckData) -> void:
+    data.current_deck_id = deck.id
+    data.card_pile = deck.card_pile
+"
+
+[node name="Player" type="Node2D" unique_id=1446591686]
+script = SubResource("GDScript_u8vuu")

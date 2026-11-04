@@ -11,35 +11,39 @@ extends Node
 # cannot do nested types like Dictionary[type1, Array[type2]], 
 # so Dictionary[DeckData.DeckId, Array[CardData.CardId]] won't work.
 # just using individual arrays instead
-var slime_deck_cards: Array[CardData.CardId] = [
-        CardData.CardId.SLIME_BLUE,
-        CardData.CardId.SLIME_BLUE,
-        CardData.CardId.SLIME_BLUE,
-        CardData.CardId.SLIME_BLUE,
-        CardData.CardId.SLIME_GREEN,
-        CardData.CardId.SLIME_GREEN,
-        CardData.CardId.SLIME_GREEN,
-        CardData.CardId.SLIME_GREEN
-        #CardData.CardId.SLIME_BLUE_BIG,
-        #CardData.CardId.SLIME_GREEN_BIG
-]
+var slime_deck_cards: CardPile = CardPile.new([
+    CardDataManager.cards[CardData.CardId.SLIME_BLUE],
+    CardDataManager.cards[CardData.CardId.SLIME_BLUE],
+    CardDataManager.cards[CardData.CardId.SLIME_BLUE],
+    CardDataManager.cards[CardData.CardId.SLIME_BLUE],
+    CardDataManager.cards[CardData.CardId.SLIME_GREEN],
+    CardDataManager.cards[CardData.CardId.SLIME_GREEN],
+    CardDataManager.cards[CardData.CardId.SLIME_GREEN],
+    CardDataManager.cards[CardData.CardId.SLIME_GREEN],
+    #CardDataManager.cards[CardData.CardId.SLIME_BLUE_BIG],
+    #CardDataManager.cards[CardData.CardId.SLIME_GREEN_BIG],
+    ] 
+)
 
-var goblin_deck_cards: Array[CardData.CardId] = [
-        CardData.CardId.GOBLIN,
-        CardData.CardId.GOBLIN,
-        CardData.CardId.GOBLIN,
-        CardData.CardId.GOBLIN,
-        CardData.CardId.ORC,
-        CardData.CardId.ORC
-]
+var goblin_deck_cards: CardPile = CardPile.new([
+    CardDataManager.cards[CardData.CardId.GOBLIN],
+    CardDataManager.cards[CardData.CardId.GOBLIN],
+    CardDataManager.cards[CardData.CardId.GOBLIN],
+    CardDataManager.cards[CardData.CardId.GOBLIN],
+    CardDataManager.cards[CardData.CardId.ORC],
+    CardDataManager.cards[CardData.CardId.ORC],
+    ] 
+)
 
-var druid_deck_cards: Array[CardData.CardId] = [
-        CardData.CardId.WOLF,
-        CardData.CardId.WOLF,
-        CardData.CardId.WOLF,
-        CardData.CardId.WARG,
-        CardData.CardId.WARG
-]
+var druid_deck_cards: CardPile = CardPile.new([
+    CardDataManager.cards[CardData.CardId.WOLF],
+    CardDataManager.cards[CardData.CardId.WOLF],
+    CardDataManager.cards[CardData.CardId.WOLF],
+    CardDataManager.cards[CardData.CardId.WOLF],
+    CardDataManager.cards[CardData.CardId.WARG],
+    CardDataManager.cards[CardData.CardId.WARG],
+    ] 
+)
 
 # create decks and map them to their IDs
 # - id
