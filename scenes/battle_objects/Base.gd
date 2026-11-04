@@ -22,7 +22,7 @@ func _ready() -> void:
         hurt_box.set_collision_layer_value(Unit.EntityType.ENEMY, true)
     
     # set values for parameters other than default
-    health = max_health
+    health = unit_data.max_health
     
     placement_shape.shape.radius = placement_range
     set_spawn_area_visible(false)

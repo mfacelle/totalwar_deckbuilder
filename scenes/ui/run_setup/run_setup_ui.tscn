@@ -1,0 +1,141 @@
+[gd_scene format=3 uid="uid://bdo27ei62jlrx"]
+
+[ext_resource type="StyleBox" uid="uid://dbyf7xd8mltlo" path="res://resources/ui/general/panel_background_styletex.tres" id="1_ssyev"]
+[ext_resource type="Script" uid="uid://jjk3dk38xwrj" path="res://scenes/ui/run_setup/deck_selection_control.gd" id="2_wcxv4"]
+
+[node name="RunSetupUI" type="Control" unique_id=1725928791]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Background" type="Panel" parent="." unique_id=1723740071]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("1_ssyev")
+
+[node name="DeckSelectionControl" type="Control" parent="." unique_id=997786750 node_paths=PackedStringArray("deck_info", "deck_name_label", "deck_description_label", "deck_cards_preview", "deck_selection_panel")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_wcxv4")
+deck_info = NodePath("DeckInfoPanel/DeckInfoControl")
+deck_name_label = NodePath("DeckInfoPanel/DeckInfoControl/DeckInfoList/DeckNameLabel")
+deck_description_label = NodePath("DeckInfoPanel/DeckInfoControl/DeckInfoList/DeckDescriptionLabel")
+deck_cards_preview = NodePath("DeckInfoPanel/DeckInfoControl/DeckCardsPreview")
+deck_selection_panel = NodePath("DeckSelectionPanel")
+
+[node name="DeckInfoPanel" type="Panel" parent="DeckSelectionControl" unique_id=1767639931]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.05
+anchor_top = 0.05
+anchor_right = 0.95
+anchor_bottom = 0.45
+mouse_filter = 2
+
+[node name="DeckInfoControl" type="Control" parent="DeckSelectionControl/DeckInfoPanel" unique_id=1754213803]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="DeckInfoList" type="VBoxContainer" parent="DeckSelectionControl/DeckInfoPanel/DeckInfoControl" unique_id=1792201199]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.05
+anchor_top = 0.1
+anchor_right = 0.95
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DeckNameLabel" type="Label" parent="DeckSelectionControl/DeckInfoPanel/DeckInfoControl/DeckInfoList" unique_id=822173168]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Deck Name"
+horizontal_alignment = 1
+
+[node name="DeckDescriptionLabel" type="Label" parent="DeckSelectionControl/DeckInfoPanel/DeckInfoControl/DeckInfoList" unique_id=1818227051]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "A description about this deck"
+horizontal_alignment = 1
+
+[node name="DeckCardsPreview" type="HBoxContainer" parent="DeckSelectionControl/DeckInfoPanel/DeckInfoControl" unique_id=328025578]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.95
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="PerkInfoPanel" type="Panel" parent="DeckSelectionControl" unique_id=1121668725]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.05
+anchor_top = 0.45
+anchor_right = 0.95
+anchor_bottom = 0.6
+mouse_filter = 2
+
+[node name="TempNoteLabel" type="Label" parent="DeckSelectionControl/PerkInfoPanel" unique_id=1423079384]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -291.0
+offset_top = -84.0
+offset_right = 291.0
+offset_bottom = 84.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Select a deck to start!
+NOTE: all decks use the same default cards right now.  Will be implementing different decks later."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DeckSelectionPanel" type="HBoxContainer" parent="DeckSelectionControl" unique_id=752156876]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.025
+anchor_top = 0.65
+anchor_right = 0.975
+anchor_bottom = 0.95
+mouse_filter = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="PerkSelectionControl" type="Control" parent="." unique_id=350384671]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

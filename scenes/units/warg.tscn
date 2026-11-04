@@ -1800,12 +1800,7 @@ size = Vector2(3.875, 3.453125)
 [node name="Unit" type="CharacterBody2D" unique_id=66131987]
 y_sort_enabled = true
 script = ExtResource("1_ncoyb")
-speed = 30
-max_health = 40
-attack_range = 8
-attack_speed = 0.5
-attack_delay = 1.0
-attack_damage = 10
+unit_id = 5
 enemy_group_name = "enemies"
 min_movement_speed = 1.0
 stuck_delay = 1.0

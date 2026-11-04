@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://b1xfki6dwn03h" path="res://scenes/ui/battle_ui/battle_top_bar.tscn" id="1_fntje"]
 [ext_resource type="PackedScene" uid="uid://db3y5asrafx3v" path="res://scenes/ui/battle_ui/card_ui.tscn" id="2_sebxe"]
 [ext_resource type="PackedScene" uid="uid://dv4dd6g04xi4f" path="res://scenes/ui/battle_ui/battle_controls_ui.tscn" id="3_73y0x"]
+[ext_resource type="PackedScene" uid="uid://cadkfnj60woh3" path="res://scenes/ui/battle_ui/battle_addl_controls.tscn" id="4_j10a7"]
 
 [node name="BattleUI" type="Control" unique_id=1768125136]
 layout_mode = 3
@@ -11,6 +12,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="BattleTopBar" parent="." unique_id=1752126761 instance=ExtResource("1_fntje")]
 layout_mode = 1
@@ -19,4 +21,7 @@ layout_mode = 1
 layout_mode = 1
 
 [node name="BattleControlsUI" parent="." unique_id=774794877 instance=ExtResource("3_73y0x")]
+layout_mode = 1
+
+[node name="FullScreen" parent="." unique_id=433330626 instance=ExtResource("4_j10a7")]
 layout_mode = 1

@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://cddaw4g4y2ccq"]
+
+[ext_resource type="Script" uid="uid://bggeq3p3msv2h" path="res://scenes/ui/cards/Deck.gd" id="1_grqne"]
+[ext_resource type="Texture2D" uid="uid://32eykhyumbol" path="res://resources/ui/cards/cardbacks/cardback_slime_atlastex.tres" id="3_l6f0t"]
+
+[node name="Deck" type="Control" unique_id=598480527 node_paths=PackedStringArray("top_card", "card_count_label")]
+custom_minimum_size = Vector2(120, 168)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+script = ExtResource("1_grqne")
+top_card = NodePath("TopCard")
+card_count_label = NodePath("TopCard/MarginContainer/CardCount")
+
+[node name="OtherCard1" type="TextureRect" parent="." unique_id=730190746]
+custom_minimum_size = Vector2(120, 168)
+layout_mode = 1
+offset_right = 40.0
+offset_bottom = 56.0
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 24)
+texture = ExtResource("3_l6f0t")
+stretch_mode = 5
+
+[node name="OtherCard2" type="TextureRect" parent="." unique_id=1173538767]
+custom_minimum_size = Vector2(120, 168)
+layout_mode = 1
+offset_right = 40.0
+offset_bottom = 56.0
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 16)
+texture = ExtResource("3_l6f0t")
+stretch_mode = 5
+
+[node name="OtherCard3" type="TextureRect" parent="." unique_id=220338812]
+custom_minimum_size = Vector2(120, 168)
+layout_mode = 1
+offset_right = 40.0
+offset_bottom = 56.0
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 8)
+texture = ExtResource("3_l6f0t")
+stretch_mode = 5
+
+[node name="TopCard" type="TextureRect" parent="." unique_id=2099234522]
+custom_minimum_size = Vector2(120, 168)
+layout_mode = 1
+offset_right = 40.0
+offset_bottom = 56.0
+offset_transform_enabled = true
+texture = ExtResource("3_l6f0t")
+stretch_mode = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="TopCard" unique_id=1491496621]
+layout_mode = 1
+offset_right = 57.0
+offset_bottom = 86.0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="CardCount" type="Label" parent="TopCard/MarginContainer" unique_id=1796873389]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "10"
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

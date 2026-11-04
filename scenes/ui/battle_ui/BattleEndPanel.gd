@@ -1,4 +1,4 @@
-extends PanelContainer
+extends Panel
 
 @export_category("Text")
 @export var victory_text: String = "VICTORY"

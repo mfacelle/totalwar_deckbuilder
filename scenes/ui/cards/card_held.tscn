@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://dd8kcd5vk6my6"]
+
+[ext_resource type="Script" uid="uid://bhpu7q83a8nck" path="res://scenes/ui/cards/CardHeld.gd" id="1_yoeh3"]
+[ext_resource type="Texture2D" uid="uid://c04156uo2ffdq" path="res://resources/ui/cards/main_card_textures/card_1_atlastex.tres" id="2_0hasi"]
+[ext_resource type="Texture2D" uid="uid://rymgho44sdij" path="res://assets/units/goblin/GoblinIdle.png" id="4_us6rg"]
+
+[sub_resource type="Animation" id="Animation_ra13p"]
+length = 0.001
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ulu11"]
+_data = {
+&"RESET": SubResource("Animation_ra13p")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3uxh0"]
+atlas = ExtResource("4_us6rg")
+region = Rect2(8, 8, 16, 16)
+
+[node name="CardHeld" type="Control" unique_id=1729805897 node_paths=PackedStringArray("card_background", "image")]
+custom_minimum_size = Vector2(80, 112)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 80.0
+offset_bottom = 112.0
+size_flags_horizontal = 3
+offset_transform_enabled = true
+mouse_filter = 2
+script = ExtResource("1_yoeh3")
+card_background = NodePath("CardBackground/TextureRect")
+image = NodePath("CardDetails/Image")
+position_offset = Vector2(10, 10)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=755748169]
+libraries/ = SubResource("AnimationLibrary_ulu11")
+
+[node name="CardBackground" type="MarginContainer" parent="." unique_id=876543020]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="CardBackground" unique_id=1994889766]
+layout_mode = 2
+size_flags_horizontal = 3
+offset_transform_position = Vector2(0, -100)
+mouse_filter = 2
+texture = ExtResource("2_0hasi")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="CardDetails" type="MarginContainer" parent="." unique_id=393388754]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Image" type="TextureRect" parent="CardDetails" unique_id=1371380692]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+mouse_filter = 2
+texture = SubResource("AtlasTexture_3uxh0")
+expand_mode = 1
+stretch_mode = 5

@@ -21,6 +21,8 @@ CardDataManager="*uid://bruc2j6f1ggve"
 BattleSignalManager="*uid://3wgjpdwgmbx"
 SceneLoader="*uid://bwqld4iftc4fx"
 SceneConstants="*uid://c7ino4ww4vqja"
+DeckDataManager="*uid://x744j5xlojhc"
+UnitDataManager="*uid://cprxg0xjrw8t4"
 
 [display]
 
@@ -39,6 +41,10 @@ enabled=PackedStringArray("res://addons/TileMapDual/plugin.cfg")
 enemies=""
 units=""
 navigation_layers=""
+
+[gui]
+
+theme/custom="uid://daeesyg6ohlds"
 
 [input]
 

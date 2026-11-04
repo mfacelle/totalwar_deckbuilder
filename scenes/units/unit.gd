@@ -41,20 +41,10 @@ enum BehaviorType
 }
 
 @export_category("Stats")
-## speed, in pixels/sec
-@export var speed: int
+## ID for this unit, for retrieving stats from config
+@export var unit_id: UnitData.UnitId
 ## faction that this entity belongs to (determines what damage collision layers to use)
 @export var entity_type: EntityType = EntityType.FRIENDLY
-## how much health this entity can have
-@export var max_health: int
-## range for valid attacks, in pixels
-@export var attack_range: int
-## attack speec, in seconds
-@export var attack_speed: float
-## delay between attacks, in seconds
-@export var attack_delay: float
-## how much damage this entity's attacks do
-@export var attack_damage: int
 ## name of group to use when looking for opponents
 @export var enemy_group_name: String
 ## threshold for minimum movement for detecting stuck state
@@ -74,11 +64,14 @@ enum BehaviorType
 ## standard color modulation
 @export var normal_color: Color = Color(1, 1, 1, 1)
 
+## data for this unit, for setting stats
+@onready var unit_data: UnitData = UnitDataManager.units[unit_id]
+
 var state: State = State.IDLE
 var command: Command = Command.ATTACK
 var target_enemy: Node2D = null
 var attack_ready: bool = true
-var health: int = max_health
+var health: int = 0
 var stuck_timer: float = 0
 var target_update_timer: float = 0
 var tween: Tween
@@ -108,7 +101,7 @@ func _ready() -> void:
         hit_box.set_collision_mask_value(EntityType.FRIENDLY, true)
     
     # set values for parameters other than default
-    health = max_health
+    health = unit_data.max_health
     state = State.IDLE
     command = Command.ATTACK
     #last_position = global_position
@@ -135,7 +128,7 @@ func _physics_process(delta: float) -> void:
     
     if target_enemy:
         # if enemy exists and is within range, attempt to attack it
-        if global_position.distance_to(target_enemy.global_position) < attack_range:
+        if global_position.distance_to(target_enemy.global_position) < unit_data.attack_range:
             if attack_ready:
                 attack()
         else: # move towards it
@@ -213,7 +206,7 @@ func move(delta: float) -> void:
     if target_enemy:
         nav_agent.target_position = target_enemy.global_position
     var next_path_pos: Vector2 = nav_agent.get_next_path_position()
-    var new_velocity: Vector2 = global_position.direction_to(next_path_pos) * speed
+    var new_velocity: Vector2 = global_position.direction_to(next_path_pos) * unit_data.speed
     
     # set parameters for blendspace move/idle animations
     anim_tree.set("parameters/move/BlendSpace2D/blend_position", new_velocity.normalized())
@@ -272,13 +265,14 @@ func attack() -> void:
     update_animation()
     
     # return to idle after attack finishes
-    await get_tree().create_timer(attack_speed).timeout
+    # TODO or register for a callback via the animation complete!
+    await get_tree().create_timer(unit_data.attack_speed).timeout
     # TODO need better state transition logic
     if state != State.DEAD:
         state = State.IDLE
     
     # wait to set flag for next attack
-    await get_tree().create_timer(attack_delay).timeout
+    await get_tree().create_timer(unit_data.attack_delay).timeout
     attack_ready = true
 
 
@@ -297,7 +291,7 @@ func take_damage(damage: int) -> void:
 
 
 func _on_hit_box_area_entered(area: Area2D) -> void:
-    area.owner.take_damage(attack_damage)
+    area.owner.take_damage(unit_data.attack_damage)
 
 
 func die() -> void:
