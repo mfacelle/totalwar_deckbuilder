@@ -42,7 +42,6 @@ var unit_uid: String
 var card_bg_uid: String
 
 # TODO eventually want to add stuff like:
-# - card background texture (i.e. different colors, different types of cards)
 # - card outline/border?
 # - effects, i.e. shine, color overlay, etc
 

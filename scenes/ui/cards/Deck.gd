@@ -27,7 +27,10 @@ var battle_state: BattleSignalManager.BattleState = BattleSignalManager.BattleSt
 @export var click_duration: float = 0.2
 
 @export_category("Node References")
-@export var top_card: Control
+@export var top_card: TextureRect
+@export var card_2: TextureRect
+@export var card_3: TextureRect
+@export var card_4: TextureRect
 ## TODO label is temporary, mainly for debug and trying out new stuf
 @export var card_count_label: Label
 
@@ -52,10 +55,28 @@ func set_card_pile(pile: CardPile) -> void:
     card_count_label.text = str(cards.size())
 
 
+func set_cardback_texture(tex_uid: String) -> void:
+    var texture = load(tex_uid)
+    top_card.texture = texture
+    card_2.texture = texture
+    card_3.texture = texture
+    card_4.texture = texture
+
 ## draws a card and updates the label
 func draw_card() -> CardData:
     var drawn_card = cards.draw()
     card_count_label.text = str(cards.size())
+    
+    # TODO clunky, but it'll work for now...
+    if cards.size() < 4:
+        card_4.visible = false
+    if cards.size() < 3:
+        card_3.visible = false
+    if cards.size() < 2:
+        card_2.visible = false
+    if cards.size() < 1:
+        top_card.visible = false
+    
     return drawn_card
 
 

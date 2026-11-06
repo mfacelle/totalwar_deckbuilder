@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://c225prpw4bk5x"]
 
-[ext_resource type="Script" uid="uid://be10vmwbhmu4g" path="res://scenes/units/Unit.gd" id="1_afhla"]
+[ext_resource type="Script" uid="uid://b5gayccv1ub37" path="res://scenes/units/Unit.gd" id="1_afhla"]
 [ext_resource type="Texture2D" uid="uid://rymgho44sdij" path="res://assets/units/goblin/GoblinIdle.png" id="2_afhla"]
+[ext_resource type="PackedScene" uid="uid://crdy2qd2pgc7s" path="res://scenes/units/nearby_enemy_search_area_component.tscn" id="2_gvjnw"]
 [ext_resource type="Texture2D" uid="uid://csvb5ptdyc606" path="res://assets/units/shadows_humanoid/ShadowHumanoidIdle.png" id="2_sl7v4"]
 [ext_resource type="Texture2D" uid="uid://bjvycbko20jjp" path="res://assets/units/goblin/GoblinAttack.png" id="3_sl7v4"]
 [ext_resource type="Texture2D" uid="uid://ch7hrxqc8o6wb" path="res://assets/units/goblin/GoblinWalk.png" id="4_ncftm"]
@@ -1612,7 +1613,7 @@ blend_point_3/name = &"attack_se"
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_43fk3"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_5oh5w"]
-graph_offset = Vector2(-503.04004, 52.800003)
+graph_offset = Vector2(-293.76007, 44.16)
 nodes/BlendSpace2D/node = SubResource("AnimationNodeBlendSpace2D_hob08")
 nodes/BlendSpace2D/position = Vector2(-160, 110)
 nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_43fk3")
@@ -1725,7 +1726,7 @@ states/idle/position = Vector2(405, 100)
 states/move/node = SubResource("AnimationNodeBlendTree_m5r0c")
 states/move/position = Vector2(479, 251.5)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_5oh5w"), "idle", "move", SubResource("AnimationNodeStateMachineTransition_401ek"), "move", "idle", SubResource("AnimationNodeStateMachineTransition_mlqdw"), "idle", "attack", SubResource("AnimationNodeStateMachineTransition_7m1gr"), "attack", "idle", SubResource("AnimationNodeStateMachineTransition_m5r0c"), "move", "attack", SubResource("AnimationNodeStateMachineTransition_uxyqu"), "idle", "die", SubResource("AnimationNodeStateMachineTransition_gvjnw"), "attack", "die", SubResource("AnimationNodeStateMachineTransition_kwuo4"), "move", "die", SubResource("AnimationNodeStateMachineTransition_binis")]
-graph_offset = Vector2(107.84978, -21.40497)
+graph_offset = Vector2(124.12477, 16.99503)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7m1gr"]
 radius = 2.0
@@ -1736,13 +1737,23 @@ radius = 4.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dfsep"]
 size = Vector2(3.875, 3.453125)
 
-[node name="Unit" type="CharacterBody2D" unique_id=66131987]
+[sub_resource type="CircleShape2D" id="CircleShape2D_dfsep"]
+radius = 6.0
+
+[node name="Goblin" type="CharacterBody2D" unique_id=66131987 node_paths=PackedStringArray("anim_tree", "nav_agent", "hurt_box", "hit_box", "sprite", "click_area")]
 y_sort_enabled = true
 script = ExtResource("1_afhla")
 unit_id = 1
 enemy_group_name = "enemies"
 min_movement_speed = 1.0
 stuck_delay = 1.0
+anim_tree = NodePath("AnimationTree")
+nav_agent = NodePath("NavigationAgent2D")
+hurt_box = NodePath("HurtBox")
+hit_box = NodePath("HitBox")
+sprite = NodePath("Sprite2D")
+click_area = NodePath("ClickableArea")
+enemy_search_area_scene = ExtResource("2_gvjnw")
 
 [node name="Sprite2DShadow" type="Sprite2D" parent="." unique_id=1860236946]
 position = Vector2(0, -3)
@@ -1784,6 +1795,7 @@ neighbor_distance = 50.0
 [node name="HurtBox" type="Area2D" parent="." unique_id=1613794597]
 collision_layer = 0
 collision_mask = 0
+input_pickable = false
 monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=755951583]
@@ -1801,5 +1813,14 @@ monitorable = false
 position = Vector2(5, -3)
 shape = SubResource("RectangleShape2D_dfsep")
 
+[node name="ClickableArea" type="Area2D" parent="." unique_id=602447065]
+position = Vector2(0, -3)
+collision_layer = 4
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ClickableArea" unique_id=824026683]
+shape = SubResource("CircleShape2D_dfsep")
+
 [connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
-[connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]

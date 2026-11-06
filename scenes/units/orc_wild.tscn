@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://c0honvmblkmqx"]
 
 [ext_resource type="Script" uid="uid://b5gayccv1ub37" path="res://scenes/units/Unit.gd" id="1_8gbjg"]
+[ext_resource type="PackedScene" uid="uid://crdy2qd2pgc7s" path="res://scenes/units/nearby_enemy_search_area_component.tscn" id="2_urmts"]
 [ext_resource type="Texture2D" uid="uid://csvb5ptdyc606" path="res://assets/units/shadows_humanoid/ShadowHumanoidIdle.png" id="2_v7n04"]
-[ext_resource type="Texture2D" uid="uid://rymgho44sdij" path="res://assets/units/goblin/GoblinIdle.png" id="3_knayp"]
 [ext_resource type="Texture2D" uid="uid://lstdruptravp" path="res://assets/units/orc_wild/WildOrcAttack.png" id="4_urmts"]
 [ext_resource type="Texture2D" uid="uid://dg0gdtang8ren" path="res://assets/units/shadows_humanoid/ShadowHumanoidAttack.png" id="5_traqi"]
 [ext_resource type="Texture2D" uid="uid://cj5s3nqnco4t1" path="res://assets/units/orc_wild/WildOrcDie.png" id="6_8gbjg"]
@@ -23,7 +23,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("3_knayp")]
+"values": [ExtResource("8_v7n04")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -1737,13 +1737,23 @@ radius = 4.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dfsep"]
 size = Vector2(3.875, 3.453125)
 
-[node name="Unit" type="CharacterBody2D" unique_id=66131987]
+[sub_resource type="CircleShape2D" id="CircleShape2D_p0de3"]
+radius = 6.0
+
+[node name="WildOrc" type="CharacterBody2D" unique_id=66131987 node_paths=PackedStringArray("anim_tree", "nav_agent", "hurt_box", "hit_box", "sprite", "click_area")]
 y_sort_enabled = true
 script = ExtResource("1_8gbjg")
 unit_id = 3
 enemy_group_name = "enemies"
 min_movement_speed = 1.0
 stuck_delay = 1.0
+anim_tree = NodePath("AnimationTree")
+nav_agent = NodePath("NavigationAgent2D")
+hurt_box = NodePath("HurtBox")
+hit_box = NodePath("HitBox")
+sprite = NodePath("Sprite2D")
+click_area = NodePath("ClickableArea")
+enemy_search_area_scene = ExtResource("2_urmts")
 
 [node name="Sprite2DShadow" type="Sprite2D" parent="." unique_id=1860236946]
 position = Vector2(0, -3)
@@ -1753,7 +1763,7 @@ vframes = 4
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1674379908]
 position = Vector2(0, -3)
-texture = ExtResource("3_knayp")
+texture = ExtResource("8_v7n04")
 hframes = 16
 vframes = 4
 
@@ -1801,6 +1811,16 @@ monitorable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=2089466841]
 position = Vector2(5, -3)
 shape = SubResource("RectangleShape2D_dfsep")
+
+[node name="ClickableArea" type="Area2D" parent="." unique_id=1462397581]
+position = Vector2(0, -3)
+collision_layer = 4
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ClickableArea" unique_id=161395988]
+shape = SubResource("CircleShape2D_p0de3")
 
 [connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
 [connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]

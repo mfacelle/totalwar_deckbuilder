@@ -225,6 +225,7 @@ theme_override_constants/line_spacing = 0
 text = "Test Card"
 
 [node name="StatsContainer" type="Control" parent="BaseCardNode/CardDetails" unique_id=522329730]
+visible = false
 anchors_preset = 0
 offset_left = 20.0
 offset_top = 170.0

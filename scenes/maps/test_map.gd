@@ -10,12 +10,13 @@ extends Node2D
 ## for debug/test stuff
 @export var enemy_unit: PackedScene
 
-@onready var world: Node2D = $world
-@onready var nav_map: TileMapLayer = $world/tilemap/navigation
-@onready var units: Node = $world/entities/units
-@onready var enemies: Node = $world/entities/enemies
+@export_category("Node References")
+@export var world: Node2D
+@export var nav_map: TileMapLayer
+@export var units: Node
+@export var enemies: Node
 ## TODO probably a better way to do this for checking mouse inputs
-@onready var my_base: Base = $world/entities/units/MyBase
+@export var my_base: Base
 
 var friendly_spawn_index: int = 0
 var enemy_spawn_index: int = 0
@@ -139,7 +140,7 @@ func spawn_enemy_unit() -> void:
     if enemy_unit:
         # TODO just loading from wild orc card by default, for now
         var new_unit = enemy_unit.instantiate() as Unit
-        new_unit.entity_type = Unit.EntityType.ENEMY
+        new_unit.entity_type = UnitData.EntityType.ENEMY
         new_unit.enemy_group_name = "units"
         new_unit.global_position = get_global_mouse_position()
         new_unit.name = str("Enemy", enemy_spawn_index)

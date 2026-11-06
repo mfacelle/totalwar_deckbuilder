@@ -64,8 +64,10 @@ RightClick={
 
 2d_physics/layer_1="environment"
 2d_physics/layer_2="unit_place"
-2d_physics/layer_5="player_damage"
-2d_physics/layer_6="enemy_damage"
+2d_physics/layer_3="clickable"
+2d_physics/layer_4="enemy_search"
+2d_physics/layer_5="player"
+2d_physics/layer_6="enemy"
 
 [physics]
 
