@@ -140,7 +140,7 @@ func spawn_enemy_unit() -> void:
     if enemy_unit:
         # TODO just loading from wild orc card by default, for now
         var new_unit = enemy_unit.instantiate() as Unit
-        new_unit.entity_type = UnitData.EntityType.ENEMY
+        new_unit.entity_type = UnitTypes.EntityType.ENEMY
         new_unit.enemy_group_name = "units"
         new_unit.global_position = get_global_mouse_position()
         new_unit.name = str("Enemy", enemy_spawn_index)

@@ -15,13 +15,6 @@ enum UnitId {
     SLIME_GREEN_BIG
 }
 
-## type of entity, with values matching collision layer ID they will use
-enum EntityType
-{
-    FRIENDLY = 5,
-    ENEMY = 6
-}
-
 
 # TODO consider splitting up some of these params into smaller pieces,
 # i.e. attack params, movement params, etc.

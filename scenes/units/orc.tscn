@@ -1748,6 +1748,7 @@ unit_id = 2
 enemy_group_name = "enemies"
 min_movement_speed = 1.0
 stuck_delay = 1.0
+target_update_delay = 1.0
 anim_tree = NodePath("AnimationTree")
 nav_agent = NodePath("NavigationAgent2D")
 hurt_box = NodePath("HurtBox")
@@ -1824,4 +1825,3 @@ monitorable = false
 shape = SubResource("CircleShape2D_bv8o7")
 
 [connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
-[connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]

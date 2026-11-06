@@ -6,53 +6,20 @@ extends CharacterBody2D
 # emitted for other units to listen to
 signal unit_died(unit: Unit)
 
-## basic state, for updating entity
-enum State
-{
-    IDLE, ## no objective or movement target
-    MOVE, ## actvely moving
-    ATTACK, ## actively attacking
-    WAITING_ORDERS, ## clicked on, waiting for more
-    DEAD, ## dead, about to be deleted (...in most cases?)
-    STUCK ## stuck and unable to proceed with movement. TODO not properly implemented
-}
-
-## commands that influence behavior of entity
-## TODO want to reconsider these and change them
-enum Command
-{
-    ATTACK, ## attack nearest enemy (or specific derived class behavior?)
-    DEFEND, ## stay at a point and move to and attack nearby enemies
-    HOLD, ## stay at a point and only attack enemies if they enter attack range
-    RETREAT ## run base to base
-}
-
-# TODO eventually add behavior types (though these may only really apply to enemies?)
-
-## simple behaviors that units can have, for more varied battles
-## TODO add unit "behavior" types and actual logic to implement
-## TODO can be a list of behaviors maybe? but some conflict with each other
-## TODO may want to split this into separate behaviors for attack/defend/hold/retreat
-enum BehaviorType
-{
-    KEEP_ATTACKING, # continue attacking, standard behavior
-    DEFEND_THEN_CHASE, # when defending, chase enemies after first encounter
-    DEFEND_THEN_HOLD # when defending, return to original spot after first encounter
-}
 
 @export_category("Stats")
 ## ID for this unit, for retrieving stats from config
 @export var unit_id: UnitData.UnitId
 ## faction that this entity belongs to (determines what damage collision layers to use)
-@export var entity_type: UnitData.EntityType = UnitData.EntityType.FRIENDLY
+@export var entity_type: UnitTypes.EntityType = UnitTypes.EntityType.FRIENDLY
 ## name of group to use when looking for opponents
 @export var enemy_group_name: String
 ## threshold for minimum movement for detecting stuck state
-@export var min_movement_speed: float
+@export var min_movement_speed: float = 1.0
 ## how long to wait, in seconds, when stuck, before re-attempting movement
-@export var stuck_delay: float
+@export var stuck_delay: float = 1.0
 ## how often, in seconds, to periodically search for a closer enemy
-@export var target_update_delay: float
+@export var target_update_delay: float = 1.0
 ## size of enemy search area (TODO eventually make this part of UnitData)
 @export var enemy_search_radius: int = 30
 
@@ -65,7 +32,7 @@ enum BehaviorType
 @export var click_area: Area2D
 @export var enemy_search_area_scene: PackedScene
 
-@export_category("Hurt Animation")
+@export_category("Animations")
 ## how long to fade in red hurt animation
 @export var hurt_fadein_duration: float = 0.05
 ## how long to fade out red hurt animation
@@ -79,12 +46,18 @@ enum BehaviorType
 @onready var unit_data: UnitData = UnitDataManager.units[unit_id]
 @onready var anim_playback: AnimationNodeStateMachinePlayback = anim_tree["parameters/playback"]
 
-var health_component: HealthComponent
-var click_component: ClickableComponent
-var nearby_enemy_search_area: NearbyEnemySearchAreaComponent
-var state: State = State.IDLE
-var command: Command = Command.ATTACK
-var target_enemy: Node2D = null
+# components - start off as null, since some have constructor args
+var health_component: HealthComponent = null
+var click_component: ClickableComponent = null
+var nearby_enemy_search_area: NearbyEnemySearchAreaComponent = null
+
+## list of nearby enemies to search through
+var nearby_enemies: Array[Unit]
+
+# params and attributes
+var state: UnitTypes.State = UnitTypes.State.IDLE
+var command: UnitTypes.Command = UnitTypes.Command.ATTACK
+var target_enemy: Unit = null
 var attack_ready: bool = true
 var stuck_timer: float = 0
 var target_update_timer: float = 0
@@ -105,9 +78,12 @@ func _ready() -> void:
     add_child(health_component)
     
     # set up initial state and position
-    state = State.IDLE
-    command = Command.ATTACK
+    state = UnitTypes.State.IDLE
+    command = UnitTypes.Command.ATTACK
     #last_position = global_position
+    
+    # start target search timer partially complete, so initial wait isn't as long
+    target_update_timer = target_update_delay / 2.0
     
     # wait a frame for navigation to be set up
     await get_tree().physics_frame
@@ -119,19 +95,21 @@ func set_up_areas_and_collision() -> void:
     # set up area 2d components and nodes to properly handle collision layers
     click_component = ClickableComponent.new(click_area)
     
-    var enemy_type: UnitData.EntityType = UnitData.EntityType.ENEMY
+    var enemy_type: UnitTypes.EntityType = UnitTypes.EntityType.ENEMY
     
     # set layer used for damage collisions affecting this object.
     # also ensure only friendly units can be selected
-    if entity_type == UnitData.EntityType.FRIENDLY:
-        hurt_box.set_collision_layer_value(UnitData.EntityType.FRIENDLY, true)
-        hit_box.set_collision_mask_value(UnitData.EntityType.ENEMY, true)
-        enemy_type = UnitData.EntityType.ENEMY
+    if entity_type == UnitTypes.EntityType.FRIENDLY:
+        hurt_box.set_collision_layer_value(UnitTypes.EntityType.FRIENDLY, true)
+        hit_box.set_collision_mask_value(UnitTypes.EntityType.ENEMY, true)
+        enemy_type = UnitTypes.EntityType.ENEMY
         click_component.clicked_on.connect(_on_click)
+        click_component.hover_start.connect(_on_hover_start)
+        click_component.hover_end.connect(_on_hover_end)
     else:
-        hurt_box.set_collision_layer_value(UnitData.EntityType.ENEMY, true)
-        hit_box.set_collision_mask_value(UnitData.EntityType.FRIENDLY, true)
-        enemy_type = UnitData.EntityType.FRIENDLY
+        hurt_box.set_collision_layer_value(UnitTypes.EntityType.ENEMY, true)
+        hit_box.set_collision_mask_value(UnitTypes.EntityType.FRIENDLY, true)
+        enemy_type = UnitTypes.EntityType.FRIENDLY
         click_area.input_pickable = false
     
     hit_box.area_entered.connect(_on_hit_box_area_entered)
@@ -148,11 +126,11 @@ func set_up_areas_and_collision() -> void:
 ## processes various unit states
 ## TODO would be better to refactor into proper state machine soon
 func _physics_process(delta: float) -> void:
-    # TODO will also need to handle commands along with state.
+    # TODO will also need to handle commands along with UnitTypes.State.
     # refactor this into a more proper state machine
     
     # do nothing here if dead or attacking
-    if state == State.DEAD or state == State.ATTACK:
+    if state == UnitTypes.State.DEAD or state == UnitTypes.State.ATTACK:
         return
     
     # if target exists and within range, attack
@@ -178,7 +156,7 @@ func _physics_process(delta: float) -> void:
         target_update_timer = 0
         target_enemy = find_closest_enemy()
         if not target_enemy: # set to idle if no target found
-            state = State.IDLE
+            state = UnitTypes.State.IDLE
             velocity = Vector2.ZERO
     
     # ensure correct animation state is set
@@ -187,13 +165,13 @@ func _physics_process(delta: float) -> void:
 
 func update_animation() -> void:
     match state:
-        State.IDLE, State.STUCK:
+        UnitTypes.State.IDLE, UnitTypes.State.STUCK:
             anim_playback.travel("idle")
-        State.MOVE:
+        UnitTypes.State.MOVE:
             anim_playback.travel("move")
-        State.ATTACK:
+        UnitTypes.State.ATTACK:
             anim_playback.travel("attack")
-        State.DEAD:
+        UnitTypes.State.DEAD:
             anim_playback.travel("die")
         _:
             anim_playback.travel("idle")
@@ -202,18 +180,26 @@ func update_animation() -> void:
 # consider making this a utility function in a separate script (maybe even C++)
 # TODO notes on this:
 # - use nav mesh to find closest, not just straight distance
-# - consider enemy types or something, eventually
-# - use "target points" (separate function?) 
-func find_closest_enemy() -> Node2D:
-    var enemies = get_tree().get_nodes_in_group(enemy_group_name)
-    var closest_enemy: Node2D = null
+# - use "target points"
+# - consider moving into separate component
+func find_closest_enemy() -> Unit:
+    var closest_enemy: Unit = null
     var shortest_distance: float = INF
     
-    # TODO does this distance take into account the nav mesh? probably not...
-    # definitely need to include that somewhere here.
-    # TODO should also consider some method to filter out enemies that aren't nearby.
-    # maybe using groups based on cells or something?
-    for enemy in enemies:
+    # use nearby enemies, if any exist
+    # TODO want to ignore all enemies, unless "rampage" mode
+    var enemy_list: Array[Unit]
+    if nearby_enemies.is_empty():
+        # TODO this feels clunky... but need to get enemies as Unit types manually
+        var enemy_nodes: Array[Node] = get_tree().get_nodes_in_group(enemy_group_name)
+        for enemy_node in enemy_nodes:
+            var enemy_unit: Unit = enemy_node as Unit
+            enemy_list.append(enemy_unit)
+    else:
+        enemy_list = nearby_enemies
+    
+    # TODO distance needs to account for nav mesh
+    for enemy in enemy_list:
         if enemy == self:
             continue
         var distance = global_position.distance_to(enemy.global_position)
@@ -227,14 +213,14 @@ func find_closest_enemy() -> Node2D:
 func move(delta: float) -> void:
     # if marked as stuck, dont process any movements for a bit.
     # note: this is currently disabled and won't happen
-    if state == State.STUCK and stuck_timer < stuck_delay:
+    if state == UnitTypes.State.STUCK and stuck_timer < stuck_delay:
         #velocity = Vector2.ZERO
         stuck_timer += delta
         return
     
     # ensure stuck_timer is cleared
     stuck_timer = 0
-    state = State.MOVE
+    state = UnitTypes.State.MOVE
     
     # eventually, we want to be able to move towards things other than target enemies.
     # for now, this is fine
@@ -257,7 +243,7 @@ func move(delta: float) -> void:
     #var distance_moved = global_position.distance_to(last_position)
     #if distance_moved < min_movement_speed * delta and new_velocity.length() > 0.0:
         #print(name, " stuck at ", Time.get_time_string_from_system())
-        #state = State.STUCK
+        #state = UnitTypes.State.STUCK
         #velocity = Vector2.ZERO
 
     #print(name, "   new velocity=", new_velocity.length())
@@ -275,18 +261,18 @@ func move(delta: float) -> void:
 
 
 func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:
-    if state != State.STUCK:
+    if state != UnitTypes.State.STUCK:
         velocity = safe_velocity
     # not calling move_and_slide from this function, because this callback is hit from various places
 
 
 func attack() -> void:
     # do nothing if already attacking
-    if state == State.ATTACK:
+    if state == UnitTypes.State.ATTACK:
         return
     
     # set state to attack and disable ready flag, for next attack
-    state = State.ATTACK
+    state = UnitTypes.State.ATTACK
     attack_ready = false
     
     # halt any movement
@@ -303,8 +289,8 @@ func attack() -> void:
     # TODO or register for a callback via the animation complete!
     await get_tree().create_timer(unit_data.attack_speed).timeout
     # TODO need better state transition logic
-    if state != State.DEAD:
-        state = State.IDLE
+    if state != UnitTypes.State.DEAD:
+        state = UnitTypes.State.IDLE
     
     # wait to set flag for next attack
     await get_tree().create_timer(unit_data.attack_delay).timeout
@@ -330,20 +316,20 @@ func on_health_changed(_old_value: int, _new_value: int) -> void:
         tween = create_tween()
         tween.set_ease(Tween.EASE_OUT)
         tween.set_trans(Tween.TRANS_CIRC)
-        tween.tween_property(self, "modulate", hurt_color, hurt_fadein_duration)
-        tween.tween_property(self, "modulate", normal_color, hurt_fadeout_duration)
+        tween.tween_property(sprite, "modulate", hurt_color, hurt_fadein_duration)
+        tween.tween_property(sprite, "modulate", normal_color, hurt_fadeout_duration)
 
 
 ## play die animation and update state
 func on_die() -> void:
     print(name, " died!")
-    state = State.DEAD
+    state = UnitTypes.State.DEAD
     
     # make unit not monitorable, and stop searching for enemies
     hurt_box.monitorable = false
     nearby_enemy_search_area.monitoring = false
     
-    unit_died.emit(self)
+    unit_died.emit(self as Unit)
     
     update_animation()
 
@@ -361,11 +347,26 @@ func _on_click() -> void:
     # TODO or maybe make some kind of unit manager node that handles state info?
     print(name, " clicked on")
 
+## highlight sprite on mouse hover
+## TODO implement this
+func _on_hover_start() -> void:
+    print("hover start")
+    # TODO check for proper battle state
+    pass
 
-## TODO add enemies to list
-func _on_enemy_entered_search_area(area: Area2D) -> void:
-    print(area.owner.name, " entered search area for ", name)
+## return to normal when mouse no longer hovers
+## TODO implement this
+func _on_hover_end() -> void:
+    print("hover end")
+    # TODO check for proper battle state
+    pass
 
-## TODO remove enemies from list
-func _on_enemy_exited_search_area(area: Area2D) -> void:
-    print(area.owner.name, " exited search area for ", name)
+
+## add to list of nearby enemies
+func _on_enemy_entered_search_area(_unit: Unit) -> void:
+    nearby_enemies.append(_unit)
+
+## remove from list of nearby enemies
+func _on_enemy_exited_search_area(_unit: Unit) -> void:
+    # TODO need to figure out how references are handled in godot...
+    nearby_enemies.erase(_unit)

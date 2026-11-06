@@ -1824,4 +1824,3 @@ monitorable = false
 shape = SubResource("CircleShape2D_fo6r1")
 
 [connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
-[connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]

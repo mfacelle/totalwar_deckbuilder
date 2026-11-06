@@ -16,7 +16,7 @@ func _ready() -> void:
     super._ready()
     
     # doesn't really matter if this is set, but doing it anyway
-    command = Command.HOLD
+    command = UnitTypes.Command.HOLD
     
     placement_shape.shape.radius = placement_range
     set_spawn_area_visible(false)
@@ -45,8 +45,8 @@ func attack() -> void:
 func on_die() -> void:
     print("Base ", name, " destroyed!")
     
-    state = State.DEAD
-    if entity_type == UnitData.EntityType.FRIENDLY:
+    state = UnitTypes.State.DEAD
+    if entity_type == UnitTypes.EntityType.FRIENDLY:
         BattleSignalManager.defeat.emit()
     else:
         BattleSignalManager.victory.emit()
