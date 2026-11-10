@@ -32,6 +32,9 @@ signal unit_died(unit: Unit)
 @export var click_area: Area2D
 @export var enemy_search_area_scene: PackedScene
 
+@export_category("Resources")
+@export var highlight_shader: ShaderMaterial
+
 @export_category("Animations")
 ## how long to fade in red hurt animation
 @export var hurt_fadein_duration: float = 0.05
@@ -348,17 +351,17 @@ func _on_click() -> void:
     print(name, " clicked on")
 
 ## highlight sprite on mouse hover
-## TODO implement this
 func _on_hover_start() -> void:
-    print("hover start")
+    sprite.material = highlight_shader
     # TODO check for proper battle state
+    # TODO ad tween to fade in/out?
     pass
 
 ## return to normal when mouse no longer hovers
-## TODO implement this
 func _on_hover_end() -> void:
-    print("hover end")
+    sprite.material = null
     # TODO check for proper battle state
+    # TODO ad tween to fade in/out?
     pass
 
 
