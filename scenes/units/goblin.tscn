@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://crdy2qd2pgc7s" path="res://scenes/units/nearby_enemy_search_area_component.tscn" id="2_gvjnw"]
 [ext_resource type="Texture2D" uid="uid://csvb5ptdyc606" path="res://assets/units/shadows_humanoid/ShadowHumanoidIdle.png" id="2_sl7v4"]
 [ext_resource type="Texture2D" uid="uid://bjvycbko20jjp" path="res://assets/units/goblin/GoblinAttack.png" id="3_sl7v4"]
+[ext_resource type="Material" uid="uid://ckj4qj4fhbwsu" path="res://resources/shaders/unit_outline_shader.tres" id="4_kwuo4"]
 [ext_resource type="Texture2D" uid="uid://ch7hrxqc8o6wb" path="res://assets/units/goblin/GoblinWalk.png" id="4_ncftm"]
 [ext_resource type="Texture2D" uid="uid://dg0gdtang8ren" path="res://assets/units/shadows_humanoid/ShadowHumanoidAttack.png" id="5_0hmiu"]
 [ext_resource type="Texture2D" uid="uid://c4sjbepqashh0" path="res://assets/units/goblin/GoblinSpinDie.png" id="6_4oixd"]
@@ -1744,12 +1745,7 @@ radius = 6.0
 y_sort_enabled = true
 script = ExtResource("1_afhla")
 unit_id = 1
-entity_type = null
 enemy_group_name = "enemies"
-min_movement_speed = null
-stuck_delay = null
-target_update_delay = null
-enemy_search_radius = null
 anim_tree = NodePath("AnimationTree")
 nav_agent = NodePath("NavigationAgent2D")
 hurt_box = NodePath("HurtBox")
@@ -1757,6 +1753,7 @@ hit_box = NodePath("HitBox")
 sprite = NodePath("Sprite2D")
 click_area = NodePath("ClickableArea")
 enemy_search_area_scene = ExtResource("2_gvjnw")
+highlight_shader = ExtResource("4_kwuo4")
 
 [node name="Sprite2DShadow" type="Sprite2D" parent="." unique_id=1860236946]
 position = Vector2(0, -3)

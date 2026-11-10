@@ -12,7 +12,7 @@ func _init(_area: Area2D):
         click_area = _area
         click_area.input_event.connect(_on_input_event)
         click_area.mouse_entered.connect(_on_mouse_entered)
-        click_area.mouse_entered.connect(_on_mouse_exited)
+        click_area.mouse_exited.connect(_on_mouse_exited)
 
 
 # TODO need to figure out how to only click on one object, when multiple are in range

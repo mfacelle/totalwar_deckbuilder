@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://b5gayccv1ub37" path="res://scenes/units/Unit.gd" id="1_ncoyb"]
 [ext_resource type="Texture2D" uid="uid://csvb5ptdyc606" path="res://assets/units/shadows_humanoid/ShadowHumanoidIdle.png" id="2_0pr5x"]
 [ext_resource type="PackedScene" uid="uid://crdy2qd2pgc7s" path="res://scenes/units/nearby_enemy_search_area_component.tscn" id="2_ncoyb"]
+[ext_resource type="Material" uid="uid://ckj4qj4fhbwsu" path="res://resources/shaders/unit_outline_shader.tres" id="3_0pr5x"]
 [ext_resource type="Texture2D" uid="uid://csr3o8gpgtwgs" path="res://assets/units/warg/WargAttack.png" id="4_ncoyb"]
 [ext_resource type="Texture2D" uid="uid://ca5wd620g2ldo" path="res://assets/units/warg/ShadowWargAttack.png" id="5_0pr5x"]
 [ext_resource type="Texture2D" uid="uid://dkqpctqbc7lca" path="res://assets/units/warg/WargDie.png" id="6_ncoyb"]
@@ -1805,8 +1806,6 @@ y_sort_enabled = true
 script = ExtResource("1_ncoyb")
 unit_id = 5
 enemy_group_name = "enemies"
-min_movement_speed = 1.0
-stuck_delay = 1.0
 anim_tree = NodePath("AnimationTree")
 nav_agent = NodePath("NavigationAgent2D")
 hurt_box = NodePath("HurtBox")
@@ -1814,6 +1813,7 @@ hit_box = NodePath("HitBox")
 sprite = NodePath("Sprite2D")
 click_area = NodePath("ClickableArea")
 enemy_search_area_scene = ExtResource("2_ncoyb")
+highlight_shader = ExtResource("3_0pr5x")
 
 [node name="Sprite2DShadow" type="Sprite2D" parent="." unique_id=1860236946]
 position = Vector2(0, -3)

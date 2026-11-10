@@ -10,15 +10,17 @@ enum BattleState
     RUNNING, # basic run state
     PAUSED, # basic pause state
     CARD_HELD, # holding a card (paused gameplay, but inputs/actions valid)
+    COMMANDING_UNIT, # selected a unit, awaiting secondary input from player
     END_VICTORY, # battle ended and player won
     END_DEFEAT # battle ended and player lost
 }
 
 
 ## returns whether or not the state provided can be considered a "running" state
-## from the point of view of gameplay.  i.e. should the battle keep running
+## from the point of view of overall gameplay.  i.e. should the battle keep running
 func is_running_state(state: BattleState) -> bool:
-    return state == BattleState.RUNNING or state == BattleState.CARD_HELD
+    return state == BattleState.RUNNING or state == BattleState.CARD_HELD \
+    or state == BattleState.COMMANDING_UNIT
 
 
 ## signal to spawn a unit at the mouse coordinates
