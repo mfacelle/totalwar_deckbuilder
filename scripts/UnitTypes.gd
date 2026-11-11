@@ -18,7 +18,7 @@ enum Command
     DEFAULT, ## attack nearest enemy in search range (basically same as DEFEND)
     RAMPAGE, ## attack enemies and ignore commanded positions, with no regard for nearby search area
     #DEFEND, ## stay at a point and move to and attack nearby enemies (same as DEFAULT?)
-    HOLD, ## stay at a point and only attack enemies if they enter attack range TODO probably only used by base?
+    HOLD, ## stay at a point and only attack enemies if they enter attack range
     RETREAT, ## run to commanded position, don't engage enemies until there
 }
 
@@ -30,12 +30,23 @@ enum Command
 ## TODO may want to split this into separate behaviors for attack/defend/hold/retreat
 enum BehaviorType
 {
-    DEFAULT, # nothing special, just follow command (use for friendly units)
-    RAMPAGE_AFTER_ATTACK, # enter rampage command after attacking an enemy
-    KEEP_ATTACKING, # continue attacking, standard behavior
-    DEFEND_THEN_CHASE, # when defending, chase enemies after first encounter
-    DEFEND_THEN_HOLD, # when defending, return to original spot after first encounter
+    DEFAULT, ## attack nearby enemies, then return to commanded position (all friendly units use this)
+    RAMPAGE_AFTER_ATTACK, ## enter rampage command after attacking an enemy
+    DEFEND_THEN_CHASE, ## when defending, chase enemies after first encounter (same as RAMPAGE_AFTER_ATTACK?)
+    DEFEND_THEN_HOLD, ## when defending, return to original spot after first encounter (same as DEFAULT?)
 }
+
+
+## simple behaviors that units will take when attacking or searching for enemies
+enum SearchBehavior
+{
+    CLOSEST, ## find the closest enemy
+    LOWEST_HEALTH, ## find the lowest health enemy
+    HIGHEST_HEALTH, ## find the highest health enemy
+    BASE_FIRST, ## go straight for enemy base, ignore other enemies
+    TARGET_LOCK, ## keep target until they die, then search for a new one
+}
+
 
 ## type of entity, with values matching collision layer ID they will use
 enum EntityType
