@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://bfagqevhd47r7" path="res://scenes/units/Base.gd" id="1_m1nav"]
 [ext_resource type="Texture2D" uid="uid://vse0773ustd" path="res://assets/environment/dungeon/Props.png" id="2_gnkvd"]
 [ext_resource type="Material" uid="uid://ckj4qj4fhbwsu" path="res://resources/shaders/unit_outline_shader.tres" id="3_3xaoo"]
-[ext_resource type="Script" uid="uid://cpsqnqevcigw8" path="res://scenes/units/components/SpawnArea.gd" id="4_lcu0q"]
+[ext_resource type="Script" uid="uid://cpsqnqevcigw8" path="res://scenes/units/components/spawn_area/SpawnArea.gd" id="4_lcu0q"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m1nav"]
 atlas = ExtResource("1_gnkvd")
@@ -179,8 +179,6 @@ radius = 9.0
 y_sort_enabled = true
 script = ExtResource("1_m1nav")
 placement_range = 64
-placement_zone = NodePath("PlacementZone")
-placement_shape = NodePath("PlacementZone/CollisionShape2D")
 unit_id = null
 entity_type = null
 enemy_group_name = null
@@ -190,17 +188,19 @@ target_update_delay = 10.0
 enemy_search_radius = null
 default_command = null
 behavior = null
+highlight_shader = ExtResource("3_3xaoo")
+hurt_fadein_duration = null
+hurt_fadeout_duration = null
+hurt_color = null
+normal_color = null
+placement_zone = NodePath("PlacementZone")
+placement_shape = NodePath("PlacementZone/CollisionShape2D")
 anim_tree = NodePath("AnimationTree")
 nav_agent = NodePath("NavigationAgent2D")
 hurt_box = NodePath("HurtBox")
 hit_box = NodePath("HitBox")
 sprite = NodePath("Sprite2D")
 click_area = NodePath("ClickableArea")
-highlight_shader = ExtResource("3_3xaoo")
-hurt_fadein_duration = null
-hurt_fadeout_duration = null
-hurt_color = null
-normal_color = null
 
 [node name="Sprite2DShadow" type="Sprite2D" parent="." unique_id=1860236946]
 position = Vector2(-1, -6)

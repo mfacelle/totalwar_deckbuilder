@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://7knephbuo65i"]
 
-[ext_resource type="Script" uid="uid://dg7vesw65n4pg" path="res://scenes/units/components/CommandLineComponent.gd" id="1_jl01t"]
+[ext_resource type="Script" uid="uid://dg7vesw65n4pg" path="res://scenes/units/components/click_and_command/CommandLineComponent.gd" id="1_jl01t"]
 [ext_resource type="Texture2D" uid="uid://dk1rsrl1t68h3" path="res://resources/ui/battle_map_ui/command_selector_atlastex.tres" id="2_vu37e"]
 
 [node name="CommandLine" type="Node2D" unique_id=1571482714 node_paths=PackedStringArray("line", "endpoint_sprite")]

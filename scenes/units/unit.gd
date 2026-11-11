@@ -35,16 +35,14 @@ signal unit_died(unit: Unit)
 @export var min_movement_speed: float = 1.0
 ## how long to wait, in seconds, when stuck, before re-attempting movement
 @export var stuck_delay: float = 1.0
-## how often, in seconds, to periodically search for a closer enemy
-@export var target_update_delay: float = 1.0
-## size of enemy search area (TODO eventually make this part of UnitData)
-@export var enemy_search_radius: int = 30
 
 @export_category("Behavior")
-## default command to start out with
+## default unit command
 @export var default_command: UnitTypes.Command = UnitTypes.Command.DEFAULT
-## default behavior to start out with (or to be set via editor)
+## unit behavior
 @export var behavior: UnitTypes.BehaviorType = UnitTypes.BehaviorType.DEFAULT
+## default attack type
+@export var search_behavior: UnitTypes.SearchBehavior = UnitTypes.SearchBehavior.CLOSEST
 
 @export_category("Node References")
 @export var anim_tree: AnimationTree
@@ -89,15 +87,13 @@ var health_component: HealthComponent = null
 var click_component: ClickableComponent = null
 var nearby_enemy_search_area: NearbyEnemySearchAreaComponent = null
 var command_line_component: CommandLineComponent = null
+var enemy_search_component: BasicEnemySearchComponent = null
 # TODO more components to add:
 # - spell effects (buffs/debuffs)
 # TODO later on, possible other components:
 # - behavior component (handles attack/move logic and switching states/commands)
 # - attack component (handles attacking logic and timers)
 # - move component (handles move logic and stuck checks/timers)
-
-## list of nearby enemies to search through
-var nearby_enemies: Array[Unit]
 
 ## whether or not unit has been commanded to move to a position
 var is_commanded_to_position: bool = false
@@ -112,7 +108,6 @@ var battle_state: BattleSignalManager.BattleState = BattleSignalManager.BattleSt
 var target_enemy: Unit = null
 var attack_ready: bool = true
 var stuck_timer: float = 0
-var target_update_timer: float = 0
 var tween: Tween
 #var last_position: Vector2
 
@@ -124,7 +119,15 @@ func _ready() -> void:
     # only enable animations when game is active (so editor doesn't keep them running)
     anim_tree.set_active(true)
     
-    set_up_areas_and_collision()
+    # need to redundantly set these up. don't seem to be getting set properly
+    state = UnitTypes.State.IDLE
+    command = default_command
+    battle_state = BattleSignalManager.BattleState.NOT_STARTED
+    
+    # set commanded position to initial location
+    commanded_position = global_position
+    
+    set_up_collision_and_enemy_search()
     
     # set up health component and add as child node (for better debugging)
     health_component = HealthComponent.new(unit_data.max_health)
@@ -137,16 +140,13 @@ func _ready() -> void:
     
     BattleSignalManager.battle_state_update.connect(_on_battle_state_update)
     
-    # start target search timer partially complete, so initial wait isn't as long
-    target_update_timer = target_update_delay / 2.0
-    
     # wait a frame for navigation to be set up
     await get_tree().physics_frame
 
 
 ## sets layers and masks for collision, as well as setting up clickable
 ## and enemy search areas
-func set_up_areas_and_collision() -> void:
+func set_up_collision_and_enemy_search() -> void:
     # set up area 2d components and nodes to properly handle collision layers
     
     var enemy_type: UnitTypes.EntityType = UnitTypes.EntityType.ENEMY
@@ -178,11 +178,21 @@ func set_up_areas_and_collision() -> void:
     # set up search area for nearby enemies
     nearby_enemy_search_area = enemy_search_area_scene.instantiate() as NearbyEnemySearchAreaComponent
     nearby_enemy_search_area.enemy_type = enemy_type
-    nearby_enemy_search_area.search_radius = enemy_search_radius
-    nearby_enemy_search_area.enemy_entered.connect(_on_enemy_entered_search_area)
-    nearby_enemy_search_area.enemy_exited.connect(_on_enemy_exited_search_area)
+    nearby_enemy_search_area.search_radius = unit_data.enemy_search_range
     add_child(nearby_enemy_search_area)
-
+    
+    # set up enemy search component
+    if command == UnitTypes.Command.RAMPAGE:
+        enemy_search_component = RampagingEnemySearchComponent.new( \
+            nearby_enemy_search_area, unit_data.target_search_delay, enemy_group_name, search_behavior)
+        print(name, " rampage search init")
+    else:
+        enemy_search_component = BasicEnemySearchComponent.new( \
+            nearby_enemy_search_area, unit_data.target_search_delay, enemy_group_name, search_behavior)
+        print(name, " basic search init")
+    
+    enemy_search_component.new_target_enemy.connect(_on_new_target_enemy)
+    add_child(enemy_search_component)
 
 
 # -----------------------------------------------------------------------------
@@ -191,6 +201,31 @@ func set_up_areas_and_collision() -> void:
 ## update battle state
 func _on_battle_state_update(new_state: BattleSignalManager.BattleState) -> void:
     battle_state = new_state
+
+
+## handle updates to command state
+func _on_command_update(new_command: UnitTypes.Command) -> void:
+    # if moving out of rampage, set up basic enemy search component
+    # TODO lots of redundant code in both blocks, along with init code...
+    if command == UnitTypes.Command.RAMPAGE and new_command != UnitTypes.Command.RAMPAGE:
+        var temp_enemy_list = enemy_search_component.nearby_enemies
+        enemy_search_component.queue_free()
+        enemy_search_component = BasicEnemySearchComponent.new( \
+            nearby_enemy_search_area, unit_data.target_search_delay, enemy_group_name, search_behavior)
+        enemy_search_component.nearby_enemies = temp_enemy_list
+        enemy_search_component.new_target_enemy.connect(_on_new_target_enemy)
+        add_child(enemy_search_component)
+    # if moving to rampage, set up rampaging enemy search component
+    elif command != UnitTypes.Command.RAMPAGE and new_command == UnitTypes.Command.RAMPAGE:
+        var temp_enemy_list = enemy_search_component.nearby_enemies
+        enemy_search_component.queue_free()
+        enemy_search_component = RampagingEnemySearchComponent.new( \
+            nearby_enemy_search_area, unit_data.target_search_delay, enemy_group_name, search_behavior)
+        enemy_search_component.nearby_enemies = temp_enemy_list
+        enemy_search_component.new_target_enemy.connect(_on_new_target_enemy)
+        add_child(enemy_search_component)
+    
+    command = new_command
 
 
 ## processes various unit states
@@ -213,10 +248,6 @@ func _physics_process(delta: float) -> void:
     if state == UnitTypes.State.DEAD or state == UnitTypes.State.ATTACK:
         return
     
-    # update timer for checking for new targets
-    # TODO may want to ignore this if actively attacking?
-    target_update_timer += delta
-    
     if target_enemy:
         # if enemy exists and is within range, attempt to attack it
         if global_position.distance_to(target_enemy.global_position) < unit_data.attack_range:
@@ -229,14 +260,7 @@ func _physics_process(delta: float) -> void:
         move(delta)
     else: # not moving, do nothing
         state = UnitTypes.State.IDLE
-    
-    # periodically try to find a new, closer, target
-    if target_update_timer >= target_update_delay:
-        target_update_timer = 0
-        target_enemy = find_closest_enemy()
-        if not target_enemy: # set to idle if no target found
-            state = UnitTypes.State.IDLE
-            velocity = Vector2.ZERO
+        velocity = Vector2.ZERO
     
     # ensure correct animation state is set
     update_animation()
@@ -260,49 +284,8 @@ func update_animation() -> void:
 # -----------------------------------------------------------------------------
 # enemy search
 
-# consider making this a utility function in a separate script (maybe even C++)
-# TODO notes on this:
-# - use nav mesh to find closest, not just straight distance
-# - use "target points"
-# - consider moving into separate component
-func find_closest_enemy() -> Unit:
-    var closest_enemy: Unit = null
-    var shortest_distance: float = INF
-    
-    # use nearby enemies, if any exist
-    var enemy_list: Array[Unit]
-    # if no nearby enemies exist and unit can rampage, find any close enemy
-    # TODO need to account for enemies that find no friendly units? have them go right for the base?
-    if nearby_enemies.is_empty() and command == UnitTypes.Command.RAMPAGE:
-        # TODO this feels clunky... but need to get enemies as Unit types manually
-        var enemy_nodes: Array[Node] = get_tree().get_nodes_in_group(enemy_group_name)
-        for enemy_node in enemy_nodes:
-            var enemy_unit: Unit = enemy_node as Unit
-            enemy_list.append(enemy_unit)
-    else:
-        enemy_list = nearby_enemies
-    
-    # TODO distance needs to account for nav mesh
-    for enemy in enemy_list:
-        if enemy == self:
-            continue
-        var distance = global_position.distance_to(enemy.global_position)
-        if distance < shortest_distance:
-            shortest_distance = distance
-            closest_enemy = enemy
-            
-    return closest_enemy
-
-
-## add to list of nearby enemies
-func _on_enemy_entered_search_area(_unit: Unit) -> void:
-    nearby_enemies.append(_unit)
-
-
-## remove from list of nearby enemies
-func _on_enemy_exited_search_area(_unit: Unit) -> void:
-    # TODO need to figure out how references are handled in godot...
-    nearby_enemies.erase(_unit)
+func _on_new_target_enemy(enemy: Unit) -> void:
+    target_enemy = enemy
 
 
 # -----------------------------------------------------------------------------
@@ -379,7 +362,9 @@ func attack() -> void:
     
     # TODO this is a clunky way to do this. need a state machine or an apply_behaviors function?
     if behavior == UnitTypes.BehaviorType.RAMPAGE_AFTER_ATTACK:
-        command = UnitTypes.Command.RAMPAGE
+        # TODO doing this like a signal, because it should probably be one coming 
+        # from a component eventually
+        _on_command_update(UnitTypes.Command.RAMPAGE)
     
     # set state to attack and disable ready flag, for next attack
     state = UnitTypes.State.ATTACK
@@ -469,13 +454,13 @@ func _on_click() -> void:
         command_line_component = command_line_scene.instantiate() as CommandLineComponent
         command_line_component.start_position = global_position
         command_line_component.end_position = get_global_mouse_position()
-        command_line_component.search_zone_radius = enemy_search_radius
+        command_line_component.search_zone_radius = unit_data.enemy_search_range
         add_child(command_line_component)
         BattleSignalManager.command_unit.connect(_on_unit_commanded)
         BattleSignalManager.battle_state_update.emit(BattleSignalManager.BattleState.COMMANDING_UNIT)
-        # TODO also set state to idle, or add new awaiting command state?
-        # maybe just set commanded_position to global_position, so unit can
-        # still attack enemies, but will stop moving
+        # set commanded position to current position so unit stops moving, but
+        # can still attack enemies, if any are currently in range
+        commanded_position = global_position
 
 
 ## update unit commanded position.

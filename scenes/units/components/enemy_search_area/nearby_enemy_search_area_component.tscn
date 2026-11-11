@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://crdy2qd2pgc7s"]
 
-[ext_resource type="Script" uid="uid://d3spfeh8qrxg1" path="res://scenes/units/components/NearbyEnemySearchAreaComponent.gd" id="1_4bhpp"]
+[ext_resource type="Script" uid="uid://d3spfeh8qrxg1" path="res://scenes/units/components/enemy_search_area/NearbyEnemySearchAreaComponent.gd" id="1_4bhpp"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dfsep"]
 radius = 20.0
