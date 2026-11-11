@@ -18,12 +18,19 @@ func _ready() -> void:
 
 func _on_battle_state_update(new_state: BattleSignalManager.BattleState) -> void:
     battle_state = new_state
+    
+    # make button disabled if not in a state where we can press it
+    if BattleSignalManager.is_ui_interactable_state(battle_state) or \
+    battle_state == BattleSignalManager.BattleState.PAUSED:
+        disabled = false
+    else:
+        disabled = true
 
 
 ## toggle pause, based on current state
 ## TODO possible to get into weird race conditions with this?
 func _on_pressed() -> void:
-    if BattleSignalManager.is_running_state(battle_state):
+    if BattleSignalManager.is_ui_interactable_state(battle_state):
         pause()
     elif battle_state == BattleSignalManager.BattleState.PAUSED:
         unpause()

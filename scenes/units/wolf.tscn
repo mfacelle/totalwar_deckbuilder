@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b5gayccv1ub37" path="res://scenes/units/Unit.gd" id="1_c0q42"]
 [ext_resource type="Texture2D" uid="uid://csvb5ptdyc606" path="res://assets/units/shadows_humanoid/ShadowHumanoidIdle.png" id="2_fo6r1"]
-[ext_resource type="PackedScene" uid="uid://crdy2qd2pgc7s" path="res://scenes/units/nearby_enemy_search_area_component.tscn" id="2_fon3g"]
+[ext_resource type="PackedScene" uid="uid://crdy2qd2pgc7s" path="res://scenes/units/components/nearby_enemy_search_area_component.tscn" id="2_fon3g"]
 [ext_resource type="Material" uid="uid://ckj4qj4fhbwsu" path="res://resources/shaders/unit_outline_shader.tres" id="3_71bq5"]
 [ext_resource type="Texture2D" uid="uid://wkpn7j84p3a5" path="res://assets/units/wolf/WolfAttack.png" id="4_c0q42"]
 [ext_resource type="Texture2D" uid="uid://27grfwx18jaq" path="res://assets/units/wolf/ShadowWolfAttack.png" id="5_fo6r1"]

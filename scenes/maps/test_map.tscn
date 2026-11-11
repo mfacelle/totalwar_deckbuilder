@@ -1491,11 +1491,14 @@ entity_type = 6
 position = Vector2(261, 77)
 entity_type = 6
 enemy_group_name = "units"
+enemy_search_radius = 40
+behavior = 1
 
 [node name="EnemyGoblin2" parent="world/entities/enemies" unique_id=1160490710 groups=["enemies"] instance=ExtResource("1_2t2t3")]
 position = Vector2(286, 73)
 entity_type = 6
 enemy_group_name = "units"
+enemy_search_radius = 40
 
 [node name="EnemyGoblin3" parent="world/entities/enemies" unique_id=1538882538 groups=["enemies"] instance=ExtResource("1_2t2t3")]
 position = Vector2(281, 114)

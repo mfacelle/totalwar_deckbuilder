@@ -49,13 +49,13 @@ func _ready() -> void:
 
 
 func _on_mouse_entered() -> void:
-    if BattleSignalManager.is_running_state(battle_state):
+    if BattleSignalManager.is_card_interactable_state(battle_state):
         animate_offset(hover_offset)
         card_highlighted = true
     
 
 func _on_mouse_exited() -> void:
-    if BattleSignalManager.is_running_state(battle_state):
+    if BattleSignalManager.is_card_interactable_state(battle_state):
         animate_offset(normal_offset)
         card_highlighted = false
 
@@ -74,7 +74,7 @@ func animate_offset(target_offset: Vector2) -> void:
 ## when card is selected, allow for holding it to be played
 func _on_gui_input(event: InputEvent) -> void:
     if event.is_action_pressed("LeftClick") and \
-    BattleSignalManager.is_running_state(battle_state):
+    BattleSignalManager.is_card_interactable_state(battle_state):
         if card_held == self:
             # if this card is currently held, and this original spot is selected again, put it back (by unhiding it)
             card_node.show()

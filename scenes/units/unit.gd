@@ -1,13 +1,30 @@
 class_name Unit
 extends CharacterBody2D
 # base unit object, handles simple commands, states, movement.
-# create derived classes (figure out how) to implement specific logic for units
+# create derived classes to implement specific logic for units
+
+# TODO really need to start looking into state machine for this. getting too big/complex
+# Notes on this:
+# - how to handle unit commanded position vs unit retreat, 
+#   when we want unit to run away and ignore enemies vs move to a position and attack them.
+#   consider some kind of popup when selecting a position to move to (i.e. attack vs run)
+# - probably need a way to set behaviors via map info, rather than in-editor 
+#   (especially if enemies can spawn mid-battle). can revisit this way later
+# - need some kind of logic to handle condition when player is out of units.
+#   do we want all enemies to rampage? what about if they still have cards?
+#   this logic probably belongs in map class or create an overall battle manager
+
+# -----------------------------------------------------------------------------
+# signals
 
 # emitted for other units to listen to
 signal unit_died(unit: Unit)
 
 
-@export_category("Stats")
+# -----------------------------------------------------------------------------
+# export vars
+
+@export_category("Parameters")
 ## ID for this unit, for retrieving stats from config
 @export var unit_id: UnitData.UnitId
 ## faction that this entity belongs to (determines what damage collision layers to use)
@@ -23,6 +40,12 @@ signal unit_died(unit: Unit)
 ## size of enemy search area (TODO eventually make this part of UnitData)
 @export var enemy_search_radius: int = 30
 
+@export_category("Behavior")
+## default command to start out with
+@export var default_command: UnitTypes.Command = UnitTypes.Command.DEFAULT
+## default behavior to start out with (or to be set via editor)
+@export var behavior: UnitTypes.BehaviorType = UnitTypes.BehaviorType.DEFAULT
+
 @export_category("Node References")
 @export var anim_tree: AnimationTree
 @export var nav_agent: NavigationAgent2D
@@ -30,7 +53,6 @@ signal unit_died(unit: Unit)
 @export var hit_box: Area2D
 @export var sprite: Sprite2D
 @export var click_area: Area2D
-@export var enemy_search_area_scene: PackedScene
 
 @export_category("Resources")
 @export var highlight_shader: ShaderMaterial
@@ -45,21 +67,48 @@ signal unit_died(unit: Unit)
 ## standard color modulation
 @export var normal_color: Color = Color(1, 1, 1, 1)
 
+
+# -----------------------------------------------------------------------------
+# onready vars
+
 ## data for this unit, for setting stats
 @onready var unit_data: UnitData = UnitDataManager.units[unit_id]
 @onready var anim_playback: AnimationNodeStateMachinePlayback = anim_tree["parameters/playback"]
 
-# components - start off as null, since some have constructor args
+
+# -----------------------------------------------------------------------------
+# member vars
+
+# components from constants, since they apply to all units
+var enemy_search_area_scene: PackedScene = UnitConstants.ENEMY_SEARCH_AREA_SCENE
+var command_line_scene: PackedScene = UnitConstants.COMMAND_LINE_SCENE
+
+# components - start off as null, since some have constructor args or don't always exist
+
 var health_component: HealthComponent = null
 var click_component: ClickableComponent = null
 var nearby_enemy_search_area: NearbyEnemySearchAreaComponent = null
+var command_line_component: CommandLineComponent = null
+# TODO more components to add:
+# - spell effects (buffs/debuffs)
+# TODO later on, possible other components:
+# - behavior component (handles attack/move logic and switching states/commands)
+# - attack component (handles attacking logic and timers)
+# - move component (handles move logic and stuck checks/timers)
 
 ## list of nearby enemies to search through
 var nearby_enemies: Array[Unit]
 
+## whether or not unit has been commanded to move to a position
+var is_commanded_to_position: bool = false
+## position the unit has been commanded to move to
+var commanded_position: Vector2
+
 # params and attributes
+
 var state: UnitTypes.State = UnitTypes.State.IDLE
-var command: UnitTypes.Command = UnitTypes.Command.ATTACK
+var command: UnitTypes.Command = default_command
+var battle_state: BattleSignalManager.BattleState = BattleSignalManager.BattleState.NOT_STARTED
 var target_enemy: Unit = null
 var attack_ready: bool = true
 var stuck_timer: float = 0
@@ -67,6 +116,9 @@ var target_update_timer: float = 0
 var tween: Tween
 #var last_position: Vector2
 
+
+# -----------------------------------------------------------------------------
+# initialization
 
 func _ready() -> void:
     # only enable animations when game is active (so editor doesn't keep them running)
@@ -81,9 +133,9 @@ func _ready() -> void:
     add_child(health_component)
     
     # set up initial state and position
-    state = UnitTypes.State.IDLE
-    command = UnitTypes.Command.ATTACK
     #last_position = global_position
+    
+    BattleSignalManager.battle_state_update.connect(_on_battle_state_update)
     
     # start target search timer partially complete, so initial wait isn't as long
     target_update_timer = target_update_delay / 2.0
@@ -96,7 +148,6 @@ func _ready() -> void:
 ## and enemy search areas
 func set_up_areas_and_collision() -> void:
     # set up area 2d components and nodes to properly handle collision layers
-    click_component = ClickableComponent.new(click_area)
     
     var enemy_type: UnitTypes.EntityType = UnitTypes.EntityType.ENEMY
     
@@ -106,6 +157,9 @@ func set_up_areas_and_collision() -> void:
         hurt_box.set_collision_layer_value(UnitTypes.EntityType.FRIENDLY, true)
         hit_box.set_collision_mask_value(UnitTypes.EntityType.ENEMY, true)
         enemy_type = UnitTypes.EntityType.ENEMY
+        
+        # set up click component for friendly units
+        click_component = ClickableComponent.new(click_area)
         click_component.clicked_on.connect(_on_click)
         click_component.hover_start.connect(_on_hover_start)
         click_component.hover_end.connect(_on_hover_end)
@@ -113,6 +167,10 @@ func set_up_areas_and_collision() -> void:
         hurt_box.set_collision_layer_value(UnitTypes.EntityType.ENEMY, true)
         hit_box.set_collision_mask_value(UnitTypes.EntityType.FRIENDLY, true)
         enemy_type = UnitTypes.EntityType.FRIENDLY
+        
+        # use noop for mouse detection and clicks for enemies,
+        # and make their click area not pickable
+        click_component = NoopClickableComponent.new(click_area)
         click_area.input_pickable = false
     
     hit_box.area_entered.connect(_on_hit_box_area_entered)
@@ -126,19 +184,34 @@ func set_up_areas_and_collision() -> void:
     add_child(nearby_enemy_search_area)
 
 
+
+# -----------------------------------------------------------------------------
+# overall updates
+
+## update battle state
+func _on_battle_state_update(new_state: BattleSignalManager.BattleState) -> void:
+    battle_state = new_state
+
+
 ## processes various unit states
 ## TODO would be better to refactor into proper state machine soon
 func _physics_process(delta: float) -> void:
     # TODO will also need to handle commands along with UnitTypes.State.
-    # refactor this into a more proper state machine
+    # refactor this into a more proper state machine.
+    # TODO state machine notes (probably based on Command, not State...? weird)
+    # - DEFAULT: move to commanded position or active target, search for new targets
+    # - RETREAT: move to commanded position only. once reached, switch to DEFAULT
+    # - RAMPAGE: search to and search for active targets only (no range limit)
     
-    # do nothing here if dead or attacking
+    # if command line node is present, update start/end positions.
+    # component will be updated/drawn in its own _process function
+    if command_line_component:
+        command_line_component.start_position = global_position
+        command_line_component.end_position = get_global_mouse_position()
+    
+    # do nothing else here if dead or attacking
     if state == UnitTypes.State.DEAD or state == UnitTypes.State.ATTACK:
         return
-    
-    # if target exists and within range, attack
-    # if target exists and not in range, move
-    # if target does not exist, find new target. if not, idle
     
     # update timer for checking for new targets
     # TODO may want to ignore this if actively attacking?
@@ -150,11 +223,14 @@ func _physics_process(delta: float) -> void:
             if attack_ready:
                 attack()
         else: # move towards it
-            # TODO need to periodically check for a different enemy, in case there is now a closer one
-            # this logic may change depend on type of npc, but this should be simple enough for base class
             move(delta)
+    elif is_commanded_to_position and \
+    global_position.distance_to(commanded_position) > unit_data.attack_range:
+        move(delta)
+    else: # not moving, do nothing
+        state = UnitTypes.State.IDLE
     
-    # try to find a new, closer, target
+    # periodically try to find a new, closer, target
     if target_update_timer >= target_update_delay:
         target_update_timer = 0
         target_enemy = find_closest_enemy()
@@ -166,6 +242,7 @@ func _physics_process(delta: float) -> void:
     update_animation()
 
 
+## update animation tree based on state
 func update_animation() -> void:
     match state:
         UnitTypes.State.IDLE, UnitTypes.State.STUCK:
@@ -180,6 +257,9 @@ func update_animation() -> void:
             anim_playback.travel("idle")
 
 
+# -----------------------------------------------------------------------------
+# enemy search
+
 # consider making this a utility function in a separate script (maybe even C++)
 # TODO notes on this:
 # - use nav mesh to find closest, not just straight distance
@@ -190,9 +270,10 @@ func find_closest_enemy() -> Unit:
     var shortest_distance: float = INF
     
     # use nearby enemies, if any exist
-    # TODO want to ignore all enemies, unless "rampage" mode
     var enemy_list: Array[Unit]
-    if nearby_enemies.is_empty():
+    # if no nearby enemies exist and unit can rampage, find any close enemy
+    # TODO need to account for enemies that find no friendly units? have them go right for the base?
+    if nearby_enemies.is_empty() and command == UnitTypes.Command.RAMPAGE:
         # TODO this feels clunky... but need to get enemies as Unit types manually
         var enemy_nodes: Array[Node] = get_tree().get_nodes_in_group(enemy_group_name)
         for enemy_node in enemy_nodes:
@@ -213,6 +294,21 @@ func find_closest_enemy() -> Unit:
     return closest_enemy
 
 
+## add to list of nearby enemies
+func _on_enemy_entered_search_area(_unit: Unit) -> void:
+    nearby_enemies.append(_unit)
+
+
+## remove from list of nearby enemies
+func _on_enemy_exited_search_area(_unit: Unit) -> void:
+    # TODO need to figure out how references are handled in godot...
+    nearby_enemies.erase(_unit)
+
+
+# -----------------------------------------------------------------------------
+# movement
+
+## handle movement based on target/state
 func move(delta: float) -> void:
     # if marked as stuck, dont process any movements for a bit.
     # note: this is currently disabled and won't happen
@@ -225,10 +321,13 @@ func move(delta: float) -> void:
     stuck_timer = 0
     state = UnitTypes.State.MOVE
     
-    # eventually, we want to be able to move towards things other than target enemies.
-    # for now, this is fine
+    # if we have a target enemy, move towards it.
     if target_enemy:
         nav_agent.target_position = target_enemy.global_position
+    # otherwise, move to commanded position, if that exists
+    elif is_commanded_to_position:
+        nav_agent.target_position = commanded_position
+    
     var next_path_pos: Vector2 = nav_agent.get_next_path_position()
     var new_velocity: Vector2 = global_position.direction_to(next_path_pos) * unit_data.speed
     
@@ -263,16 +362,24 @@ func move(delta: float) -> void:
     move_and_slide()
 
 
+## update velocity callback
 func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:
     if state != UnitTypes.State.STUCK:
         velocity = safe_velocity
     # not calling move_and_slide from this function, because this callback is hit from various places
 
 
+# -----------------------------------------------------------------------------
+# attack
+
 func attack() -> void:
     # do nothing if already attacking
     if state == UnitTypes.State.ATTACK:
         return
+    
+    # TODO this is a clunky way to do this. need a state machine or an apply_behaviors function?
+    if behavior == UnitTypes.BehaviorType.RAMPAGE_AFTER_ATTACK:
+        command = UnitTypes.Command.RAMPAGE
     
     # set state to attack and disable ready flag, for next attack
     state = UnitTypes.State.ATTACK
@@ -305,6 +412,9 @@ func _on_hit_box_area_entered(area: Area2D) -> void:
     area.owner.take_damage(unit_data.attack_damage)
 
 
+# -----------------------------------------------------------------------------
+# damage/health/die
+
 ## take damage, applying it to the health component
 func take_damage(amount: int) -> void:
     health_component.damage(amount)
@@ -328,9 +438,16 @@ func on_die() -> void:
     print(name, " died!")
     state = UnitTypes.State.DEAD
     
+    # clear command line, if present (or it'll stick around during death animation).
+    # need to also set battle state back to running, or we could end up in a weird state
+    if command_line_component:
+        BattleSignalManager.command_unit.disconnect(_on_unit_commanded)
+        command_line_component.queue_free()
+        BattleSignalManager.battle_state_update.emit(BattleSignalManager.BattleState.RUNNING)
+    
     # make unit not monitorable, and stop searching for enemies
-    hurt_box.monitorable = false
-    nearby_enemy_search_area.monitoring = false
+    hurt_box.set_deferred("monitorable", false)
+    nearby_enemy_search_area.set_deferred("monitoring", false)
     
     unit_died.emit(self as Unit)
     
@@ -342,34 +459,46 @@ func _on_die_animation_finished():
     queue_free()
 
 
+# -----------------------------------------------------------------------------
+# click/hover/command
+
 ## handle logic for when this unit is clicked on
-## TODO implement this
 func _on_click() -> void:
-    # TODO need to check for proper battle state here as well,
-    # meaning we need to listen for state changes on all units...
-    # TODO or maybe make some kind of unit manager node that handles state info?
-    print(name, " clicked on")
+    if BattleSignalManager.is_unit_interactable_state(battle_state):
+        print(name, " clicked on")
+        command_line_component = command_line_scene.instantiate() as CommandLineComponent
+        command_line_component.start_position = global_position
+        command_line_component.end_position = get_global_mouse_position()
+        command_line_component.search_zone_radius = enemy_search_radius
+        add_child(command_line_component)
+        BattleSignalManager.command_unit.connect(_on_unit_commanded)
+        BattleSignalManager.battle_state_update.emit(BattleSignalManager.BattleState.COMMANDING_UNIT)
+        # TODO also set state to idle, or add new awaiting command state?
+        # maybe just set commanded_position to global_position, so unit can
+        # still attack enemies, but will stop moving
+
+
+## update unit commanded position.
+## assumes position is valid and possible to get to
+## TODO need to enforce via map class on click
+func _on_unit_commanded(new_position: Vector2) -> void:
+    print(name, " commanded to ", new_position)
+    commanded_position = new_position
+    is_commanded_to_position = true
+    # stop listening for commnd notifications
+    BattleSignalManager.command_unit.disconnect(_on_unit_commanded)
+    command_line_component.queue_free()
+
 
 ## highlight sprite on mouse hover
 func _on_hover_start() -> void:
-    sprite.material = highlight_shader
-    # TODO check for proper battle state
-    # TODO ad tween to fade in/out?
-    pass
+    if BattleSignalManager.is_unit_interactable_state(battle_state):
+        # TODO ad tween to fade in/out?
+        sprite.material = highlight_shader
+
 
 ## return to normal when mouse no longer hovers
 func _on_hover_end() -> void:
-    sprite.material = null
-    # TODO check for proper battle state
+    # do this regardless of battle state, it's okay to end hover shader
     # TODO ad tween to fade in/out?
-    pass
-
-
-## add to list of nearby enemies
-func _on_enemy_entered_search_area(_unit: Unit) -> void:
-    nearby_enemies.append(_unit)
-
-## remove from list of nearby enemies
-func _on_enemy_exited_search_area(_unit: Unit) -> void:
-    # TODO need to figure out how references are handled in godot...
-    nearby_enemies.erase(_unit)
+    sprite.material = null
