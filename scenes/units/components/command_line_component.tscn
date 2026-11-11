@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://7knephbuo65i"]
+
+[ext_resource type="Script" uid="uid://dg7vesw65n4pg" path="res://scenes/units/components/CommandLineComponent.gd" id="1_jl01t"]
+[ext_resource type="Texture2D" uid="uid://dk1rsrl1t68h3" path="res://resources/ui/battle_map_ui/command_selector_atlastex.tres" id="2_vu37e"]
+
+[node name="CommandLine" type="Node2D" unique_id=1571482714 node_paths=PackedStringArray("line", "endpoint_sprite")]
+modulate = Color(0.29000002, 1, 0.8343333, 1)
+top_level = true
+script = ExtResource("1_jl01t")
+line = NodePath("Line2D")
+endpoint_sprite = NodePath("Sprite2D")
+
+[node name="Line2D" type="Line2D" parent="." unique_id=400887328]
+modulate = Color(1, 1, 1, 0.2509804)
+width = 1.0
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=120598032]
+texture = ExtResource("2_vu37e")

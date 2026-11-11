@@ -40,12 +40,12 @@ var battle_state: BattleSignalManager.BattleState = BattleSignalManager.BattleSt
 # TODO having a real state machine would probably be better than if statements everywhere...
 
 func _on_mouse_entered() -> void:
-    if BattleSignalManager.is_running_state(battle_state):
+    if BattleSignalManager.is_card_interactable_state(battle_state):
         animate_topcard_offset(hover_offset)
 
 
 func _on_mouse_exited() -> void:
-    if BattleSignalManager.is_running_state(battle_state):
+    if BattleSignalManager.is_card_interactable_state(battle_state):
         animate_topcard_offset(normal_offset)
 
 
@@ -102,7 +102,7 @@ func animate_topcard_offset(target_offset: Vector2) -> void:
 func _on_gui_input(event: InputEvent) -> void:
     if event.is_action_pressed("LeftClick") and \
     # allow drawing cards when gameplay running but NOT when a card is currently held
-    BattleSignalManager.is_running_state(battle_state) and \
+    BattleSignalManager.is_card_interactable_state(battle_state) and \
     battle_state != BattleSignalManager.BattleState.CARD_HELD:
         if cards.is_empty():
             print("deck is empty, not drawing card")

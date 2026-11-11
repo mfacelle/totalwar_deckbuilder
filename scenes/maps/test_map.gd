@@ -25,14 +25,11 @@ var battle_state: BattleSignalManager.BattleState = BattleSignalManager.BattleSt
 # TODO might make sense to make a state machine for handling states,
 # but we really only care about whether or not battle is paused right now, so some if checks work for now
 
-# -----
-# TODO basically here for debug, but most of this will likely become the real code in a battle/map class
 
 var card_held: Card = null
 
 func _ready() -> void:
     BattleSignalManager.card_held.connect(_on_card_held)
-    BattleSignalManager.play_card.connect(_on_play_card)
     BattleSignalManager.battle_state_update.connect(_on_battle_state_update)
     BattleSignalManager.defeat.connect(_on_defeat)
     BattleSignalManager.victory.connect(_on_victory)
@@ -68,15 +65,15 @@ func _on_card_held(new_card: Card) -> void:
             my_base.set_spawn_area_visible(true)
 
 
-## handles playing a card when the player selects a spot on the map with a held card
-func _on_play_card(card: Card, _position: Vector2) -> void:
+## handles attempting to play a card when the player selects a spot on the map with a held card
+func attempt_play_card(card: Card, _position: Vector2) -> void:
     # do nothing for null
     if not card:
         return
 
     # TODO make into switch with separate functions for different card types
     if card.card_data.card_type == CardData.CardType.UNIT:
-        # TODO this isn't quite enough... need to check against navigation region too
+        # TODO this isn't quite enough... need to check against navigation region eventually
         if mouse_in_spawn_area:
             spawn_friendly_unit(card.unit_scene, _position)
             BattleSignalManager.card_played.emit(card)
@@ -101,6 +98,7 @@ func spawn_friendly_unit(unit: PackedScene, _position: Vector2) -> void:
         var new_unit = unit.instantiate() as Unit
         new_unit.global_position = _position
         new_unit.name = str("Friendly", friendly_spawn_index)
+        new_unit.battle_state = battle_state
         new_unit.add_to_group("units", false)
         
         units.add_child(new_unit)
@@ -115,23 +113,35 @@ func _on_defeat() -> void:
 func _on_victory() -> void:
     BattleSignalManager.battle_state_update.emit(BattleSignalManager.BattleState.END_VICTORY)
 
-# -----
+
+## attempt to command a unit to the provided position
+func attempt_command_unit(new_position: Vector2) -> void:
+    # TODO need to check against navigation for valid placement
+    BattleSignalManager.command_unit.emit(new_position)
+    BattleSignalManager.battle_state_update.emit(BattleSignalManager.BattleState.RUNNING)
 
 
 ## handle left click to play a card, when one is held.
 ## also handle right clicks to spawn extra enemies, if debug is enabled
 func _unhandled_input(event: InputEvent) -> void:
-    # if left mouse button, spawn a friendly unit
     if event.is_action_pressed("LeftClick"):
-        # TODO this signal seems unnecessary right now.  
-        # Should eventually refactor into input handler and card player classes
-        BattleSignalManager.play_card.emit(card_held, get_global_mouse_position())
-    # else spawn an enemy one
-    # TODO add some kind of debug flag to enable/disable this?
-    elif event.is_action_pressed("RightClick") and debug_mode:
+        # basic state machine for handling different input states
+        
+        # if card_held state and a card is actually held, try to play it
+        if battle_state == BattleSignalManager.BattleState.CARD_HELD and card_held:
+            # TODO consider calling this as deferred?
+            attempt_play_card(card_held, get_global_mouse_position())
+            # mark input as handled so it does nothing else
+            get_viewport().set_input_as_handled()
+        # if commanding a unit, try to command it
+        elif battle_state == BattleSignalManager.BattleState.COMMANDING_UNIT:
+            # TODO signal here is redundant, since it needs to go through _on_unit_commanded anyway
+            attempt_command_unit(get_global_mouse_position())
+    
+    # DEBUG ONLY: spawn an enemy unit with right click
+    if event.is_action_pressed("RightClick") and debug_mode:
         print("[DEBUG_MODE] right click")
         spawn_enemy_unit()
-
 
 
 ## DEBUG FUNCTION
@@ -143,7 +153,8 @@ func spawn_enemy_unit() -> void:
         new_unit.entity_type = UnitTypes.EntityType.ENEMY
         new_unit.enemy_group_name = "units"
         new_unit.global_position = get_global_mouse_position()
-        new_unit.name = str("Enemy", enemy_spawn_index)
+        new_unit.name = str("Enemy", enemy_spawn_index) 
+        new_unit.battle_state = battle_state
         new_unit.add_to_group("enemies", false)
         
         enemies.add_child(new_unit)
@@ -151,14 +162,12 @@ func spawn_enemy_unit() -> void:
         enemy_spawn_index += 1
 
 
-
 ## updates paused state for entire world tree
 ## does not disable the top-level map node, so inputs can still be processed
 func _on_battle_state_update(new_state: BattleSignalManager.BattleState) -> void:
     battle_state = new_state
     
-    if battle_state == BattleSignalManager.BattleState.RUNNING or \
-    battle_state == BattleSignalManager.BattleState.CARD_HELD:
+    if BattleSignalManager.is_running_state(battle_state):
         world.process_mode = Node.PROCESS_MODE_INHERIT
     else:
         world.process_mode = Node.PROCESS_MODE_DISABLED

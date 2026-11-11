@@ -1,9 +1,10 @@
 [gd_scene format=3 uid="uid://c4j4so8syle5l"]
 
 [ext_resource type="Script" uid="uid://b5gayccv1ub37" path="res://scenes/units/Unit.gd" id="1_nmb45"]
-[ext_resource type="PackedScene" uid="uid://crdy2qd2pgc7s" path="res://scenes/units/nearby_enemy_search_area_component.tscn" id="2_53ciq"]
+[ext_resource type="PackedScene" uid="uid://crdy2qd2pgc7s" path="res://scenes/units/components/nearby_enemy_search_area_component.tscn" id="2_53ciq"]
 [ext_resource type="Texture2D" uid="uid://csvb5ptdyc606" path="res://assets/units/shadows_humanoid/ShadowHumanoidIdle.png" id="2_bv8o7"]
 [ext_resource type="Material" uid="uid://ckj4qj4fhbwsu" path="res://resources/shaders/unit_outline_shader.tres" id="3_iww3a"]
+[ext_resource type="PackedScene" uid="uid://7knephbuo65i" path="res://scenes/units/components/command_line_component.tscn" id="3_yragg"]
 [ext_resource type="Texture2D" uid="uid://d3ilh537ga0os" path="res://assets/units/orc/OrcBaseAttack.png" id="4_bv8o7"]
 [ext_resource type="Texture2D" uid="uid://bjvycbko20jjp" path="res://assets/units/goblin/GoblinAttack.png" id="4_iww3a"]
 [ext_resource type="Texture2D" uid="uid://dg0gdtang8ren" path="res://assets/units/shadows_humanoid/ShadowHumanoidAttack.png" id="5_yragg"]
@@ -1754,6 +1755,7 @@ hit_box = NodePath("HitBox")
 sprite = NodePath("Sprite2D")
 click_area = NodePath("ClickableArea")
 enemy_search_area_scene = ExtResource("2_53ciq")
+command_line_scene = ExtResource("3_yragg")
 highlight_shader = ExtResource("3_iww3a")
 
 [node name="Sprite2DShadow" type="Sprite2D" parent="." unique_id=1860236946]

@@ -11,7 +11,9 @@
 default_font = ExtResource("1_6j2vj")
 default_font_size = 24
 Button/colors/font_color = Color(0.2901961, 1, 0.8352941, 1)
+Button/colors/font_disabled_color = Color(0.5, 0.5, 0.5, 1)
 Button/colors/font_outline_color = Color(0.09651666, 0.081, 0.1, 1)
+Button/colors/icon_disabled_color = Color(0.5, 0.5, 0.5, 1)
 Button/constants/outline_size = 10
 Button/font_sizes/font_size = 24
 Button/fonts/font = ExtResource("1_6j2vj")

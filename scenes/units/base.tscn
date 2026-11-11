@@ -2,10 +2,9 @@
 
 [ext_resource type="Texture2D" uid="uid://bnob42pvd41kn" path="res://assets/environment/dungeon/Prop_Shadows.png" id="1_gnkvd"]
 [ext_resource type="Script" uid="uid://bfagqevhd47r7" path="res://scenes/units/Base.gd" id="1_m1nav"]
-[ext_resource type="PackedScene" uid="uid://crdy2qd2pgc7s" path="res://scenes/units/nearby_enemy_search_area_component.tscn" id="2_3xaoo"]
 [ext_resource type="Texture2D" uid="uid://vse0773ustd" path="res://assets/environment/dungeon/Props.png" id="2_gnkvd"]
 [ext_resource type="Material" uid="uid://ckj4qj4fhbwsu" path="res://resources/shaders/unit_outline_shader.tres" id="3_3xaoo"]
-[ext_resource type="Script" uid="uid://cpsqnqevcigw8" path="res://scenes/units/SpawnArea.gd" id="4_lcu0q"]
+[ext_resource type="Script" uid="uid://cpsqnqevcigw8" path="res://scenes/units/components/SpawnArea.gd" id="4_lcu0q"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m1nav"]
 atlas = ExtResource("1_gnkvd")
@@ -182,17 +181,26 @@ script = ExtResource("1_m1nav")
 placement_range = 64
 placement_zone = NodePath("PlacementZone")
 placement_shape = NodePath("PlacementZone/CollisionShape2D")
+unit_id = null
+entity_type = null
+enemy_group_name = null
 min_movement_speed = 10.0
 stuck_delay = 10.0
 target_update_delay = 10.0
+enemy_search_radius = null
+default_command = null
+behavior = null
 anim_tree = NodePath("AnimationTree")
 nav_agent = NodePath("NavigationAgent2D")
 hurt_box = NodePath("HurtBox")
 hit_box = NodePath("HitBox")
 sprite = NodePath("Sprite2D")
 click_area = NodePath("ClickableArea")
-enemy_search_area_scene = ExtResource("2_3xaoo")
 highlight_shader = ExtResource("3_3xaoo")
+hurt_fadein_duration = null
+hurt_fadeout_duration = null
+hurt_color = null
+normal_color = null
 
 [node name="Sprite2DShadow" type="Sprite2D" parent="." unique_id=1860236946]
 position = Vector2(-1, -6)
@@ -247,6 +255,7 @@ collision_mask = 0
 monitoring = false
 monitorable = false
 script = ExtResource("4_lcu0q")
+spawn_area_color = Color(0.2901961, 1, 0.8352941, 0.5019608)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlacementZone" unique_id=623515578]
 shape = SubResource("CircleShape2D_dfsep")

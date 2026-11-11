@@ -9,6 +9,7 @@
 [ext_resource type="StyleBox" uid="uid://c7qq2v3op8cgv" path="res://resources/ui/general/button_small_hover_styletex.tres" id="5_onjso"]
 [ext_resource type="StyleBox" uid="uid://b5qpln84qopq4" path="res://resources/ui/general/button_small_hover_pressed_styletex.tres" id="6_dv6y3"]
 [ext_resource type="Texture2D" uid="uid://banempu7n317b" path="res://assets/ui/icons/_Icons.png" id="7_jhspi"]
+[ext_resource type="StyleBox" uid="uid://r0cqu46rahiq" path="res://resources/ui/general/button_small_disabled_styletex.tres" id="8_dv6y3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dfsep"]
 atlas = ExtResource("7_jhspi")
@@ -114,6 +115,8 @@ theme_override_styles/normal = ExtResource("3_d5wnx")
 theme_override_styles/pressed = ExtResource("4_jhspi")
 theme_override_styles/hover = ExtResource("5_onjso")
 theme_override_styles/hover_pressed = ExtResource("6_dv6y3")
+theme_override_styles/disabled = ExtResource("8_dv6y3")
+disabled = true
 icon_alignment = 1
 expand_icon = true
 script = ExtResource("2_2vsb6")

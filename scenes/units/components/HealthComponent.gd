@@ -17,7 +17,6 @@ func damage(amount: int) -> void:
     current_health = max(0, current_health - amount)
     # if health transitioned to 0
     if current_health <= 0 and old_health_value > 0:
-        print("reporting dead")
         died.emit()
     else:
         health_changed.emit(old_health_value, current_health)

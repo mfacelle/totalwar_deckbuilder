@@ -138,6 +138,7 @@ func _on_card_discarded(card: Card) -> void:
 
 ## updates battle state for all UI elements
 func _on_battle_state_update(new_state: BattleSignalManager.BattleState) -> void:
+    print("battle state updated: ", new_state)
     battle_state = new_state
     
     # update all UI elements, including cards in the hand, so they process inputs appropriately

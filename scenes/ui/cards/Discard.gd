@@ -27,12 +27,12 @@ var battle_state: BattleSignalManager.BattleState = BattleSignalManager.BattleSt
 # TODO having a real state machine would probably be better than if statements everywhere...
 
 func _on_mouse_entered() -> void:
-    if BattleSignalManager.is_running_state(battle_state):
+    if BattleSignalManager.is_card_interactable_state(battle_state):
         animate_scale(hover_scale)
 
 
 func _on_mouse_exited() -> void:
-    if BattleSignalManager.is_running_state(battle_state):
+    if BattleSignalManager.is_card_interactable_state(battle_state):
         animate_scale(normal_scale)
 
 
@@ -52,7 +52,7 @@ func _on_gui_input(event: InputEvent) -> void:
     # TODO use proper input handling
     if event.is_action_pressed("LeftClick") and \
     card_held and \
-    BattleSignalManager.is_running_state(battle_state):
+    BattleSignalManager.is_card_interactable_state(battle_state):
         # adding to discard will be handled by CardUI (probably not the best way, but it works for now)
         BattleSignalManager.card_discarded.emit(card_held)
         
