@@ -6,3 +6,6 @@
 shader = ExtResource("1_t2i5j")
 shader_parameter/outline_color = Color(0.29, 1, 0.84, 1)
 shader_parameter/line_thickness = 1.0
+shader_parameter/blink_color = Color(0.29000002, 1, 0.8343333, 1)
+shader_parameter/blink_time_scale = 0.0
+shader_parameter/diagonal_outline = false
