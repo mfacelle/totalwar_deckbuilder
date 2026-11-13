@@ -108,6 +108,9 @@ func get_enemy_list() -> Array[Unit]:
 ## perform optional filtering on list of enemies.
 ## directly modifies argument passed in (Array will be a reference)
 func filter_enemies(enemy_list: Array[Unit]) -> void:
+    # TODO normal search should prioritize enemies over the base,
+    # to avoid having units get killed for kind of no reason
+    
     # only perform filtering for base first behavior types
     if search_behavior == UnitTypes.SearchBehavior.BASE_FIRST:
         enemy_list.filter(func(enemy: Unit): return enemy is Base)
