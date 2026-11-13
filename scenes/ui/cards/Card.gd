@@ -26,7 +26,7 @@ extends Control
 @export var hover_offset_duration: float = 0.25
 
 @onready var card_data: CardData = CardDataManager.cards[card_id]
-@onready var unit_scene: PackedScene = load(card_data.unit_uid)
+@onready var unit_scene: PackedScene = load(UnitDataManager.get_unit_scene_uid(card_data.unit_id))
 
 var card_highlighted: bool = false
 var card_held: Card = null

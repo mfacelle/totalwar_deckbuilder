@@ -95,8 +95,6 @@ var enemy_search_component: BasicEnemySearchComponent = null
 # - attack component (handles attacking logic and timers)
 # - move component (handles move logic and stuck checks/timers)
 
-## whether or not unit has been commanded to move to a position
-var is_commanded_to_position: bool = false
 ## position the unit has been commanded to move to
 var commanded_position: Vector2
 
@@ -163,6 +161,7 @@ func set_up_collision_and_enemy_search() -> void:
         click_component.clicked_on.connect(_on_click)
         click_component.hover_start.connect(_on_hover_start)
         click_component.hover_end.connect(_on_hover_end)
+        click_component.name = name + "_clickComponent"
     else:
         hurt_box.set_collision_layer_value(UnitTypes.EntityType.ENEMY, true)
         hit_box.set_collision_mask_value(UnitTypes.EntityType.FRIENDLY, true)
@@ -185,11 +184,9 @@ func set_up_collision_and_enemy_search() -> void:
     if command == UnitTypes.Command.RAMPAGE:
         enemy_search_component = RampagingEnemySearchComponent.new( \
             nearby_enemy_search_area, unit_data.target_search_delay, enemy_group_name, search_behavior)
-        print(name, " rampage search init")
     else:
         enemy_search_component = BasicEnemySearchComponent.new( \
             nearby_enemy_search_area, unit_data.target_search_delay, enemy_group_name, search_behavior)
-        print(name, " basic search init")
     
     enemy_search_component.new_target_enemy.connect(_on_new_target_enemy)
     add_child(enemy_search_component)
@@ -255,8 +252,7 @@ func _physics_process(delta: float) -> void:
                 attack()
         else: # move towards it
             move(delta)
-    elif is_commanded_to_position and \
-    global_position.distance_to(commanded_position) > unit_data.attack_range:
+    elif global_position.distance_to(commanded_position) > unit_data.attack_range:
         move(delta)
     else: # not moving, do nothing
         state = UnitTypes.State.IDLE
@@ -307,8 +303,8 @@ func move(delta: float) -> void:
     # if we have a target enemy, move towards it.
     if target_enemy:
         nav_agent.target_position = target_enemy.global_position
-    # otherwise, move to commanded position, if that exists
-    elif is_commanded_to_position:
+    # otherwise, move to commanded position
+    else:
         nav_agent.target_position = commanded_position
     
     var next_path_pos: Vector2 = nav_agent.get_next_path_position()
@@ -365,6 +361,9 @@ func attack() -> void:
         # TODO doing this like a signal, because it should probably be one coming 
         # from a component eventually
         _on_command_update(UnitTypes.Command.RAMPAGE)
+    elif behavior == UnitTypes.BehaviorType.ATTACK_AND_STAY:
+        # upate commanded position to this spot, so unit stays there after attacking is done
+        commanded_position = global_position
     
     # set state to attack and disable ready flag, for next attack
     state = UnitTypes.State.ATTACK
@@ -457,7 +456,8 @@ func _on_click() -> void:
         command_line_component.search_zone_radius = unit_data.enemy_search_range
         add_child(command_line_component)
         BattleSignalManager.command_unit.connect(_on_unit_commanded)
-        BattleSignalManager.battle_state_update.emit(BattleSignalManager.BattleState.COMMANDING_UNIT)
+        # emit battle state signal deferred, to allow multiple units to be clicked on simultaneously
+        BattleSignalManager.battle_state_update.emit.call_deferred(BattleSignalManager.BattleState.COMMANDING_UNIT)
         # set commanded position to current position so unit stops moving, but
         # can still attack enemies, if any are currently in range
         commanded_position = global_position
@@ -469,7 +469,6 @@ func _on_click() -> void:
 func _on_unit_commanded(new_position: Vector2) -> void:
     print(name, " commanded to ", new_position)
     commanded_position = new_position
-    is_commanded_to_position = true
     # stop listening for commnd notifications
     BattleSignalManager.command_unit.disconnect(_on_unit_commanded)
     command_line_component.queue_free()

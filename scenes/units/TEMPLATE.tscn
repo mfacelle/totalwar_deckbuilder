@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://b5gayccv1ub37" path="res://scenes/units/Unit.gd" id="1_ur0fn"]
 [ext_resource type="Texture2D" uid="uid://csvb5ptdyc606" path="res://assets/units/shadows_humanoid/ShadowHumanoidIdle.png" id="2_j7ptk"]
-[ext_resource type="PackedScene" uid="uid://crdy2qd2pgc7s" path="res://scenes/units/components/enemy_search_area/nearby_enemy_search_area_component.tscn" id="2_ur0fn"]
 [ext_resource type="Texture2D" uid="uid://rymgho44sdij" path="res://assets/units/goblin/GoblinIdle.png" id="3_b313u"]
 [ext_resource type="Material" uid="uid://ckj4qj4fhbwsu" path="res://resources/shaders/unit_outline_shader.tres" id="3_j7ptk"]
 [ext_resource type="Texture2D" uid="uid://bjvycbko20jjp" path="res://assets/units/goblin/GoblinAttack.png" id="4_rekuf"]
@@ -1744,7 +1743,6 @@ radius = 6.0
 [node name="Unit" type="CharacterBody2D" unique_id=66131987 node_paths=PackedStringArray("anim_tree", "nav_agent", "hurt_box", "hit_box", "sprite", "click_area")]
 y_sort_enabled = true
 script = ExtResource("1_ur0fn")
-unit_id = 1
 enemy_group_name = "enemies"
 anim_tree = NodePath("AnimationTree")
 nav_agent = NodePath("NavigationAgent2D")
@@ -1752,7 +1750,6 @@ hurt_box = NodePath("HurtBox")
 hit_box = NodePath("HitBox")
 sprite = NodePath("Sprite2D")
 click_area = NodePath("ClickableArea")
-enemy_search_area_scene = ExtResource("2_ur0fn")
 highlight_shader = ExtResource("3_j7ptk")
 
 [node name="Sprite2DShadow" type="Sprite2D" parent="." unique_id=1860236946]

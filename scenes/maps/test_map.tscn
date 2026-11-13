@@ -1479,59 +1479,50 @@ y_sort_enabled = true
 
 [node name="MyBase" parent="world/entities/units" unique_id=66131987 groups=["units"] instance=ExtResource("7_w402o")]
 position = Vector2(40, 54)
-unit_id = 0
-entity_type = 5
-enemy_group_name = ""
-default_command = 0
-behavior = 0
-hurt_fadein_duration = 0.05
-hurt_fadeout_duration = 0.25
-hurt_color = Color(1, 0, 0, 1)
-normal_color = Color(1, 1, 1, 1)
+unit_id = 1
 
 [node name="enemies" type="Node2D" parent="world/entities" unique_id=234024299]
 y_sort_enabled = true
 
 [node name="EnemyBase" parent="world/entities/enemies" unique_id=1224097314 groups=["enemies"] instance=ExtResource("7_w402o")]
 position = Vector2(292, 94)
-unit_id = 0
+unit_id = 1
 entity_type = 6
-enemy_group_name = ""
-default_command = 0
-behavior = 0
-hurt_fadein_duration = 0.05
-hurt_fadeout_duration = 0.25
-hurt_color = Color(1, 0, 0, 1)
-normal_color = Color(1, 1, 1, 1)
 
 [node name="EnemyGoblin1" parent="world/entities/enemies" unique_id=361912958 groups=["enemies"] instance=ExtResource("1_2t2t3")]
 position = Vector2(261, 77)
+unit_id = 2
 entity_type = 6
 enemy_group_name = "units"
 behavior = 1
 
 [node name="EnemyGoblin2" parent="world/entities/enemies" unique_id=1160490710 groups=["enemies"] instance=ExtResource("1_2t2t3")]
 position = Vector2(286, 73)
+unit_id = 2
 entity_type = 6
 enemy_group_name = "units"
 behavior = 1
 
 [node name="EnemyGoblin3" parent="world/entities/enemies" unique_id=1538882538 groups=["enemies"] instance=ExtResource("1_2t2t3")]
 position = Vector2(281, 114)
+unit_id = 2
 entity_type = 6
 enemy_group_name = "units"
 
 [node name="EnemyGoblin4" parent="world/entities/enemies" unique_id=829088551 groups=["enemies"] instance=ExtResource("1_2t2t3")]
 position = Vector2(271, 97)
+unit_id = 2
 entity_type = 6
 enemy_group_name = "units"
 
 [node name="EnemyGoblin5" parent="world/entities/enemies" unique_id=254719805 groups=["enemies"] instance=ExtResource("1_2t2t3")]
 position = Vector2(300, 112)
+unit_id = 2
 entity_type = 6
 enemy_group_name = "units"
 
 [node name="EnemyGoblin6" parent="world/entities/enemies" unique_id=2059451060 groups=["enemies"] instance=ExtResource("1_2t2t3")]
 position = Vector2(305, 75)
+unit_id = 2
 entity_type = 6
 enemy_group_name = "units"

@@ -1,9 +1,7 @@
 [gd_scene format=3 uid="uid://bsby7iejc8bwl"]
 
 [ext_resource type="Script" uid="uid://b5gayccv1ub37" path="res://scenes/units/Unit.gd" id="1_m0w4y"]
-[ext_resource type="PackedScene" uid="uid://crdy2qd2pgc7s" path="res://scenes/units/components/enemy_search_area/nearby_enemy_search_area_component.tscn" id="2_145d4"]
 [ext_resource type="Texture2D" uid="uid://csvb5ptdyc606" path="res://assets/units/shadows_humanoid/ShadowHumanoidIdle.png" id="2_x7hrg"]
-[ext_resource type="PackedScene" uid="uid://7knephbuo65i" path="res://scenes/units/components/click_and_command/command_line_component.tscn" id="3_m0w4y"]
 [ext_resource type="Material" uid="uid://ckj4qj4fhbwsu" path="res://resources/shaders/unit_outline_shader.tres" id="3_t57t5"]
 [ext_resource type="Texture2D" uid="uid://ws0p0vsovpmc" path="res://assets/units/slime_blue/BlueSlimeJumpAttack.png" id="4_q28va"]
 [ext_resource type="Texture2D" uid="uid://cvqiq5n2ph6x5" path="res://assets/units/shadows_slime/ShadowSlimeJump.png" id="5_nbso3"]
@@ -1804,7 +1802,7 @@ radius = 6.0
 [node name="BlueSlime" type="CharacterBody2D" unique_id=66131987 node_paths=PackedStringArray("anim_tree", "nav_agent", "hurt_box", "hit_box", "sprite", "click_area")]
 y_sort_enabled = true
 script = ExtResource("1_m0w4y")
-unit_id = 7
+unit_id = 8
 enemy_group_name = "enemies"
 anim_tree = NodePath("AnimationTree")
 nav_agent = NodePath("NavigationAgent2D")
@@ -1812,8 +1810,6 @@ hurt_box = NodePath("HurtBox")
 hit_box = NodePath("HitBox")
 sprite = NodePath("Sprite2D")
 click_area = NodePath("ClickableArea")
-enemy_search_area_scene = ExtResource("2_145d4")
-command_line_scene = ExtResource("3_m0w4y")
 highlight_shader = ExtResource("3_t57t5")
 
 [node name="Sprite2DShadow" type="Sprite2D" parent="." unique_id=1860236946]

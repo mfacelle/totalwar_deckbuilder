@@ -1,10 +1,8 @@
 [gd_scene format=3 uid="uid://c0honvmblkmqx"]
 
 [ext_resource type="Script" uid="uid://b5gayccv1ub37" path="res://scenes/units/Unit.gd" id="1_8gbjg"]
-[ext_resource type="PackedScene" uid="uid://crdy2qd2pgc7s" path="res://scenes/units/components/enemy_search_area/nearby_enemy_search_area_component.tscn" id="2_urmts"]
 [ext_resource type="Texture2D" uid="uid://csvb5ptdyc606" path="res://assets/units/shadows_humanoid/ShadowHumanoidIdle.png" id="2_v7n04"]
 [ext_resource type="Material" uid="uid://ckj4qj4fhbwsu" path="res://resources/shaders/unit_outline_shader.tres" id="3_8gbjg"]
-[ext_resource type="PackedScene" uid="uid://7knephbuo65i" path="res://scenes/units/components/click_and_command/command_line_component.tscn" id="3_v7n04"]
 [ext_resource type="Texture2D" uid="uid://lstdruptravp" path="res://assets/units/orc_wild/WildOrcAttack.png" id="4_urmts"]
 [ext_resource type="Texture2D" uid="uid://dg0gdtang8ren" path="res://assets/units/shadows_humanoid/ShadowHumanoidAttack.png" id="5_traqi"]
 [ext_resource type="Texture2D" uid="uid://cj5s3nqnco4t1" path="res://assets/units/orc_wild/WildOrcDie.png" id="6_8gbjg"]
@@ -1745,7 +1743,7 @@ radius = 6.0
 [node name="WildOrc" type="CharacterBody2D" unique_id=66131987 node_paths=PackedStringArray("anim_tree", "nav_agent", "hurt_box", "hit_box", "sprite", "click_area")]
 y_sort_enabled = true
 script = ExtResource("1_8gbjg")
-unit_id = 3
+unit_id = 4
 enemy_group_name = "enemies"
 anim_tree = NodePath("AnimationTree")
 nav_agent = NodePath("NavigationAgent2D")
@@ -1753,8 +1751,6 @@ hurt_box = NodePath("HurtBox")
 hit_box = NodePath("HitBox")
 sprite = NodePath("Sprite2D")
 click_area = NodePath("ClickableArea")
-enemy_search_area_scene = ExtResource("2_urmts")
-command_line_scene = ExtResource("3_v7n04")
 highlight_shader = ExtResource("3_8gbjg")
 
 [node name="Sprite2DShadow" type="Sprite2D" parent="." unique_id=1860236946]

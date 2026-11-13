@@ -1743,7 +1743,7 @@ radius = 6.0
 [node name="Goblin" type="CharacterBody2D" unique_id=66131987 node_paths=PackedStringArray("anim_tree", "nav_agent", "hurt_box", "hit_box", "sprite", "click_area")]
 y_sort_enabled = true
 script = ExtResource("1_afhla")
-unit_id = 1
+unit_id = 2
 enemy_group_name = "enemies"
 anim_tree = NodePath("AnimationTree")
 nav_agent = NodePath("NavigationAgent2D")
