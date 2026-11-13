@@ -39,12 +39,9 @@ var druid_deck_cards: CardPile = CardPile.new([
     CardDataManager.cards[CardData.CardId.WOLF],
     CardDataManager.cards[CardData.CardId.WOLF],
     CardDataManager.cards[CardData.CardId.WOLF],
-    CardDataManager.cards[CardData.CardId.WOLF],
     CardDataManager.cards[CardData.CardId.BAT],
     CardDataManager.cards[CardData.CardId.BAT],
     CardDataManager.cards[CardData.CardId.BAT],
-    CardDataManager.cards[CardData.CardId.BAT],
-    CardDataManager.cards[CardData.CardId.WARG],
     CardDataManager.cards[CardData.CardId.WARG],
     ] 
 )
