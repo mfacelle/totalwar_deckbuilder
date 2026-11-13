@@ -10,6 +10,7 @@ extends Unit
 @export_category("Node References")
 @export var placement_zone: Area2D
 @export var placement_shape: CollisionShape2D
+@export var magic_circle: Sprite2D
 
 
 func _ready() -> void:
@@ -20,15 +21,22 @@ func _ready() -> void:
     
     placement_shape.shape.radius = placement_range
     set_spawn_area_visible(false)
+    
+    # initially set animation. currently, this will never change
+    # TODO when die/other animations added, change this
+    update_animation()
 
 
 # override base Unit functionality. nothing to do for these functions
 
 func _physics_process(_delta: float) -> void:
+    #update_animation()
     pass
 
 func update_animation() -> void:
-    pass
+    # we only have an idle state right now.
+    # TODO eventually add a "die" animatino
+    anim_playback.travel("idle")
 
 func move(_delta: float) -> void:
     pass

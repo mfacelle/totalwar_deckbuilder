@@ -24,6 +24,9 @@ enum CardType {
     EFFECT  ## creates a buff/debuff effect
 }
 
+# TODO need to figure out a good way to have different data for Unit vs Spell vs Enchantment cards.
+# possibly a base/derived class situation, or just make components null if not present?
+# multi-component may be better, and could allow for combo cards, i.e. spell blast plus spawn unit
 
 ## ID of this card
 var card_id: CardId
@@ -33,26 +36,24 @@ var card_type: CardType
 var card_name: String
 ## uid of texture to use for card image
 var image_uid: String
-## description to be displayed on card
-## TODO replace this with hp/atk/speed values
-var description: String
-## scene to instantiate when creating the unit in-game
-var unit_uid: String
 ## default card background to use
 var card_bg_uid: String
+## unit ID, or NONE if not a unit type card
+## used to retrieve scene uid and other unit information
+var unit_id: UnitData.UnitId
 
 # TODO eventually want to add stuff like:
 # - card outline/border?
 # - effects, i.e. shine, color overlay, etc
 
-func _init(_id: CardId, _type: CardType, _name: String, _img_uid: String, _desc: String, _unit_uid: String, _card_bg_uid: String):
+func _init(_id: CardId, _type: CardType, _name: String, _img_uid: String,
+    _card_bg_uid: String, _unit_id: UnitData.UnitId):
     card_id = _id
     card_type = _type
     card_name = _name
     image_uid = _img_uid
-    description = _desc
-    unit_uid = _unit_uid
     card_bg_uid = _card_bg_uid
+    unit_id = _unit_id
 
 func _to_string() -> String:
     return "CardData name=%s id=%d type=%d [instance=%d]" % \

@@ -1,0 +1,12 @@
+ID String,Max Health,Speed,Attack Damage,Attack Range,Attack Delay,Attack Speed,Enemy Search Range,Target Search Delay,Unit Scene UID
+BASE,120,0,0,0,10,0.5,0,10,uid://da50lydrupyk4
+GOBLIN,30,20,10,6,1.0,0.5,30,1.0,uid://c225prpw4bk5x
+ORC,40,15,12,6,1.0,0.5,30,1.0,uid://c4j4so8syle5l
+WILD_ORC,40,20,12,6,1.0,0.5,30,1.0,uid://c0honvmblkmqx
+WOLF,25,40,8,6,0.5,0.5,40,1.0,uid://c8k2b2hwehfjr
+WARG,30,30,12,10,1.5,0.5,30,1.0,uid://b05ig08iqggom
+BAT,25,30,8,6,1.0,0.5,40,1.0,uid://cmhumpkqipa0
+SLIME_BLUE,40,12,8,6,1.5,0.5,30,1.0,uid://bsby7iejc8bwl
+SLIME_GREEN,20,25,5,6,0.5,0.5,30,1.0,uid://btjtts0dspsl4
+SLIME_BLUE_BIG,80,10,10,8,1.5,0.5,30,1.0,
+SLIME_GREEN_BIG,60,20,10,8,1.5,0.5,30,1.0,

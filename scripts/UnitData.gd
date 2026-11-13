@@ -2,6 +2,7 @@ class_name UnitData
 extends Resource
 
 enum UnitId {
+    NONE,
     BASE,
     GOBLIN,
     ORC,
@@ -16,9 +17,41 @@ enum UnitId {
 }
 
 
+## returns the corresponding UnitId for the string name provided.
+## intended for reading from config files.
+## converts name to lower to prevent case sensitivity issues
+static func string_to_unit_id(name: String) -> UnitId:
+    match name.to_lower():
+        "base":
+            return UnitId.BASE
+        "goblin":
+            return UnitId.GOBLIN
+        "orc":
+            return UnitId.ORC
+        "wild_orc":
+            return UnitId.WILD_ORC
+        "wolf":
+            return UnitId.WOLF
+        "warg":
+            return UnitId.WARG
+        "bat":
+            return UnitId.BAT
+        "slime_blue":
+            return UnitId.SLIME_BLUE
+        "slime_green":
+            return UnitId.SLIME_GREEN
+        "slime_blue_big":
+            return UnitId.SLIME_BLUE_BIG
+        "slime_green_big":
+            return UnitId.SLIME_GREEN_BIG
+        _: # default case, just return a goblin
+            print("Failed to map string to UnitId: ", name)
+            return UnitId.NONE
+
+
 # TODO consider splitting up some of these params into smaller pieces,
 # i.e. attack params, movement params, etc.
-# could even go along with breaking up node structure for unit scenes themselves
+# for now, loading everything from one csv is perfectly fine.  it's not that much stuff
 
 ## ID, for referencing in code
 var id: UnitId
@@ -38,10 +71,14 @@ var attack_speed: float
 var enemy_search_range: int
 ## how often, in seconds, to periodically search for new targets
 var target_search_delay: float
+## UID of scene to instantiate for this unit
+var unit_scene_uid: String
+
 
 func _init(_id: UnitId, _max_health: int, _speed: int, 
     _attack_damage: int, _attack_range: int, _attack_delay: float, 
-    _attack_speed: float, _enemy_search_range: int, _target_search_delay: float):
+    _attack_speed: float, _enemy_search_range: int, _target_search_delay: float,
+    _unit_scene_uid: String):
     id = _id
     max_health = _max_health
     speed = _speed
@@ -51,3 +88,4 @@ func _init(_id: UnitId, _max_health: int, _speed: int,
     attack_speed = _attack_speed
     enemy_search_range = _enemy_search_range
     target_search_delay = _target_search_delay
+    unit_scene_uid = _unit_scene_uid

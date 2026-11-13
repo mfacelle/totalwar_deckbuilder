@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://b5gayccv1ub37" path="res://scenes/units/Unit.gd" id="1_c0q42"]
 [ext_resource type="Texture2D" uid="uid://csvb5ptdyc606" path="res://assets/units/shadows_humanoid/ShadowHumanoidIdle.png" id="2_fo6r1"]
-[ext_resource type="PackedScene" uid="uid://crdy2qd2pgc7s" path="res://scenes/units/components/enemy_search_area/nearby_enemy_search_area_component.tscn" id="2_fon3g"]
 [ext_resource type="Material" uid="uid://ckj4qj4fhbwsu" path="res://resources/shaders/unit_outline_shader.tres" id="3_71bq5"]
 [ext_resource type="Texture2D" uid="uid://wkpn7j84p3a5" path="res://assets/units/wolf/WolfAttack.png" id="4_c0q42"]
 [ext_resource type="Texture2D" uid="uid://27grfwx18jaq" path="res://assets/units/wolf/ShadowWolfAttack.png" id="5_fo6r1"]
@@ -1745,7 +1744,7 @@ radius = 6.0
 [node name="Wolf" type="CharacterBody2D" unique_id=66131987 node_paths=PackedStringArray("anim_tree", "nav_agent", "hurt_box", "hit_box", "sprite", "click_area")]
 y_sort_enabled = true
 script = ExtResource("1_c0q42")
-unit_id = 4
+unit_id = 5
 enemy_group_name = "enemies"
 anim_tree = NodePath("AnimationTree")
 nav_agent = NodePath("NavigationAgent2D")
@@ -1753,7 +1752,6 @@ hurt_box = NodePath("HurtBox")
 hit_box = NodePath("HitBox")
 sprite = NodePath("Sprite2D")
 click_area = NodePath("ClickableArea")
-enemy_search_area_scene = ExtResource("2_fon3g")
 highlight_shader = ExtResource("3_71bq5")
 
 [node name="Sprite2DShadow" type="Sprite2D" parent="." unique_id=1860236946]

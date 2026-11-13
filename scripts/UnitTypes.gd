@@ -8,11 +8,10 @@ enum State
     MOVE, ## actvely moving
     ATTACK, ## actively attacking
     DEAD, ## dead, about to be deleted (...in most cases?)
-    STUCK, ## stuck and unable to proceed with movement. TODO not properly implemented
+    STUCK, ## stuck and unable to proceed with movement. TODO not  implemented
 }
 
-## commands that influence behavior of entity. likely what unit's state machine would use
-## TODO want to reconsider these and change them
+## commands that influence what the unit does. likely what unit's state machine would use
 enum Command
 {
     DEFAULT, ## attack nearest enemy in search range (basically same as DEFEND)
@@ -22,18 +21,20 @@ enum Command
     RETREAT, ## run to commanded position, don't engage enemies until there
 }
 
-# TODO eventually add behavior types (though these may only really apply to enemies?)
 
-## simple behaviors that units can have, for more varied battles. really only apply to enemies
+## simple behaviors that units can have, for more varied battles. really only apply to enemies,
+## as friendly units will just have DEFAULT behavior (at least for now)
 ## TODO add unit "behavior" types and actual logic to implement
 ## TODO can be a list of behaviors maybe? but some conflict with each other
 ## TODO may want to split this into separate behaviors for attack/defend/hold/retreat
 enum BehaviorType
 {
     DEFAULT, ## attack nearby enemies, then return to commanded position (all friendly units use this)
+    ATTACK_AND_STAY, ## attack nearby enemies, then set it as new commanded position to stay there
     RAMPAGE_AFTER_ATTACK, ## enter rampage command after attacking an enemy
-    DEFEND_THEN_CHASE, ## when defending, chase enemies after first encounter (same as RAMPAGE_AFTER_ATTACK?)
-    DEFEND_THEN_HOLD, ## when defending, return to original spot after first encounter (same as DEFAULT?)
+    # TODO these two not implemented; probably redundant:
+    #DEFEND_THEN_CHASE, ## when defending, chase enemies after first encounter (same as RAMPAGE_AFTER_ATTACK?)
+    #DEFEND_THEN_HOLD, ## when defending, return to original spot after first encounter (same as DEFAULT?)
 }
 
 

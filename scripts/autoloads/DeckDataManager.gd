@@ -40,6 +40,10 @@ var druid_deck_cards: CardPile = CardPile.new([
     CardDataManager.cards[CardData.CardId.WOLF],
     CardDataManager.cards[CardData.CardId.WOLF],
     CardDataManager.cards[CardData.CardId.WOLF],
+    CardDataManager.cards[CardData.CardId.BAT],
+    CardDataManager.cards[CardData.CardId.BAT],
+    CardDataManager.cards[CardData.CardId.BAT],
+    CardDataManager.cards[CardData.CardId.BAT],
     CardDataManager.cards[CardData.CardId.WARG],
     CardDataManager.cards[CardData.CardId.WARG],
     ] 
@@ -58,13 +62,13 @@ var decks: Dictionary[DeckData.DeckId, DeckData] = {
         "uid://32eykhyumbol",
         slime_deck_cards),
     DeckData.DeckId.GOBLIN: DeckData.new(DeckData.DeckId.GOBLIN,
-        "Goblin Boyos",
-        "WAAAAAAA",
+        "Orcomancer",
+        "WAAAAAAAAAAAAAAAAAAAAAAAGH",
         "uid://cd4eg3nxmaey5",
         goblin_deck_cards),
     DeckData.DeckId.DRUID: DeckData.new(DeckData.DeckId.DRUID,
         "Druid's Deck",
-        "A deck that a forest-dwelling Druid would use",
+        "Woodland critters",
         "uid://c31x8udlkp7de",
         druid_deck_cards)
 }

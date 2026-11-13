@@ -4,7 +4,12 @@
 [ext_resource type="Script" uid="uid://bfagqevhd47r7" path="res://scenes/units/Base.gd" id="1_m1nav"]
 [ext_resource type="Texture2D" uid="uid://vse0773ustd" path="res://assets/environment/dungeon/Props.png" id="2_gnkvd"]
 [ext_resource type="Material" uid="uid://ckj4qj4fhbwsu" path="res://resources/shaders/unit_outline_shader.tres" id="3_3xaoo"]
+[ext_resource type="Texture2D" uid="uid://cqxp28o08hfj5" path="res://assets/environment/wizard_school/Spell_Circle_M.png" id="4_hgkpt"]
 [ext_resource type="Script" uid="uid://cpsqnqevcigw8" path="res://scenes/units/components/spawn_area/SpawnArea.gd" id="4_lcu0q"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3xaoo"]
+atlas = ExtResource("4_hgkpt")
+region = Rect2(0, 32, 256, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m1nav"]
 atlas = ExtResource("1_gnkvd")
@@ -14,57 +19,59 @@ region = Rect2(23, 48, 8, 12)
 atlas = ExtResource("2_gnkvd")
 region = Rect2(24, 48, 8, 12)
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kuto5"]
-animation = &"attack_sw"
+[sub_resource type="Animation" id="Animation_3xaoo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MagicCircle:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_yu3qx"]
-animation = &"attack_nw"
+[sub_resource type="Animation" id="Animation_xs42a"]
+resource_name = "idle"
+length = 1.6
+loop_mode = 1
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MagicCircle:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_062ft"]
-animation = &"attack_ne"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_hsi3s"]
-animation = &"attack_se"
-
-[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_hob08"]
-blend_mode = 1
-blend_point_0/node = SubResource("AnimationNodeAnimation_kuto5")
-blend_point_0/pos = Vector2(-1, 0.7)
-blend_point_0/name = &"attack_sw"
-blend_point_1/node = SubResource("AnimationNodeAnimation_yu3qx")
-blend_point_1/pos = Vector2(-1, -1)
-blend_point_1/name = &"attack_nw"
-blend_point_2/node = SubResource("AnimationNodeAnimation_062ft")
-blend_point_2/pos = Vector2(1, -1)
-blend_point_2/name = &"attack_ne"
-blend_point_3/node = SubResource("AnimationNodeAnimation_hsi3s")
-blend_point_3/pos = Vector2(1, 0.6)
-blend_point_3/name = &"attack_se"
-
-[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_43fk3"]
-
-[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_5oh5w"]
-graph_offset = Vector2(-503.04004, 52.800003)
-nodes/BlendSpace2D/node = SubResource("AnimationNodeBlendSpace2D_hob08")
-nodes/BlendSpace2D/position = Vector2(-160, 110)
-nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_43fk3")
-nodes/TimeScale/position = Vector2(70, 130)
-node_connections = [&"output", 0, &"TimeScale", &"TimeScale", 0, &"BlendSpace2D"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_60kyq"]
+_data = {
+&"RESET": SubResource("Animation_3xaoo"),
+&"idle": SubResource("Animation_xs42a")
+}
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_2vg1h"]
 animation = &"die"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3mt2j"]
-animation = &"idle_sw"
+animation = &"idle"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_g0jgq"]
-animation = &"idle_sw"
+animation = &"idle"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5oh5w"]
-animation = &"idle_se"
+animation = &"idle"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_401ek"]
-animation = &"idle_se"
+animation = &"idle"
 
 [sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_mlqdw"]
 blend_mode = 1
@@ -84,80 +91,25 @@ blend_point_3/name = &"idle_ne"
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_3mt2j"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_7m1gr"]
-graph_offset = Vector2(-372.48004, 61.43999)
+graph_offset = Vector2(-386.88034, 84.479996)
 nodes/BlendSpace2D/node = SubResource("AnimationNodeBlendSpace2D_mlqdw")
 nodes/BlendSpace2D/position = Vector2(-210, 120)
 nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_3mt2j")
 nodes/TimeScale/position = Vector2(70, 130)
 node_connections = [&"output", 0, &"TimeScale", &"TimeScale", 0, &"BlendSpace2D"]
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_mlqdw"]
-animation = &"walk_ne"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_7m1gr"]
-animation = &"walk_nw"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_m5r0c"]
-animation = &"walk_sw"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_uxyqu"]
-animation = &"walk_se"
-
-[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_kuto5"]
-blend_mode = 1
-blend_point_0/node = SubResource("AnimationNodeAnimation_mlqdw")
-blend_point_0/pos = Vector2(1, -1)
-blend_point_0/name = &"walk_ne"
-blend_point_1/node = SubResource("AnimationNodeAnimation_7m1gr")
-blend_point_1/pos = Vector2(-1, -1)
-blend_point_1/name = &"walk_nw"
-blend_point_2/node = SubResource("AnimationNodeAnimation_m5r0c")
-blend_point_2/pos = Vector2(-1, 0.7)
-blend_point_2/name = &"walk_sw"
-blend_point_3/node = SubResource("AnimationNodeAnimation_uxyqu")
-blend_point_3/pos = Vector2(1, 0.7)
-blend_point_3/name = &"walk_se"
-
-[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_g0jgq"]
-
-[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_m5r0c"]
-graph_offset = Vector2(-465.59985, 54.720016)
-nodes/BlendSpace2D/node = SubResource("AnimationNodeBlendSpace2D_kuto5")
-nodes/BlendSpace2D/position = Vector2(-220, 130)
-nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_g0jgq")
-nodes/TimeScale/position = Vector2(60, 140)
-node_connections = [&"output", 0, &"TimeScale", &"TimeScale", 0, &"BlendSpace2D"]
-
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5oh5w"]
 advance_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_401ek"]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mlqdw"]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_7m1gr"]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_m5r0c"]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_uxyqu"]
-
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_gvjnw"]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_kwuo4"]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_binis"]
-
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_dfsep"]
-states/attack/node = SubResource("AnimationNodeBlendTree_5oh5w")
-states/attack/position = Vector2(625.12, 53.400024)
 states/die/node = SubResource("AnimationNodeAnimation_2vg1h")
-states/die/position = Vector2(784.12, 201.02002)
+states/die/position = Vector2(598.62, 100.51001)
 states/idle/node = SubResource("AnimationNodeBlendTree_7m1gr")
 states/idle/position = Vector2(405, 100)
-states/move/node = SubResource("AnimationNodeBlendTree_m5r0c")
-states/move/position = Vector2(479, 251.5)
-transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_5oh5w"), "idle", "move", SubResource("AnimationNodeStateMachineTransition_401ek"), "move", "idle", SubResource("AnimationNodeStateMachineTransition_mlqdw"), "idle", "attack", SubResource("AnimationNodeStateMachineTransition_7m1gr"), "attack", "idle", SubResource("AnimationNodeStateMachineTransition_m5r0c"), "move", "attack", SubResource("AnimationNodeStateMachineTransition_uxyqu"), "idle", "die", SubResource("AnimationNodeStateMachineTransition_gvjnw"), "attack", "die", SubResource("AnimationNodeStateMachineTransition_kwuo4"), "move", "die", SubResource("AnimationNodeStateMachineTransition_binis")]
-graph_offset = Vector2(107.84978, -21.40497)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_5oh5w"), "idle", "die", SubResource("AnimationNodeStateMachineTransition_gvjnw")]
+graph_offset = Vector2(91.21474, 40.035023)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7m1gr"]
 radius = 3.0
@@ -175,32 +127,29 @@ radius = 64.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_hgkpt"]
 radius = 9.0
 
-[node name="Base" type="CharacterBody2D" unique_id=66131987 node_paths=PackedStringArray("placement_zone", "placement_shape", "anim_tree", "nav_agent", "hurt_box", "hit_box", "sprite", "click_area")]
+[node name="Base" type="CharacterBody2D" unique_id=66131987 node_paths=PackedStringArray("placement_zone", "placement_shape", "magic_circle", "anim_tree", "nav_agent", "hurt_box", "hit_box", "sprite", "click_area")]
 y_sort_enabled = true
 script = ExtResource("1_m1nav")
 placement_range = 64
-unit_id = null
-entity_type = null
-enemy_group_name = null
-min_movement_speed = 10.0
-stuck_delay = 10.0
-target_update_delay = 10.0
-enemy_search_radius = null
-default_command = null
-behavior = null
-highlight_shader = ExtResource("3_3xaoo")
-hurt_fadein_duration = null
-hurt_fadeout_duration = null
-hurt_color = null
-normal_color = null
 placement_zone = NodePath("PlacementZone")
 placement_shape = NodePath("PlacementZone/CollisionShape2D")
+magic_circle = NodePath("MagicCircle")
+unit_id = 1
+min_movement_speed = 10.0
+stuck_delay = 10.0
 anim_tree = NodePath("AnimationTree")
 nav_agent = NodePath("NavigationAgent2D")
 hurt_box = NodePath("HurtBox")
 hit_box = NodePath("HitBox")
 sprite = NodePath("Sprite2D")
 click_area = NodePath("ClickableArea")
+highlight_shader = ExtResource("3_3xaoo")
+
+[node name="MagicCircle" type="Sprite2D" parent="." unique_id=1230898054]
+position = Vector2(0, -6)
+texture = SubResource("AtlasTexture_3xaoo")
+offset = Vector2(0, 6)
+hframes = 8
 
 [node name="Sprite2DShadow" type="Sprite2D" parent="." unique_id=1860236946]
 position = Vector2(-1, -6)
@@ -210,15 +159,15 @@ texture = SubResource("AtlasTexture_m1nav")
 position = Vector2(0, -6)
 texture = SubResource("AtlasTexture_b5sme")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1272082143]
+libraries/ = SubResource("AnimationLibrary_60kyq")
+
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=1408544192 groups=["friendly"]]
 active = false
 tree_root = SubResource("AnimationNodeStateMachine_dfsep")
-parameters/attack/BlendSpace2D/blend_position = Vector2(0, 0)
-parameters/attack/TimeScale/scale = 1.0
+anim_player = NodePath("../AnimationPlayer")
 parameters/idle/BlendSpace2D/blend_position = Vector2(0, 0)
 parameters/idle/TimeScale/scale = 1.0
-parameters/move/BlendSpace2D/blend_position = Vector2(0, 0)
-parameters/move/TimeScale/scale = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=287896922]
 shape = SubResource("CircleShape2D_7m1gr")

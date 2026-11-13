@@ -20,6 +20,7 @@ func _init(_area: Area2D):
 
 func _on_input_event(_viewport: Node, _event: InputEvent, _shape_idx: int) -> void:
     if _event.is_action_pressed("LeftClick"):
+        print(name, " click")
         clicked_on.emit()
 
 func _on_mouse_entered() -> void:
