@@ -117,8 +117,7 @@ func _on_victory() -> void:
 ## attempt to command a unit to the provided position
 func attempt_command_unit(new_position: Vector2) -> void:
     # TODO need to check against navigation for valid placement
-    BattleSignalManager.command_unit.emit(new_position)
-    BattleSignalManager.battle_state_update.emit(BattleSignalManager.BattleState.RUNNING)
+    BattleSignalManager.await_unit_command.emit(new_position.round())
 
 
 ## handle left click to play a card, when one is held.
@@ -135,7 +134,7 @@ func _unhandled_input(event: InputEvent) -> void:
             get_viewport().set_input_as_handled()
         # if commanding a unit, try to command it
         elif battle_state == BattleSignalManager.BattleState.COMMANDING_UNIT:
-            # TODO signal here is redundant, since it needs to go through _on_unit_commanded anyway
+            pass
             attempt_command_unit(get_global_mouse_position())
     
     # DEBUG ONLY: spawn an enemy unit with right click

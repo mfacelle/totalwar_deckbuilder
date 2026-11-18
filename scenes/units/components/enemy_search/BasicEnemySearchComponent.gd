@@ -80,7 +80,7 @@ func find_best_enemy() -> void:
     # TODO distance needs to account for nav mesh.
     # TODO need to provide nav mesh to this class
     var enemy_list: Array[Unit] = get_enemy_list()
-    filter_enemies(enemy_list)
+    enemy_list = filter_enemies(enemy_list)
     for enemy: Unit in enemy_list:
         # TODO will global_position be set properly here?
         var distance = global_position.distance_to(enemy.global_position)
@@ -107,13 +107,15 @@ func get_enemy_list() -> Array[Unit]:
 
 ## perform optional filtering on list of enemies.
 ## directly modifies argument passed in (Array will be a reference)
-func filter_enemies(enemy_list: Array[Unit]) -> void:
+func filter_enemies(enemy_list: Array[Unit]) -> Array[Unit]:
     # TODO normal search should prioritize enemies over the base,
     # to avoid having units get killed for kind of no reason
     
     # only perform filtering for base first behavior types
     if search_behavior == UnitTypes.SearchBehavior.BASE_FIRST:
-        enemy_list.filter(func(enemy: Unit): return enemy is Base)
+        return enemy_list.filter(func(enemy: Unit): return enemy is Base)
+    else:
+        return enemy_list
 
 
 ## checks if the  second unit provided is a better enemy candidate than the first.

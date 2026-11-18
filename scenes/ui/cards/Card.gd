@@ -24,6 +24,12 @@ extends Control
 @export var normal_offset: Vector2 = Vector2(0.0, 0.0)
 ## duration of transition for hover offset, in seconds
 @export var hover_offset_duration: float = 0.25
+## transparent modulation for hiding card held
+@export var hide_modulate: Color = Color(1, 1, 1, 0.25)
+## normal modulation for cards
+@export var show_modulate: Color = Color(1, 1, 1, 1)
+## duration of fade in/out effect
+@export var modulate_duration: float = 0.25
 
 @onready var card_data: CardData = CardDataManager.cards[card_id]
 @onready var unit_scene: PackedScene = load(UnitDataManager.get_unit_scene_uid(card_data.unit_id))
@@ -49,7 +55,9 @@ func _ready() -> void:
 
 
 func _on_mouse_entered() -> void:
-    if BattleSignalManager.is_card_interactable_state(battle_state):
+    # make card offset if it's not currently being held, and cards are interactable
+    if BattleSignalManager.is_card_interactable_state(battle_state) \
+    and card_held != self:
         animate_offset(hover_offset)
         card_highlighted = true
     
@@ -60,6 +68,7 @@ func _on_mouse_exited() -> void:
         card_highlighted = false
 
 
+## animate position offset to make the card bump up a bit
 func animate_offset(target_offset: Vector2) -> void:
     # Kill the previous tween to avoid glitching or stacking
     if tween and tween.is_valid():
@@ -71,13 +80,25 @@ func animate_offset(target_offset: Vector2) -> void:
     tween.tween_property(self, "offset_transform_position", target_offset, hover_offset_duration)
 
 
+## animate modulation of card to fade it in/out
+func animate_card_node_modulate(target_modulate: Color) -> void:
+    # Kill the previous tween to avoid glitching or stacking
+    if tween and tween.is_valid():
+        tween.kill()
+    
+    tween = create_tween()
+    tween.set_ease(Tween.EASE_OUT)
+    tween.set_trans(Tween.TRANS_CIRC)
+    tween.tween_property(card_node, "modulate", target_modulate, modulate_duration)
+
+
 ## when card is selected, allow for holding it to be played
 func _on_gui_input(event: InputEvent) -> void:
     if event.is_action_pressed("LeftClick") and \
     BattleSignalManager.is_card_interactable_state(battle_state):
         if card_held == self:
             # if this card is currently held, and this original spot is selected again, put it back (by unhiding it)
-            card_node.show()
+            animate_card_node_modulate(show_modulate)
             
             # set card held to null to avoid some kind of weird race condition with signal
             card_held = null
@@ -86,8 +107,7 @@ func _on_gui_input(event: InputEvent) -> void:
         elif card_highlighted and not card_held:
             # if this card is selected (highlighted) and we're not currently holding another card, allow holding this one
             # temporarily hide card from UI, but keep it in place in container
-            # TODO consider making transparent (and show background only?), so it's clear where to place the card back
-            card_node.hide()
+            animate_card_node_modulate(hide_modulate)
             
             # TODO add a "card swap" mechanism, to swap held cards if another is selected.
             # replace card held with card being selected. basically allows reordering of hand (not really necessary, but cool)

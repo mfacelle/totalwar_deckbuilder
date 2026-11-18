@@ -1,13 +1,11 @@
 class_name Unit
 extends CharacterBody2D
+
 # base unit object, handles simple commands, states, movement.
 # create derived classes to implement specific logic for units
 
 # TODO really need to start looking into state machine for this. getting too big/complex
 # Notes on this:
-# - how to handle unit commanded position vs unit retreat, 
-#   when we want unit to run away and ignore enemies vs move to a position and attack them.
-#   consider some kind of popup when selecting a position to move to (i.e. attack vs run)
 # - probably need a way to set behaviors via map info, rather than in-editor 
 #   (especially if enemies can spawn mid-battle). can revisit this way later
 # - need some kind of logic to handle condition when player is out of units.
@@ -202,27 +200,42 @@ func _on_battle_state_update(new_state: BattleSignalManager.BattleState) -> void
 
 ## handle updates to command state
 func _on_command_update(new_command: UnitTypes.Command) -> void:
-    # if moving out of rampage, set up basic enemy search component
-    # TODO lots of redundant code in both blocks, along with init code...
-    if command == UnitTypes.Command.RAMPAGE and new_command != UnitTypes.Command.RAMPAGE:
+    if command != new_command:
+        command = new_command
+        
+        # set up new enemy search component
         var temp_enemy_list = enemy_search_component.nearby_enemies
         enemy_search_component.queue_free()
-        enemy_search_component = BasicEnemySearchComponent.new( \
-            nearby_enemy_search_area, unit_data.target_search_delay, enemy_group_name, search_behavior)
-        enemy_search_component.nearby_enemies = temp_enemy_list
+        
+        var search_name := "_search"
+        
+        # if moving out of rampage, set up basic enemy search component
+        # TODO lots of redundant code in both blocks, along with init code...
+        if command == UnitTypes.Command.RAMPAGE:
+            print(name, " rampage search setup")
+            enemy_search_component = RampagingEnemySearchComponent.new( \
+                nearby_enemy_search_area, unit_data.target_search_delay, enemy_group_name, search_behavior)
+            search_name += "_rampage"
+        elif command == UnitTypes.Command.HOLD:
+            print(name, " hold search setup")
+            enemy_search_component = HoldingEnemySearchComponent.new( \
+                nearby_enemy_search_area, unit_data.target_search_delay, enemy_group_name, search_behavior, \
+                unit_data.attack_range)
+            search_name += "_hold"
+        elif command == UnitTypes.Command.RETREAT:
+            print(name, " retreat search setup")
+            enemy_search_component = RetreatingEnemySearchComponent.new( \
+                nearby_enemy_search_area, unit_data.target_search_delay, enemy_group_name, search_behavior)
+            search_name += "_retreat"
+        else: # default
+            print(name, " default search setup")
+            enemy_search_component = BasicEnemySearchComponent.new( \
+                nearby_enemy_search_area, unit_data.target_search_delay, enemy_group_name, search_behavior)
+        
+        enemy_search_component.name = name + search_name
         enemy_search_component.new_target_enemy.connect(_on_new_target_enemy)
-        add_child(enemy_search_component)
-    # if moving to rampage, set up rampaging enemy search component
-    elif command != UnitTypes.Command.RAMPAGE and new_command == UnitTypes.Command.RAMPAGE:
-        var temp_enemy_list = enemy_search_component.nearby_enemies
-        enemy_search_component.queue_free()
-        enemy_search_component = RampagingEnemySearchComponent.new( \
-            nearby_enemy_search_area, unit_data.target_search_delay, enemy_group_name, search_behavior)
         enemy_search_component.nearby_enemies = temp_enemy_list
-        enemy_search_component.new_target_enemy.connect(_on_new_target_enemy)
         add_child(enemy_search_component)
-    
-    command = new_command
 
 
 ## processes various unit states
@@ -255,6 +268,9 @@ func _physics_process(delta: float) -> void:
     elif global_position.distance_to(commanded_position) > unit_data.attack_range:
         move(delta)
     else: # not moving, do nothing
+        # if unit was retreating and now reached destination, return to default
+        if command == UnitTypes.Command.RETREAT:
+            _on_command_update(UnitTypes.Command.DEFAULT) 
         state = UnitTypes.State.IDLE
         velocity = Vector2.ZERO
     
@@ -458,20 +474,37 @@ func _on_click() -> void:
         BattleSignalManager.command_unit.connect(_on_unit_commanded)
         # emit battle state signal deferred, to allow multiple units to be clicked on simultaneously
         BattleSignalManager.battle_state_update.emit.call_deferred(BattleSignalManager.BattleState.COMMANDING_UNIT)
+        
         # set commanded position to current position so unit stops moving, but
         # can still attack enemies, if any are currently in range
+        # TODO this might make the "cancel" command misleading, since it
+        # totally stops the unit, rather than letting them continue to previously-commanded position.
+        # need to do some investigation here
         commanded_position = global_position
 
 
 ## update unit commanded position.
 ## assumes position is valid and possible to get to
 ## TODO need to enforce via map class on click
-func _on_unit_commanded(new_position: Vector2) -> void:
-    print(name, " commanded to ", new_position)
-    commanded_position = new_position
+func _on_unit_commanded(new_position: Vector2, new_command: UnitTypes.Command) -> void:
+    # TODO actually process command types
+    print(name, " commanded to ", new_position, "; command=", command)
+    
     # stop listening for commnd notifications
     BattleSignalManager.command_unit.disconnect(_on_unit_commanded)
     command_line_component.queue_free()
+    
+    # if cancel, no change. keep current command and commanded position
+    if new_command == UnitTypes.Command.CANCEL:
+        return
+    
+    # if unit commanded to retreat, update target enemy immediately (don't wait for search function)
+    if new_command == UnitTypes.Command.RETREAT:
+        _on_new_target_enemy(null)
+    
+    # for all non-cancel commands, update commanded position and current command state
+    commanded_position = new_position
+    _on_command_update(new_command)
 
 
 ## highlight sprite on mouse hover

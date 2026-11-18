@@ -34,12 +34,14 @@ mouse_filter = 2
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
-anchor_top = 0.2
+anchor_top = 0.15
 anchor_right = 0.5
 anchor_bottom = 0.2
 grow_horizontal = 2
+theme_override_constants/line_spacing = -5
 theme_override_font_sizes/font_size = 48
 text = "Play and draw more cards to summon monsters and spells.
+Click on your monsters to command them.
 Use your monsters to defeat the enemies and their base!"
 horizontal_alignment = 1
 
@@ -60,6 +62,7 @@ script = ExtResource("1_2hywk")
 temp_instructions = NodePath("..")
 
 [node name="BattleEndPanel" type="Panel" parent="." unique_id=570318367]
+visible = false
 custom_minimum_size = Vector2(600, 400)
 layout_mode = 1
 anchors_preset = 8
@@ -105,6 +108,7 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_font_sizes/font_size = 48
 text = "That's all for the protoype.
+
 Thanks for playing!"
 horizontal_alignment = 1
 
