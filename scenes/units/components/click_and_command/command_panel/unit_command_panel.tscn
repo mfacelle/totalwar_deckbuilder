@@ -1,0 +1,246 @@
+[gd_scene format=3 uid="uid://b65jdsamntdel"]
+
+[ext_resource type="Script" uid="uid://ndvfloy00t5b" path="res://scenes/units/components/click_and_command/command_panel/UnitCommandPanel.gd" id="1_ytldx"]
+[ext_resource type="Script" uid="uid://cx0j1d4pqwe7" path="res://scenes/units/components/click_and_command/command_panel/CommandHoldClickable.gd" id="3_33omn"]
+[ext_resource type="Texture2D" uid="uid://ba7brrf3rvjwf" path="res://resources/ui/icons/command_hold_atlastex.tres" id="4_6bvim"]
+[ext_resource type="Script" uid="uid://ddmp3fj61lrjw" path="res://scenes/units/components/click_and_command/command_panel/CommandAttackClickable.gd" id="5_wktkh"]
+[ext_resource type="Texture2D" uid="uid://lfr8jb2afihg" path="res://resources/ui/icons/command_attack_atlastex.tres" id="6_t6gqy"]
+[ext_resource type="Script" uid="uid://lnclny31vvuj" path="res://scenes/units/components/click_and_command/command_panel/CommandRetreatClickable.gd" id="7_cjv82"]
+[ext_resource type="Texture2D" uid="uid://ylnmr7kxwnya" path="res://resources/ui/icons/command_retreat_atlastex.tres" id="8_rr1qa"]
+[ext_resource type="Script" uid="uid://dht8elbgofwkn" path="res://scenes/units/components/click_and_command/command_panel/CommandCancelClickable.gd" id="9_gpggu"]
+[ext_resource type="Texture2D" uid="uid://bajhd8ckfblpm" path="res://resources/ui/icons/command_cancel_atlastex.tres" id="10_bqtcg"]
+
+[node name="UnitCommandPanel" type="Control" unique_id=473566892 node_paths=PackedStringArray("background_panel", "command_hold_clickable", "command_attack_clickable", "command_retreat_clickable", "command_cancel_clickable")]
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 2
+script = ExtResource("1_ytldx")
+background_panel = NodePath("CommandBackground")
+command_hold_clickable = NodePath("CommandBackground/CommandHold")
+command_attack_clickable = NodePath("CommandBackground/CommandAttack")
+command_retreat_clickable = NodePath("CommandBackground/CommandRetreat")
+command_cancel_clickable = NodePath("CommandBackground/CommandCancel")
+
+[node name="CommandBackground" type="Control" parent="." unique_id=382929892]
+custom_minimum_size = Vector2(250, 250)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -125.0
+offset_top = -125.0
+offset_right = 125.0
+offset_bottom = 125.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+mouse_filter = 2
+
+[node name="CommandHold" type="Control" parent="CommandBackground" unique_id=350517549 node_paths=PackedStringArray("icon", "label")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -40.0
+offset_right = 40.0
+offset_bottom = 80.0
+grow_horizontal = 2
+pivot_offset_ratio = Vector2(0.5, 1)
+script = ExtResource("3_33omn")
+icon = NodePath("Icon")
+label = NodePath("Label")
+
+[node name="Panel" type="Panel" parent="CommandBackground/CommandHold" unique_id=220336459]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Icon" type="TextureRect" parent="CommandBackground/CommandHold" unique_id=900686369]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_6bvim")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="CommandBackground/CommandHold" unique_id=1710126657]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 29.0
+grow_horizontal = 2
+text = "hold"
+horizontal_alignment = 1
+
+[node name="CommandAttack" type="Control" parent="CommandBackground" unique_id=138136574 node_paths=PackedStringArray("icon", "label")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -80.0
+offset_top = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0, 0.5)
+script = ExtResource("5_wktkh")
+icon = NodePath("Icon")
+label = NodePath("Label")
+
+[node name="Panel" type="Panel" parent="CommandBackground/CommandAttack" unique_id=1838871587]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Icon" type="TextureRect" parent="CommandBackground/CommandAttack" unique_id=1300306083]
+custom_minimum_size = Vector2(25, 40)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_t6gqy")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="CommandBackground/CommandAttack" unique_id=1423110882]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 29.0
+grow_horizontal = 2
+text = "attack"
+horizontal_alignment = 1
+
+[node name="CommandRetreat" type="Control" parent="CommandBackground" unique_id=1721995787 node_paths=PackedStringArray("icon", "label")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -40.0
+offset_right = 80.0
+offset_bottom = 40.0
+grow_vertical = 2
+pivot_offset_ratio = Vector2(1, 0.5)
+script = ExtResource("7_cjv82")
+icon = NodePath("Icon")
+label = NodePath("Label")
+
+[node name="Panel" type="Panel" parent="CommandBackground/CommandRetreat" unique_id=317711446]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Icon" type="TextureRect" parent="CommandBackground/CommandRetreat" unique_id=749160039]
+custom_minimum_size = Vector2(35, 40)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_rr1qa")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="CommandBackground/CommandRetreat" unique_id=752368202]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 29.0
+grow_horizontal = 2
+text = "retreat"
+horizontal_alignment = 1
+
+[node name="CommandCancel" type="Control" parent="CommandBackground" unique_id=1215689911 node_paths=PackedStringArray("icon", "label")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -80.0
+offset_right = 40.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset_ratio = Vector2(0.5, 0)
+script = ExtResource("9_gpggu")
+icon = NodePath("Icon")
+label = NodePath("Label")
+
+[node name="Panel" type="Panel" parent="CommandBackground/CommandCancel" unique_id=186726707]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Icon" type="TextureRect" parent="CommandBackground/CommandCancel" unique_id=195410698]
+custom_minimum_size = Vector2(35, 35)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_bqtcg")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="CommandBackground/CommandCancel" unique_id=1412883654]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 29.0
+grow_horizontal = 2
+text = "cancel"
+horizontal_alignment = 1

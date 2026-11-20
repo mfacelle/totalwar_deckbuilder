@@ -1,0 +1,220 @@
+[gd_scene format=3 uid="uid://da50lydrupyk4"]
+
+[ext_resource type="Texture2D" uid="uid://bnob42pvd41kn" path="res://assets/environment/dungeon/Prop_Shadows.png" id="1_gnkvd"]
+[ext_resource type="Script" uid="uid://bfagqevhd47r7" path="res://scenes/units/Base.gd" id="1_m1nav"]
+[ext_resource type="Texture2D" uid="uid://vse0773ustd" path="res://assets/environment/dungeon/Props.png" id="2_gnkvd"]
+[ext_resource type="Material" uid="uid://ckj4qj4fhbwsu" path="res://resources/shaders/unit_outline_shader.tres" id="3_3xaoo"]
+[ext_resource type="Texture2D" uid="uid://cqxp28o08hfj5" path="res://assets/environment/wizard_school/Spell_Circle_M.png" id="4_hgkpt"]
+[ext_resource type="Script" uid="uid://cpsqnqevcigw8" path="res://scenes/units/components/spawn_area/SpawnArea.gd" id="4_lcu0q"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3xaoo"]
+atlas = ExtResource("4_hgkpt")
+region = Rect2(0, 32, 256, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m1nav"]
+atlas = ExtResource("1_gnkvd")
+region = Rect2(23, 48, 8, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b5sme"]
+atlas = ExtResource("2_gnkvd")
+region = Rect2(24, 48, 8, 12)
+
+[sub_resource type="Animation" id="Animation_3xaoo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MagicCircle:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_xs42a"]
+resource_name = "idle"
+length = 1.6
+loop_mode = 1
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MagicCircle:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_60kyq"]
+_data = {
+&"RESET": SubResource("Animation_3xaoo"),
+&"idle": SubResource("Animation_xs42a")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_2vg1h"]
+animation = &"die"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3mt2j"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_g0jgq"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5oh5w"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_401ek"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_mlqdw"]
+blend_mode = 1
+blend_point_0/node = SubResource("AnimationNodeAnimation_3mt2j")
+blend_point_0/pos = Vector2(-1, -1)
+blend_point_0/name = &"idle_nw"
+blend_point_1/node = SubResource("AnimationNodeAnimation_g0jgq")
+blend_point_1/pos = Vector2(-1, 0.7)
+blend_point_1/name = &"idle_sw"
+blend_point_2/node = SubResource("AnimationNodeAnimation_5oh5w")
+blend_point_2/pos = Vector2(1, 0.7)
+blend_point_2/name = &"idle_se"
+blend_point_3/node = SubResource("AnimationNodeAnimation_401ek")
+blend_point_3/pos = Vector2(1, -1)
+blend_point_3/name = &"idle_ne"
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_3mt2j"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_7m1gr"]
+graph_offset = Vector2(-386.88034, 84.479996)
+nodes/BlendSpace2D/node = SubResource("AnimationNodeBlendSpace2D_mlqdw")
+nodes/BlendSpace2D/position = Vector2(-210, 120)
+nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_3mt2j")
+nodes/TimeScale/position = Vector2(70, 130)
+node_connections = [&"output", 0, &"TimeScale", &"TimeScale", 0, &"BlendSpace2D"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5oh5w"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_gvjnw"]
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_dfsep"]
+states/die/node = SubResource("AnimationNodeAnimation_2vg1h")
+states/die/position = Vector2(598.62, 100.51001)
+states/idle/node = SubResource("AnimationNodeBlendTree_7m1gr")
+states/idle/position = Vector2(405, 100)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_5oh5w"), "idle", "die", SubResource("AnimationNodeStateMachineTransition_gvjnw")]
+graph_offset = Vector2(91.21474, 40.035023)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7m1gr"]
+radius = 3.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gnkvd"]
+radius = 4.0
+height = 12.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lcu0q"]
+size = Vector2(3.875, 3.453125)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dfsep"]
+radius = 64.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hgkpt"]
+radius = 9.0
+
+[node name="Base" type="CharacterBody2D" unique_id=66131987 node_paths=PackedStringArray("placement_zone", "placement_shape", "magic_circle", "anim_tree", "nav_agent", "hurt_box", "hit_box", "sprite", "click_area")]
+y_sort_enabled = true
+script = ExtResource("1_m1nav")
+placement_range = 64
+placement_zone = NodePath("PlacementZone")
+placement_shape = NodePath("PlacementZone/CollisionShape2D")
+magic_circle = NodePath("MagicCircle")
+unit_id = 1
+min_movement_speed = 10.0
+stuck_delay = 10.0
+anim_tree = NodePath("AnimationTree")
+nav_agent = NodePath("NavigationAgent2D")
+hurt_box = NodePath("HurtBox")
+hit_box = NodePath("HitBox")
+sprite = NodePath("Sprite2D")
+click_area = NodePath("ClickableArea")
+highlight_shader = ExtResource("3_3xaoo")
+
+[node name="MagicCircle" type="Sprite2D" parent="." unique_id=1230898054]
+position = Vector2(0, -6)
+texture = SubResource("AtlasTexture_3xaoo")
+offset = Vector2(0, 6)
+hframes = 8
+
+[node name="Sprite2DShadow" type="Sprite2D" parent="." unique_id=1860236946]
+position = Vector2(-1, -6)
+texture = SubResource("AtlasTexture_m1nav")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1674379908]
+position = Vector2(0, -6)
+texture = SubResource("AtlasTexture_b5sme")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1272082143]
+libraries/ = SubResource("AnimationLibrary_60kyq")
+
+[node name="AnimationTree" type="AnimationTree" parent="." unique_id=1408544192 groups=["friendly"]]
+active = false
+tree_root = SubResource("AnimationNodeStateMachine_dfsep")
+anim_player = NodePath("../AnimationPlayer")
+parameters/idle/BlendSpace2D/blend_position = Vector2(0, 0)
+parameters/idle/TimeScale/scale = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=287896922]
+shape = SubResource("CircleShape2D_7m1gr")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=464520364]
+process_mode = 4
+
+[node name="HurtBox" type="Area2D" parent="." unique_id=1613794597]
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=755951583]
+position = Vector2(0, -5)
+shape = SubResource("CapsuleShape2D_gnkvd")
+
+[node name="HitBox" type="Area2D" parent="." unique_id=1879735897]
+collision_layer = 0
+collision_mask = 0
+input_pickable = false
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=235935841]
+position = Vector2(5, -3)
+shape = SubResource("RectangleShape2D_lcu0q")
+disabled = true
+
+[node name="PlacementZone" type="Area2D" parent="." unique_id=1313853298]
+z_index = 1
+z_as_relative = false
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+monitorable = false
+script = ExtResource("4_lcu0q")
+spawn_area_color = Color(0.2901961, 1, 0.8352941, 0.5019608)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlacementZone" unique_id=623515578]
+shape = SubResource("CircleShape2D_dfsep")
+
+[node name="ClickableArea" type="Area2D" parent="." unique_id=395614932]
+position = Vector2(0, -4)
+collision_layer = 4
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ClickableArea" unique_id=6995823]
+shape = SubResource("CircleShape2D_hgkpt")

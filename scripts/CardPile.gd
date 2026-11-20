@@ -11,7 +11,8 @@ var cards: Array[CardData] = []
 var max_size: int
 
 
-func _init(_cards: Array[CardData], _max_size: int):
+## max size set to length of array, if not provided
+func _init(_cards: Array[CardData], _max_size: int = _cards.size()):
     cards = _cards
     max_size = _max_size
 

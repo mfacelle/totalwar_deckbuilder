@@ -56,10 +56,11 @@ func on_deck_hovered(deck_id: DeckData.DeckId):
     deck_description_label.text = deck.description
     
     # ensure deck cards preview is empty, then populate
+    # TODO use DisplayableCardPile here? that doesn't use the "small" cards though
     clear_deck_preview()
-    for card_id: CardData.CardId in deck.cards:
+    for card: CardData in deck.card_pile.cards:
         var card_tmp = BASE_CARD_PREVIEW_SCENE.instantiate() as DeckPreviewCard
-        card_tmp.card_id = card_id
+        card_tmp.card_id = card.card_id
         deck_cards_preview.add_child(card_tmp)
     
     # fadein tween
@@ -93,4 +94,5 @@ func clear_deck_preview() -> void:
 
 
 func on_deck_chosen(_deck_id: DeckData.DeckId) -> void:
+    Player.deck_chosen.emit(DeckDataManager.decks[_deck_id])
     SceneLoader.load_battle(SceneConstants.TEST_MAP_SCENE_UID)

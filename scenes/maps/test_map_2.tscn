@@ -15,7 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://b5axcvt7c1lst" path="res://scenes/environment_props/pillar3.tscn" id="15_xkyud"]
 [ext_resource type="PackedScene" uid="uid://d1rllr17o5ibc" path="res://scenes/environment_props/pillar1.tscn" id="16_7u1hi"]
 [ext_resource type="PackedScene" uid="uid://cud2mxlj5tjr0" path="res://scenes/environment_props/pillar2_l.tscn" id="18_pcvg0"]
-[ext_resource type="PackedScene" uid="uid://da50lydrupyk4" path="res://scenes/battle_objects/base.tscn" id="19_lnyk5"]
+[ext_resource type="PackedScene" uid="uid://da50lydrupyk4" path="res://scenes/units/base.tscn" id="19_lnyk5"]
 [ext_resource type="PackedScene" uid="uid://c225prpw4bk5x" path="res://scenes/units/goblin.tscn" id="20_64m08"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8ba03"]

@@ -5,24 +5,29 @@
 [ext_resource type="StyleBox" uid="uid://crt0dsioyasbd" path="res://resources/ui/general/button_hover_pressed_styletex.tres" id="3_qifxt"]
 [ext_resource type="StyleBox" uid="uid://dymyyghl5jicx" path="res://resources/ui/general/button_normal_styletex.tres" id="4_nec7p"]
 [ext_resource type="StyleBox" uid="uid://l4ft3a8ndege" path="res://resources/ui/general/button_pressed_styletex.tres" id="5_ksx1j"]
+[ext_resource type="FontVariation" uid="uid://c0mfp1qi3sw8o" path="res://assets/fonts/silver_variant.tres" id="6_qifxt"]
 [ext_resource type="StyleBox" uid="uid://dqfounx7emxam" path="res://resources/ui/general/panel_styletex.tres" id="6_v4fw3"]
 
 [resource]
 default_font = ExtResource("1_6j2vj")
 default_font_size = 24
 Button/colors/font_color = Color(0.2901961, 1, 0.8352941, 1)
+Button/colors/font_disabled_color = Color(0.5, 0.5, 0.5, 1)
 Button/colors/font_outline_color = Color(0.09651666, 0.081, 0.1, 1)
+Button/colors/icon_disabled_color = Color(0.5, 0.5, 0.5, 1)
 Button/constants/outline_size = 10
 Button/font_sizes/font_size = 24
-Button/fonts/font = ExtResource("1_6j2vj")
+Button/fonts/font = ExtResource("6_qifxt")
 Button/styles/hover = ExtResource("2_c81e6")
 Button/styles/hover_pressed = ExtResource("3_qifxt")
 Button/styles/normal = ExtResource("4_nec7p")
 Button/styles/pressed = ExtResource("5_ksx1j")
 Label/colors/font_color = Color(0.29000002, 1, 0.8343333, 1)
 Label/colors/font_outline_color = Color(0.09651666, 0.081, 0.1, 1)
+Label/constants/line_spacing = -12
 Label/constants/outline_size = 10
+Label/constants/paragraph_spacing = 0
 Label/font_sizes/font_size = 32
-Label/fonts/font = ExtResource("1_6j2vj")
+Label/fonts/font = ExtResource("6_qifxt")
 Panel/styles/panel = ExtResource("6_v4fw3")
 PanelContainer/styles/panel = ExtResource("6_v4fw3")

@@ -38,6 +38,9 @@ func _ready() -> void:
     card_background.texture = load(card_data.card_bg_uid)
     
     BattleSignalManager.card_placement_fail.connect(_on_card_placement_fail)
+    
+    # set initial position to current mouse position
+    last_mouse_position = get_global_mouse_position() + position_offset
 
 
 ## update the card position, but lag behind the mouse by a frame,

@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://bggeq3p3msv2h" path="res://scenes/ui/cards/Deck.gd" id="1_grqne"]
 [ext_resource type="Texture2D" uid="uid://32eykhyumbol" path="res://resources/ui/cards/cardbacks/cardback_slime_atlastex.tres" id="3_l6f0t"]
 
-[node name="Deck" type="Control" unique_id=598480527 node_paths=PackedStringArray("top_card", "card_count_label")]
+[node name="Deck" type="Control" unique_id=598480527 node_paths=PackedStringArray("top_card", "card_2", "card_3", "card_4", "card_count_label")]
 custom_minimum_size = Vector2(120, 168)
 layout_mode = 3
 anchors_preset = 15
@@ -14,9 +14,12 @@ grow_vertical = 2
 offset_transform_enabled = true
 script = ExtResource("1_grqne")
 top_card = NodePath("TopCard")
+card_2 = NodePath("OtherCard1")
+card_3 = NodePath("OtherCard2")
+card_4 = NodePath("OtherCard3")
 card_count_label = NodePath("TopCard/MarginContainer/CardCount")
 
-[node name="OtherCard1" type="TextureRect" parent="." unique_id=730190746]
+[node name="OtherCard3" type="TextureRect" parent="." unique_id=730190746]
 custom_minimum_size = Vector2(120, 168)
 layout_mode = 1
 offset_right = 40.0
@@ -36,7 +39,7 @@ offset_transform_position = Vector2(0, 16)
 texture = ExtResource("3_l6f0t")
 stretch_mode = 5
 
-[node name="OtherCard3" type="TextureRect" parent="." unique_id=220338812]
+[node name="OtherCard1" type="TextureRect" parent="." unique_id=220338812]
 custom_minimum_size = Vector2(120, 168)
 layout_mode = 1
 offset_right = 40.0

@@ -40,7 +40,6 @@ var battle_state: BattleSignalManager.BattleState = BattleSignalManager.BattleSt
 
 
 ## set up signals and some initial cards to use (for debugging)
-## TODO eventually load deck/cards/etc from player data
 func _ready() -> void:
     # Connect to the global signals
     BattleSignalManager.card_held.connect(_on_card_held)
@@ -49,44 +48,18 @@ func _ready() -> void:
     BattleSignalManager.card_discarded.connect(_on_card_discarded)
     BattleSignalManager.battle_state_update.connect(_on_battle_state_update)
     
-    # ---
-    # TODO this is debug to hard-code in some cards, for now
-    # instantiate debug card scenes for hand
-    #var hand_card_pile: CardPile = CardPile.new([CardDataManager.cards[CardData.CardId.GOBLIN],
-        #CardDataManager.cards[CardData.CardId.ORC],
-        #CardDataManager.cards[CardData.CardId.SLIME_BLUE],
-        #CardDataManager.cards[CardData.CardId.WOLF],
-        #CardDataManager.cards[CardData.CardId.WARG] ],
-        #5)
+    # set up hand, deck, and discard objects
     var hand_card_pile: CardPile = CardPile.new([], default_hand_size)
-    #hand.add_cards(hand_card_pile)
     hand.max_size = hand_card_pile.max_size
     
-    # TODO kind of a hack to ensure cards start in the right state, since add_cards will assume RUNNING
-    #for card in hand.cards:
-        #card.battle_state = battle_state
-    
-    # TODO setting up some defaults for now. eventually pull from some kind of player information
-    var deck_card_pile: CardPile = CardPile.new([CardDataManager.cards[CardData.CardId.GOBLIN],
-        CardDataManager.cards[CardData.CardId.GOBLIN],
-        CardDataManager.cards[CardData.CardId.GOBLIN],
-        CardDataManager.cards[CardData.CardId.ORC],
-        CardDataManager.cards[CardData.CardId.SLIME_BLUE],
-        CardDataManager.cards[CardData.CardId.SLIME_BLUE],
-        CardDataManager.cards[CardData.CardId.SLIME_BLUE],
-        CardDataManager.cards[CardData.CardId.SLIME_BLUE],
-        CardDataManager.cards[CardData.CardId.WOLF],
-        CardDataManager.cards[CardData.CardId.WARG] ],
-        10)
-    deck.set_card_pile(deck_card_pile)
+    # set up deck (cardback texture and cards)
+    deck.set_cardback_texture(DeckDataManager.decks[Player.data.current_deck_id].cardback_texture_uid)
+    deck.set_card_pile(Player.data.card_pile)
     deck.is_hand_full = hand.is_full()
     deck.cards.shuffle()
     
-    # TODO implement discard stuff
     var discard_card_pile: CardPile = CardPile.new([], deck.cards.max_size)
     discard.cards = discard_card_pile
-    
-    # ---
 
 
 ## when held card changes, notify objects and set cards displayed
@@ -165,6 +138,7 @@ func _on_card_discarded(card: Card) -> void:
 
 ## updates battle state for all UI elements
 func _on_battle_state_update(new_state: BattleSignalManager.BattleState) -> void:
+    print("battle state updated: ", new_state)
     battle_state = new_state
     
     # update all UI elements, including cards in the hand, so they process inputs appropriately
